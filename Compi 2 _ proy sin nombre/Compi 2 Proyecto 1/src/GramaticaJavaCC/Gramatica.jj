@@ -10,6 +10,14 @@ package GramaticaJavaCC;
 //clases de java :D
 import java.util.ArrayList;
 //clases mias de mi :D
+
+import FuncionesDelLenguaje.If;
+import FuncionesDelLenguaje.Else;
+
+import objetos.Instrucciones_cuerpo;
+
+import ClasesAuxiliares.contenedorEnum.Tipos;
+
 import ClasesAuxiliares.contenedorEnum.Tipos;
 
 import ClasesAuxiliares.Nodo;
@@ -118,32 +126,86 @@ void Analizar() :
   Nodo n; 
 }
 {
-  ( n = InstruccionCuerpo() { arr.add(n); })+ <EOF> { }
+  ( n = InstruccionGlobal() { arr.add(n); })+ <EOF> { }
 }
 
+Nodo instrucciones_cuerpos():
+{
+  ArrayList<Nodo> arr = new ArrayList<Nodo>(); Nodo n ; 
+}
+{
+  ( n =  InstruccionCuerpo() { arr.add(n); } )* 
+  {
 
+    return new Instrucciones_cuerpo(0 , 0 , arr);
+  }
+}
 
-Nodo  InstruccionCuerpo() :
+Nodo  InstruccionGlobal() :
   {
     Nodo n; 
   }
   {
     (
-      n = InstruccionGeneral()
+      n = InstruccionCuerpo()
     ){ return n; }
   }
 
 
-  Nodo InstruccionGeneral():
+  Nodo InstruccionCuerpo():
   {
     Nodo n; 
   }
   {
     (
+      n = ciclos_if()
+      |
       n = Imprimir() 
       |
       n = Asignacion_llamadaMetodo()
     )  {return n;   }
+  }
+
+  Nodo ciclos_if():
+  {
+    Nodo n ;
+  }
+  {
+    (
+     n =  si()
+    )
+    {
+      return n;
+    }
+  }
+
+  Nodo si():
+  {
+    Nodo n; Token t; 
+    ArrayList<Nodo> arr = new ArrayList<Nodo>();
+  }
+  {
+    (
+      t = <SI> <PARENI> n = Expresion() { arr.add(n); }  <PAREND> <LLAVEI> n =  instrucciones_cuerpos() {arr.add(n); }  
+      <LLAVED>  ( n =  sino_si()  { arr.add(n); }  )?
+    ){
+      return new If(t.beginLine , t.beginColumn ,arr );
+    }
+  }
+
+  Nodo sino_si():
+  {
+    Token t; 
+    Nodo n , n2 ; 
+  }
+  {
+    t = <SINO> (
+      n = si() 
+      |
+      <LLAVEI> n =  instrucciones_cuerpos()  { n = new Else(t.beginLine, t.beginColumn , n);  } <LLAVED>
+    ){
+      return n;
+    }
   }
 
 

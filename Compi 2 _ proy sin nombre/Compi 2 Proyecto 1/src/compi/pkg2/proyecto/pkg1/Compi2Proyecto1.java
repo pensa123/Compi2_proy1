@@ -136,9 +136,11 @@ public class Compi2Proyecto1 {
                 + "x = 1 + 2 + 3;\n"
                 + "print(x);");
         
+        this.toPruebas.add("if(2==2){ print(\"es true\"); }else if(2 == 2) { print(\"segundo es true\"); } else { print(\"no es true\");  } ");
+        
         // el primero es para probar el numero de prueba
         // el segundo 0 para los dos 1 para javacc 2 para flex y cup
-        this.probar(8, 1);
+        this.probar(9, 1);
     }
 
     void probar(int x, int x1) {

@@ -4,6 +4,11 @@ package GramaticaJavaCC;
 //clases de java :D
 import java.util.ArrayList;
 //clases mias de mi :D
+
+import FuncionesDelLenguaje.If;
+import FuncionesDelLenguaje.Else;
+import objetos.Instrucciones_cuerpo;
+import ClasesAuxiliares.contenedorEnum.Tipos;
 import ClasesAuxiliares.contenedorEnum.Tipos;
 import ClasesAuxiliares.Nodo;
 import FuncionesDelLenguaje.Print;
