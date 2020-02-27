@@ -1,0 +1,70 @@
+package Sintactico;
+import java_cup.runtime.*;
+
+//clases de java :D
+import java.util.ArrayList;
+//clases mias de mi :D
+import ClasesAuxiliares.Nodo;
+import FuncionesDelLenguaje.Print;
+
+
+
+parser code 
+{:
+  public ArrayList arr = new ArrayList<Nodo>();
+
+    public void syntax_error(Symbol s){ 
+            System.err.println("Error Sintáctico en la Línea " + s.left +" Columna "+s.right+ ". No se esperaba este componente: " +s.value); 
+    } 
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+            System.err.println("Error síntactico en la Línea " + s.left+ "__Columna "+s.right+ ". No se esperaba este componente: " +s.value); 
+    }  
+:}
+
+/* Terminals (tokens returned by the scanner). */
+terminal String numero, igual, mas, menos, por, division, pComa, dosPuntos;
+terminal parenI, parenD, cadena, imprimir; 
+
+/* Non terminals */
+non terminal INICIO;
+
+non terminal Double PRIMITIVO, EXPRESION, ARITMETICA;
+non terminal INSTRUCCIONES, INSTRUCCION, IMPRIMIR, SALIDA;
+precedence left mas, menos;
+precedence left por, division;
+precedence left parenI, parenD;
+
+start with INICIO;
+
+INICIO ::= INSTRUCCIONES:e {:  :}
+         ;
+
+INSTRUCCIONES ::= INSTRUCCIONES INSTRUCCION:a    {: arr.add((Nodo)a); :}
+                |  INSTRUCCION:a                   {: arr.add((Nodo)a); :}
+                ;
+
+INSTRUCCION ::= IMPRIMIR:a{: RESULT = a; :}
+              ;
+
+IMPRIMIR ::= imprimir parenI EXPRESION:e parenD SALIDA {:RESULT = new Print(eleft, eright , null); :}
+           ;
+
+EXPRESION ::=  ARITMETICA:e                 {:  :}  
+           |   PRIMITIVO:e                  {:  :}
+           |   parenI EXPRESION:e parenD    {:  :}
+
+           ;
+
+ARITMETICA ::= menos  EXPRESION:e                 {:  :} %prec menos 
+             | EXPRESION:e mas EXPRESION:e1       {:  :}
+             | EXPRESION:e menos EXPRESION:e1     {:  :}
+             | EXPRESION:e por EXPRESION:e1       {:  :}
+             | EXPRESION:e division EXPRESION:e1  {:  :}
+             ;
+
+PRIMITIVO ::= numero:e  {: :}
+            | cadena:e  {: :}
+           ;
+
+SALIDA ::= pComa | ; 

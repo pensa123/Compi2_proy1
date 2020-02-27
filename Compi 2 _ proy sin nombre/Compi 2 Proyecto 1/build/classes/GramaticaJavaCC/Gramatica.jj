@@ -1,0 +1,398 @@
+options {
+  IGNORE_CASE = true;
+  STATIC = false;
+}
+
+PARSER_BEGIN(Gramatica)
+/** Analizador de expresiones aritmeticas sencillas. */
+package GramaticaJavaCC; 
+
+//clases de java :D
+import java.util.ArrayList;
+//clases mias de mi :D
+import ClasesAuxiliares.contenedorEnum.Tipos;
+
+import ClasesAuxiliares.Nodo;
+import FuncionesDelLenguaje.Print;
+
+import Comparadores.Ternario;
+
+import objetos.Iden;
+import objetos.Asignacion;
+
+
+import objetos.Acceso;
+import objetos.AccesoMatriz;
+import objetos.Var_acceso;
+
+import objetos.Primitivo;
+
+import objetos.OperadorBinario;
+import objetos.OperadorBinario.Operando;
+
+import objetos.OperadorUnario;
+import objetos.OperadorUnario.Op;
+
+
+public class Gramatica {
+
+  public ArrayList arr = new ArrayList<Nodo>();
+
+}
+PARSER_END(Gramatica)
+
+/** Lexico */
+SKIP : {
+      " "
+    | "\t"
+    | "\r"
+    | "\n"
+    | <"//" (~["\n", "\r"])*>
+    | <"/*" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/">
+}
+
+TOKEN : {
+      <NUMERO: (["0"-"9"])+>
+    | <DECIMAL: (["0"-"9"])+"."(["0"-"9"])+>
+    | <ENTERO: "Numero">
+    | <CADENA: "Cadena">
+    | <TRUE: "true">
+    | <FALSE: "false">
+    | <IMPRIMIR: "print">
+    | <MIENTRAS: "Mientras">
+    | <FUNCION: "Funcion">
+    | <RETORNO: "Return">
+    | <BREAK: "Break">
+| <CONTINUE: "continue">
+    | <SI: "if">
+    | <SINO: "else">
+    | <PCOMA: ";">
+    | <DOSPUNTOS: ":">
+    | <PARENI: "(">
+    | <PAREND: ")">
+    | <CORI: "[">
+    | <CORD: "]">
+    | <LLAVEI: "{">
+    | <LLAVED: "}">
+    | <MAS: "+">
+    | <PREG: "?">
+    | <MENOS: "-">
+    | <POR: "*">
+    | <DIV: "/">
+    | <IGUAL: "=">
+    | <MENORQUE: "<">
+    | <MAYORQUE: ">">
+    | <MENORIGUAL: "<=">
+    | <MAYORIGUAL: ">=">
+    | <IGUALACION: "==">
+    | <DIFERENCIACION: "!=">
+    | <COMA: ",">
+    | <AND: "&&">
+    | <OR: "||">
+    | <NOT: "!" >
+    | <IDENTIFICADOR: (["a"-"z","A"-"Z"] | "." ["a"-"z","A"-"Z"] ) ( ["a"-"z","A"-"Z",".", "_"] | ["0"-"9"] )* >
+}
+
+MORE :
+{
+    "\"" :STRING_STATE
+}
+
+<STRING_STATE> MORE:
+{
+    <~["\""]>
+}
+
+<STRING_STATE> TOKEN:
+{
+   <STRING:"\""> : DEFAULT 
+}
+/** Fin Lexico */
+
+
+/** Producción inicial 
+    Analizar -> (Instruccion)+ EOF
+*/
+void Analizar() :
+{
+  Nodo n; 
+}
+{
+  ( n = InstruccionCuerpo() { arr.add(n); })+ <EOF> { }
+}
+
+
+
+Nodo  InstruccionCuerpo() :
+  {
+    Nodo n; 
+  }
+  {
+    (
+      n = Imprimir() 
+      |
+      n = Asignacion_llamadaMetodo()
+    )  {return n;   }
+  }
+
+
+  Nodo Asignacion_llamadaMetodo() : 
+  {
+    Nodo n1 , n2; Token t;
+  }
+  {
+    (
+      <IDENTIFICADOR> { n1 = new Iden(token.beginLine, token.beginColumn , token.image);  }
+      (
+        //Asignacion
+         (
+          <CORI> n1 = Acceso_vec_mat(n1) 
+         )? t=<IGUAL>  n2 = Expresion()  (<PCOMA>)?  //Fin asginacion
+         {
+          return new Asignacion(t.beginLine, t.beginColumn , n1 , n2);
+         }
+         //lamada a metodo
+         |
+         params_metodo() (<PCOMA>)?
+         {
+          return null;
+         }
+         //fin llamada a metodo
+      ) 
+    )
+    
+  }
+
+  Nodo  Imprimir() :
+  { 
+    Nodo n; 
+  }
+  {
+      <IMPRIMIR> <PARENI> n = Expresion() <PAREND> (<PCOMA>)? {return new Print(token.beginLine, token.beginColumn , n); }
+      
+  }
+ 
+
+Nodo  Expresion() :
+  {
+    Nodo n , n2 , n3; Token t; 
+    ArrayList<Nodo> arr = new ArrayList<Nodo>();
+  }
+  {
+      n = CondicionOR() ( t = <PREG> n2 = Expresion() <DOSPUNTOS> n3 = Expresion()  
+            {arr.add(n); arr.add(n2); arr.add(n3); n = new Ternario(t.beginLine , t.beginColumn , arr); } 
+          )?
+      { 
+        return n;
+      }
+  }
+
+  Nodo CondicionOR() : 
+  {
+    Nodo n , n2;
+  }
+  {
+    n = CondicionAnd() 
+    (
+        <OR> n2 = CondicionAnd() { n = new OperadorBinario(1 , 1, n , n2, Operando.or); }
+    )*
+    { 
+      return n;
+    }
+  }
+
+
+  Nodo CondicionAnd() :
+  { 
+    Nodo n , n2; 
+  }
+  {
+      n = ExpresionIgualdad() 
+      (
+          <AND> n2 = ExpresionIgualdad() { n = new OperadorBinario(1 , 1, n , n2, Operando.and); }
+      )*
+      {
+        return n;
+      }
+  }
+
+  Nodo  ExpresionIgualdad() :
+  {
+    Nodo n , n2; 
+  }
+  {
+      n = ExpresionRelacional() 
+      (
+          <IGUALACION> n2 = ExpresionRelacional() {n = new OperadorBinario(1 , 1, n , n2, Operando.comparacion);}
+          |
+          <DIFERENCIACION> n2 =  ExpresionRelacional() {n = new OperadorBinario(1 , 1, n , n2, Operando.desigualdad); }
+      )*
+      {
+        return n;
+      }
+  }
+  
+
+Nodo ExpresionRelacional() :
+  { 
+    Nodo n , n2;
+  }
+  {
+     n = ExpresionAditiva() 
+      (
+          <MAYORQUE> n2 = ExpresionAditiva() { n = new OperadorBinario(1 , 1, n , n2, Operando.mayorque);}
+          |
+          <MENORQUE> n2 = ExpresionAditiva() { n = new OperadorBinario(1 , 1, n , n2, Operando.menorque);}
+          |
+          <MAYORIGUAL> n2 = ExpresionAditiva() { n = new OperadorBinario(1 , 1, n , n2, Operando.mayorigual);}
+          |
+          <MENORIGUAL> n2 = ExpresionAditiva() { n = new OperadorBinario(1 , 1, n , n2, Operando.menorigual);}
+      )*
+      {
+        return n;
+      }
+  }
+ 
+ Nodo  ExpresionAditiva() :
+  {
+    Nodo n , n2;
+  }
+  {
+      n = ExpresionMultiplicativa()
+      (
+          <MAS> n2=  ExpresionMultiplicativa() { n = new OperadorBinario(1 , 1, n , n2, Operando.mas); }
+          |
+          <MENOS> n2 = ExpresionMultiplicativa() {n = new OperadorBinario(1 , 1, n , n2, Operando.menos); }
+      )*
+      {
+        return n;
+      }
+  }
+
+ Nodo ExpresionMultiplicativa() :
+  {
+    Nodo n , n2;
+  }
+  {
+      n = ExpresionUnaria()
+      (
+          <POR> n2 = ExpresionUnaria() {n = new OperadorBinario(1 , 1, n , n2, Operando.por); }
+          |
+          <DIV> n2 = ExpresionUnaria() { n = new OperadorBinario(1 , 1, n , n2, Operando.div);}
+      )*
+      {
+        return n;
+      }
+  }
+
+  Nodo ExpresionUnaria() :
+  {
+    Nodo n ;
+  }
+  {
+    (
+      <MENOS> n = ExpresionUnaria() {n = new OperadorUnario(1 , 1 , n, Op.neg);  }
+      |
+      <NOT> n = ExpresionUnaria() { n = new OperadorUnario(1 , 1 , n, Op.not);  }
+      |
+      n= Primitivo() {}
+    ){
+      return n;
+    }
+  }
+
+  Nodo Primitivo() :
+  {
+    Nodo n; Token t;
+  }
+  {
+    (
+      <NUMERO> { n = new Primitivo( token.beginLine, token.beginColumn , Tipos.entero , Double.parseDouble(token.image)  ); }
+      |
+      <DECIMAL> {n = new Primitivo( token.beginLine, token.beginColumn , Tipos.numerico , Double.parseDouble(token.image)  );  }
+      |
+      t = <STRING> {n = new Primitivo( token.beginLine, token.beginColumn , Tipos.cadena , t.image.substring(1,t.image.length()-1)  ); }
+      |
+      <TRUE>   { n = new Primitivo( token.beginLine, token.beginColumn , Tipos.booleano , true  ); }
+      |
+      <FALSE>  {n = new Primitivo( token.beginLine, token.beginColumn , Tipos.booleano , false  ); }
+      |
+      <IDENTIFICADOR> { n = new Iden(token.beginLine, token.beginColumn , token.image); }
+          (
+                <CORI> n = Acceso_vec_mat(n)  
+                |
+                params_metodo()
+          )?
+      
+
+      |
+      <PARENI> n= Expresion() <PAREND> { }
+    )
+    {
+      return n;
+    } 
+  }
+
+  
+  void params_metodo():
+  {
+
+  }
+  {
+    <PARENI> (Expresion() ( <COMA> Expresion() )*  )?  <PAREND>
+  }
+
+
+
+
+
+
+
+  // E , E    |   E ,   |  , E 
+  Nodo Acceso_vec_mat(Nodo n):
+  {
+    Nodo  n1 , n2; Token t; 
+    ArrayList<Nodo> arr = new ArrayList<Nodo>();
+  }
+  {
+    (             
+      n1 = Expresion() ( <CORD> { arr.add(n); arr.add(new Acceso(n1.fila , n1.columna , n1 , false ) ); }  ( n1 =  Acceso_lista()  { arr.add(n1); }  )*  
+      {return new Var_acceso(n.fila, n.columna , arr);}  /* [E]([E] | [[E]])*  */
+                    | t =  <COMA> (
+                            n2 = Expresion() <CORD> {n1 =  new AccesoMatriz(t.beginLine, t.beginColumn , n1 , n2 );
+                                                    return new Var_acceso(n.fila, n.columna , n , n1); }   /* [E,E] */
+                            | 
+                            <CORD>    {n1 =  new AccesoMatriz(t.beginLine, t.beginColumn , n1 , true );
+                                        return new Var_acceso(n.fila, n.columna , n , n1);}           /* [E,] */
+                            )
+                  )
+      |
+      t = <COMA> (
+       n1 =  Expresion() <CORD>   {n1 =  new AccesoMatriz(t.beginLine, t.beginColumn , n1 , false );
+                                    return new Var_acceso(n.fila, n.columna , n , n1);} /* [,E] */
+      )
+    |
+    <CORI> n1 = Expresion() { arr.add(n);  arr.add(new Acceso(n1.fila , n1.columna , n1 , true ) ); } <CORD> <CORD> (n1 = Acceso_lista() {arr.add(n1);  } )*  
+    { return new Var_acceso(n.fila, n.columna , arr);}    /* [[E]]([E] | [[E]])*  */
+    )
+    {
+      return n;
+    }
+  }
+
+  Nodo Acceso_lista():
+  {
+    Nodo n1; 
+  }
+  {
+    (
+      <CORI> 
+        ( n1 =  Expresion() <CORD> { n1 =  new Acceso(n1.fila , n1.columna , n1 , false );  }
+            |
+        <CORI> n1 =  Expresion() <CORD> <CORD> { n1 = new Acceso(n1.fila , n1.columna , n1 , true ); }
+      )
+    )
+    {
+      return n1;
+    }
+  }
