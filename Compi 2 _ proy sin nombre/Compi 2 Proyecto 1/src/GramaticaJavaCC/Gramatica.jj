@@ -11,6 +11,9 @@ package GramaticaJavaCC;
 import java.util.ArrayList;
 //clases mias de mi :D
 
+import FuncionesDelLenguaje.While;
+import FuncionesDelLenguaje.Do_while;
+
 import FuncionesDelLenguaje.If;
 import FuncionesDelLenguaje.Else;
 
@@ -67,7 +70,8 @@ TOKEN : {
     | <TRUE: "true">
     | <FALSE: "false">
     | <IMPRIMIR: "print">
-    | <MIENTRAS: "Mientras">
+    | <MIENTRAS: "while">
+    | <DO: "do">
     | <FUNCION: "Funcion">
     | <RETORNO: "Return">
     | <BREAK: "Break">
@@ -173,9 +177,36 @@ Nodo  InstruccionGlobal() :
   {
     (
      n =  si()
+     |
+     n = While()
+     |
+     n = do_while()
     )
     {
       return n;
+    }
+  }
+
+  Nodo While():
+  {
+    Nodo n, n1; Token t; 
+  }
+  {
+    t = <MIENTRAS> <PARENI> n= Expresion()  <PAREND>  
+    <LLAVEI> n1= instrucciones_cuerpos()  <LLAVED>
+    {
+      return new While(t.beginLine , t.beginColumn , n , n1);
+    }
+  }
+
+  Nodo do_while():
+  {
+    Nodo n, n1; Token t;
+  }
+  {
+    t = <DO> <LLAVEI> n =  instrucciones_cuerpos()  <LLAVED> <MIENTRAS> <PARENI> n1 = Expresion() <PAREND> (<PCOMA>)?
+    {
+      return new Do_while(t.beginLine , t.beginColumn , n , n1);
     }
   }
 
