@@ -10,9 +10,10 @@ package ClasesAuxiliares;
  * @author ferna
  */
 public class contenedorEnum {
- 
+
     public enum Tipos {
-        cadena, booleano, entero, numerico
+
+        cadena, numerico, entero, booleano
     }
 
 }

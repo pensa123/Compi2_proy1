@@ -31,14 +31,18 @@ public class Tabla_Sim {
     //TODO falta agregar las demas asignaciones a variable pero estas se haran cuando se tenga la funcion c o array o list o alguna de esas jejej salu3
     public void agregar_var(String id, Simbolo_prim sp) {
         Estructura e = hvar.get(id);
-        if (e == null) {
-            Vector v = new Vector(sp.tp);
-            v.update(0, sp);
-            hvar.put(id, v);
-        } else if (e.getClass().getSimpleName().equals("Vector")) {
-            Vector v = (Vector) e;
-            v.update(0, sp);
-        }
+        Vector v = new Vector(sp.tp);
+        v.update(0, sp);
+        hvar.put(id, v);
+        /*if (e == null) {
+         Vector v = new Vector(sp.tp);
+         v.update(0, sp);
+         hvar.put(id, v);
+         } else if (e.getClass().getSimpleName().equals("Vector")) {
+         Vector v = (Vector) e;
+         v.update(-1, sp);
+         v.tp = sp.tp;
+         }*/
     }
 
     public void agregar_var(String id, Simbolo_prim sp, int n) {
@@ -52,6 +56,9 @@ public class Tabla_Sim {
         } else if (e.getClass().getSimpleName().equals("Vector")) {
             Vector v = (Vector) e;
             v.update(n, sp);
+            if (v.tp != sp.tp) {
+                v.casteo(sp.tp);
+            }
         }
     }
 

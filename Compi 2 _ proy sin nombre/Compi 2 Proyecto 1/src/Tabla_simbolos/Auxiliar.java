@@ -17,7 +17,7 @@ public class Auxiliar {
     public String st = "";
 
     public void agregar(String ss) {
-        st += ss;
+        st += ss+"\n";
         tx.setText(st);
     }
 }

@@ -52,7 +52,11 @@ public class Compi2Proyecto1 {
         ini.setVisible(true);
         
         
-        ini.nueva_pestana("x[5] = 1; \n print(x);");
+        ini.nueva_pestana("x[5] = true\n" +
+"x[1] = 1 \n" +
+"print(\"-----------------\");\n" +
+"print(x)\n" +
+"print(\"-----------------\");");
         
         
         
