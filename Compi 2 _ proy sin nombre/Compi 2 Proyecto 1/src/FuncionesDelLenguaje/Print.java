@@ -32,9 +32,9 @@ public class Print extends Nodo {
             Nodo n = this.hijos.get(0);
 
             if (n instanceof Iden) {
-                aux.agregarError(" identificador " + ((Iden) n).nombre + " no encontrado", n.fila, n.columna);
+                aux.error(" identificador " + ((Iden) n).nombre + " no encontrado", n.fila, n.columna);
             } else {
-                aux.agregarError(n.getClass().getSimpleName() + " devolvio null", n.fila, n.columna);
+                aux.error(n.getClass().getSimpleName() + " devolvio null", n.fila, n.columna);
             }
             return null;
         }

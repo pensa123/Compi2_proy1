@@ -22,6 +22,9 @@ public class Auxiliar {
     public String error = "";
     public ArrayList<Error> arrErr = new ArrayList<>();
 
+    public boolean haybreak = false, haycontinue = false, hayreturn = false;
+    public Object ret;
+
     public Auxiliar(TextArea txt1, TextArea txt2) {
         tx = txt1;
         txterr = txt2;
@@ -33,7 +36,7 @@ public class Auxiliar {
         System.out.println(ss);
     }
 
-    public void agregarError(String st, int fila, int columna) {
+    public void error(String st, int fila, int columna) {
         arrErr.add(new Error(fila, columna, st));
         error += "F " + fila + " c " + columna + " " + st;
         txterr.setText(error);

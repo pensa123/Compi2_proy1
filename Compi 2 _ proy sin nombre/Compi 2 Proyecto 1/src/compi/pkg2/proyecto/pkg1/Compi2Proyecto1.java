@@ -43,12 +43,23 @@ public class Compi2Proyecto1 {
     ArrayList<String> toPruebas = new ArrayList<String>();
 
     public static void main(String[] args) {
-        // TODO code application logic here
 
+        mgrafico();
+
+        /*String st = "\\n";
+         st = st.replace("\\n", "\n");
+         System.out.println("---"+ st + "----------");*/
         //Compi2Proyecto1 c2 = new Compi2Proyecto1();
+    }
+
+    public static void mgrafico() {
         Inicio ini = new Inicio();
         ini.setVisible(true);
 
+        probando(ini);
+    }
+
+    public static void probando(Inicio ini) {
         ini.nueva_pestana("x[5] = true\n"
                 + "x[1] = 1 \n"
                 + "print(\"-----------------\");\n"
@@ -80,16 +91,20 @@ public class Compi2Proyecto1 {
                 + "}\n"
                 + "print(x); \n"
                 + "print(y);");
-        /* Tabla_Sim ts = new Tabla_Sim();
-        
-         Simbolo_prim sp = new Simbolo_prim(Tipos.cadena , "hola");
-         ts.agregar_var("a", sp);
-         ts.agregar_var("a", sp , 4);*/
-        //System.out.println( true ? true ? "v1v2" : "v1f2" : "f1");
-        // Primitivo p = new Primitivo(1 , 1 , Tipos.cadena , "hola");
-        // OperadorBinario ob = new OperadorBinario(1 , 1, null , null,
-        // Operando.comparacion);
-        // OperadorUnario ou = new OperadorUnario(1 , 1 , null, Op.neg);
+
+        ini.nueva_pestana("x = 0;\n"
+                + "while(x < 10){\n"
+                + "	print(\"va por \" + x);\n"
+                + "	x = x+1; \n"
+                + "}\n"
+                + "print(\"funciona el while\");\n"
+                + "\n"
+                + "do{\n"
+                + "	print(\"va por \" + x);\n"
+                + "	x = x-1; \n"
+                + "}while(x >= 0)\n"
+                + "print(\"funciona el do while\");");
+
     }
 
     public Compi2Proyecto1() {

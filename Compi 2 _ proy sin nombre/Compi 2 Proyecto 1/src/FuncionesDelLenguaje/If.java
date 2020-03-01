@@ -28,15 +28,16 @@ public class If extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-        Object o1 = hijos.get(0).ejecutar(ts, aux);
+        Nodo n = hijos.get(0);
+        Object o1 = n.ejecutar(ts, aux);
         Object o2 = aux.ayuda_bool(o1);
         if (!(o2 instanceof Boolean)) {
-            System.out.println("error, esto deberia se un booleano");
+            aux.error("Se esperaba un valor booleano", n.fila, n.columna);
         }
 
         if ((boolean) o2) {
             hijos.get(1).ejecutar(ts, aux);
-        } else if(hijos.size() == 3){
+        } else if (hijos.size() == 3) {
             hijos.get(2).ejecutar(ts, aux);
         }
 
