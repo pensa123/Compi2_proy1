@@ -17,6 +17,7 @@ import Sintactico.Sint;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
+import interfaz.Inicio;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.StringReader;
@@ -43,8 +44,18 @@ public class Compi2Proyecto1 {
     public static void main(String[] args) {
         // TODO code application logic here
 
-        Compi2Proyecto1 c2 = new Compi2Proyecto1();
+        //Compi2Proyecto1 c2 = new Compi2Proyecto1();
 
+        
+        
+         Inicio ini = new Inicio();
+        ini.setVisible(true);
+        
+        
+        ini.nueva_pestana("x[5] = 1; \n print(x);");
+        
+        
+        
        /* Tabla_Sim ts = new Tabla_Sim();
         
         Simbolo_prim sp = new Simbolo_prim(Tipos.cadena , "hola");

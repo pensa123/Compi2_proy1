@@ -7,6 +7,9 @@ package objetos;
 
 import ClasesAuxiliares.Dibujador;
 import ClasesAuxiliares.Nodo;
+import Tabla_simbolos.Auxiliar;
+import Tabla_simbolos.Simbolo_prim;
+import Tabla_simbolos.Tabla_Sim;
 
 /**
  *
@@ -15,6 +18,7 @@ import ClasesAuxiliares.Nodo;
 public class Acceso extends Nodo {
 
     public boolean accesoDoble;
+    public Simbolo_prim sp;
 
     public Acceso(int f, int c, Nodo hijo, boolean accDoble) {
         super(f, c, hijo);
@@ -28,4 +32,9 @@ public class Acceso extends Nodo {
         dibHijos(d);
     }
 
+    @Override
+    public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
+        sp = (Simbolo_prim) hijos.get(0).ejecutar(ts, aux);
+        return null;
+    }
 }

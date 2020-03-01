@@ -62,15 +62,15 @@ public class Vector extends Estructura {
 
     @Override
     public String toString() {
-        String st = "";
+        String st = "[";
         boolean nvez = false;
         for (Simbolo_prim s : arr) {
             if (nvez) {
-                st += "\t";
+                st += ", ";
             }
-            st += s.valor;
+            st += s.toString();
             nvez = true;
         }
-        return st;
+        return st + "]";
     }
 }

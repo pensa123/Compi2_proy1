@@ -42,11 +42,13 @@ public class Tabla_Sim {
     }
 
     public void agregar_var(String id, Simbolo_prim sp, int n) {
+        n -= 1;
         Estructura e = hvar.get(id);
         if (e == null) {
             Vector v = new Vector(sp.tp);
             v.update(n, sp);
-            System.out.println("esta vacia jeje");
+            hvar.put(id, v);
+            // System.out.println("esta vacia jeje");
         } else if (e.getClass().getSimpleName().equals("Vector")) {
             Vector v = (Vector) e;
             v.update(n, sp);
@@ -54,7 +56,11 @@ public class Tabla_Sim {
     }
 
     public Estructura obtener_var(String id) {
-        return hvar.get(id);
+        Estructura e = hvar.get(id);
+        if (e == null && padre == null) {
+            return null;
+        }
+        return e == null ? padre.obtener_var(id) : e;
     }
 
 }

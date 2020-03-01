@@ -5,11 +5,19 @@
  */
 package Tabla_simbolos;
 
+import java.awt.TextArea;
+
 /**
  *
  * @author ferna
  */
 public class Auxiliar {
 
-    public String st;
+    public TextArea tx;
+    public String st = "";
+
+    public void agregar(String ss) {
+        st += ss;
+        tx.setText(st);
+    }
 }

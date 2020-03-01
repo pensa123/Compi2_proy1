@@ -7,8 +7,11 @@ package objetos;
 
 import ClasesAuxiliares.Nodo;
 import Tabla_simbolos.Auxiliar;
+import Tabla_simbolos.Estructura;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
+import Tabla_simbolos.Vector;
+import java.util.ArrayList;
 
 /**
  *
@@ -27,11 +30,47 @@ public class Asignacion extends Nodo {
 
         switch (n.getClass().getSimpleName()) {
             case "Iden":
-                String s = ((Iden)n).nombre;
+                String s = ((Iden) n).nombre;
                 ts.agregar_var(s, sp);
                 break;
+            case "Var_acceso":
+                /*
+                 que se necesita: 
+                 saber el tipo de la variable, este se encuentra n[0].getClass().getSimpleName()
+                 dependiendo de que tipo sea o si no esta establecido sera la forma de proceder :( 
+                 se debe obtener un arreglo con los accesos que estan solicitando  
+                 */
+                n.ejecutar(ts, aux);
+                Var_acceso vacc = (Var_acceso) n;
+                Estructura e = vacc.est;
+                ArrayList<Integer> arrInt = vacc.arrint;
+                if (e == null || e instanceof Vector) {
+                    System.out.println("es vector jeje");
+                    boolean todook = true;
+                    if (arrInt.size() != 1) {
+
+                        for (int a = 1; a < arrInt.size(); a++) {
+                            if (arrInt.get(a) != 1) {
+                                System.out.println("error, valor fuera del rango :( ");
+                                todook = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (todook) {
+                        if (arrInt.get(0) >= 1) {
+                            ts.agregar_var(vacc.nest, sp, arrInt.get(0));
+                        } else {
+                            System.out.println("error ya que el indice de un vector debe ser >= 1");
+                        }
+                    }
+
+                }//TODO falta agregar para las demas (matriz, lista o arreglo); 
+
+                break;
             default:
-                System.out.println("TODO accion en ejecutar _ \"" + n.getClass().getSimpleName() + "\"");
+                System.out.println("TODO accion en la clase \"EJECUTAR\" _  en el switch  \"" + n.getClass().getSimpleName() + "\"");
                 break;
 
         }

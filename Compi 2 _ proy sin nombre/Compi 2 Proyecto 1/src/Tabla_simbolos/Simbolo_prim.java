@@ -43,6 +43,9 @@ public class Simbolo_prim {
     
     @Override
     public String toString(){
+        if(tp == Tipos.entero){
+            return (int)Double.parseDouble(valor+"")+"";
+        }
         return valor+"";
     }
 }

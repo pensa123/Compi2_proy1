@@ -33,7 +33,9 @@ public class Print extends Nodo {
             System.out.println("reportar error aqui jeje :D");
             return null;
         }
-        aux.st += ob.toString();
+
+        
+        aux.agregar(ob.toString());
         System.out.println(ob.toString());
         return null;
     }

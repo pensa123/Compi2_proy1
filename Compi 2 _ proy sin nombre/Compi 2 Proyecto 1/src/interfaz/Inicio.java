@@ -1,5 +1,12 @@
 package interfaz;
 
+import ClasesAuxiliares.Dibujador;
+import ClasesAuxiliares.Nodo;
+import GramaticaJavaCC.Gramatica;
+import GramaticaJavaCC.ParseException;
+import GramaticaJavaCC.TokenMgrError;
+import Tabla_simbolos.Auxiliar;
+import Tabla_simbolos.Tabla_Sim;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,7 +81,6 @@ public class Inicio extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
 
@@ -141,23 +148,14 @@ public class Inicio extends javax.swing.JFrame {
 
         jMenu3.setText("Pestañas");
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setText("Nuevo FS");
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Nuevo documento");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 analizar(evt);
             }
         });
         jMenu3.add(jMenuItem2);
-
-        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem7.setText("Nuevo GXML");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem7);
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setText("Cerrar Pestaña");
@@ -277,6 +275,31 @@ public class Inicio extends javax.swing.JFrame {
 
     private void analizar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analizar
 
+        nueva_pestana();
+
+    }//GEN-LAST:event_analizar
+
+    
+    public void nueva_pestana(String st) {
+        try {
+            CampoTexto cam = new CampoTexto(false);
+            cam.setTexto(st);
+            cam.setPath("");
+
+            this.jTabbedPane1.add("new" + this.indicePestañas, cam);
+            this.indicePestañas++;
+            jTabbedPane1.setSelectedIndex(jTabbedPane1.getTabCount() - 1);
+
+        } catch (Exception e) {
+            System.out.println("Algo salió mal");
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    
+    public void nueva_pestana() {
         try {
             CampoTexto cam = new CampoTexto(false);
             cam.setTexto("");
@@ -290,16 +313,8 @@ public class Inicio extends javax.swing.JFrame {
             System.out.println("Algo salió mal");
             e.printStackTrace();
         }
+    }
 
-        /*        String texto="";
-         JTextPane campo;
-         if (this.jTabbedPane1.getTabCount() > 0) {
-         CampoTexto area = (CampoTexto) this.jTabbedPane1.getSelectedComponent();
-         campo = area.getTexto();
-         texto=campo.getText();
-         } */
-
-    }//GEN-LAST:event_analizar
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
@@ -328,7 +343,10 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         ejecutar();
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
     private void ejecutar() {
 
@@ -337,32 +355,14 @@ public class Inicio extends javax.swing.JFrame {
         }
         CampoTexto area = (CampoTexto) this.jTabbedPane1.getSelectedComponent();
         String texto = area.getTexto();
+
+        //TODO validar si se ejecuta en javacc o en flex y cup 
+        ejecJavacc(texto);
+
         //System.out.println(texto);
 
-        System.out.println("path: " + area.path);
-        System.out.println("carpeta: " + area.carpeta);
-        //preuba p = new preuba();
-        //p.probar(txtConsola, txtError);
-
-        /*        
-         Single.instance().clear();
-         txtConsola.setText("");
-         txtError.setText("");
-         Comp2 c = new Comp2(txtConsola, txtError, area.carpeta);
-         if (area.esgxml) {
-         try {
-         c.pruebaGXML(texto, true);
-         } catch (Exception ex) {
-         Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         } else {
-         try {
-         c.pruebaFS(texto, true);
-         } catch (Exception ex) {
-         Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         }
-         */
+        /*System.out.println("path: " + area.path);
+         System.out.println("carpeta: " + area.carpeta); */
     }
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
 
@@ -372,22 +372,6 @@ public class Inicio extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         ejecutar();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
-
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        try {
-            CampoTexto cam = new CampoTexto(true);
-            cam.setTexto("");
-            cam.setPath("");
-
-            this.jTabbedPane1.add("new" + this.indicePestañas, cam);
-            this.indicePestañas++;
-            jTabbedPane1.setSelectedIndex(jTabbedPane1.getTabCount() - 1);
-
-        } catch (Exception e) {
-            System.out.println("Algo salió mal");
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         System.out.println("adios.");
@@ -458,9 +442,63 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private java.awt.TextArea txtConsola;
     private java.awt.TextArea txtError;
     // End of variables declaration//GEN-END:variables
+
+    boolean ejecJavacc(String st) {
+        try {
+
+            Gramatica parser = new Gramatica(new BufferedReader(new StringReader(st)));
+            parser.Analizar();
+
+            System.out.println("-------------------------------");
+            System.out.println("Todo bien todo correcto");
+            System.out.println("-------------------------------");
+
+            ArrayList arr = parser.arr;
+
+            this.dibujar(arr, "INICIO_JAVACC");
+
+            this.ejecutarJavacc(arr);
+
+            return false;
+        } catch (ParseException e) {
+            // consola.setText(consola.getText() + e.getMessage() + "\n");
+            System.err.println(e.getMessage());
+            System.out.println("ha surgido un error");
+        } catch (TokenMgrError e) {
+            // consola.setText(consola.getText() + e.getMessage() + "\n");
+            System.err.println(e.getMessage());
+            System.out.println("ha surgido un error");
+        }
+
+        return true;
+    }
+
+    void ejecutarJavacc(ArrayList<Nodo> arr) {
+        Tabla_Sim ts = new Tabla_Sim();
+        Auxiliar aux = new Auxiliar();
+
+        aux.tx = txtConsola;
+        for (Nodo n : arr) {
+            n.ejecutar(ts, aux);
+        }
+    }
+
+    public void dibujar(ArrayList<Nodo> arr, String title) {
+        Dibujador d = new Dibujador();
+
+        d.st = "digraph G { \n " + title + " ;\n ";
+
+        for (Nodo n : arr) {
+
+            n.dibujar(d, title);
+        }
+
+        d.st += "}";
+        System.out.println(d.st);
+    }
+
 }
