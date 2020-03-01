@@ -71,7 +71,5 @@ public abstract class Nodo {
                 n.dibujar(d, this.hashCode() + "");
             }
         }
-
     }
-
 }

@@ -45,29 +45,28 @@ public class Compi2Proyecto1 {
         // TODO code application logic here
 
         //Compi2Proyecto1 c2 = new Compi2Proyecto1();
-
-        
-        
-         Inicio ini = new Inicio();
+        Inicio ini = new Inicio();
         ini.setVisible(true);
+
+        ini.nueva_pestana("x[5] = true\n"
+                + "x[1] = 1 \n"
+                + "print(\"-----------------\");\n"
+                + "print(x)\n"
+                + "print(\"-----------------\");");
+
+        ini.nueva_pestana("x[5] = 8; \n"
+                + "print(\"-----------------\");\n"
+                + "print(x[5])\n"
+                + "print(\"-----------------\");");
+
+        ini.nueva_pestana("x[5] = 8; \n"
+                + "print(x + 2)");
+
+        /* Tabla_Sim ts = new Tabla_Sim();
         
-        
-        ini.nueva_pestana("x[5] = true\n" +
-"x[1] = 1 \n" +
-"print(\"-----------------\");\n" +
-"print(x)\n" +
-"print(\"-----------------\");");
-        
-        
-        
-       /* Tabla_Sim ts = new Tabla_Sim();
-        
-        Simbolo_prim sp = new Simbolo_prim(Tipos.cadena , "hola");
-        ts.agregar_var("a", sp);
-        ts.agregar_var("a", sp , 4);*/
-        
-        
-        
+         Simbolo_prim sp = new Simbolo_prim(Tipos.cadena , "hola");
+         ts.agregar_var("a", sp);
+         ts.agregar_var("a", sp , 4);*/
         //System.out.println( true ? true ? "v1v2" : "v1f2" : "f1");
         // Primitivo p = new Primitivo(1 , 1 , Tipos.cadena , "hola");
         // OperadorBinario ob = new OperadorBinario(1 , 1, null , null,
@@ -142,23 +141,17 @@ public class Compi2Proyecto1 {
                 + "n[1,1] = 1;"
                 + "x[1,] = 2;"
                 + "x[,1] = 3;");
-               
-        
-        
-        
+
         this.toPruebas.add("x = \"hola\"; \n "
                 + "print( x );\n"
                 + "x = 1 + 2 + 3;\n"
                 + "print(x);");
-        
+
         this.toPruebas.add("if(2==2){ print(\"es true\"); }else if(2 == 2) { print(\"segundo es true\"); } else { print(\"no es true\");  } ");
-        
-        
+
         this.toPruebas.add("while(true){ print(\"hola\");}   \n"
                 + "do { print(\"hola\") }while(true)");
-        
-        
-        
+
         // el primero es para probar el numero de prueba
         // el segundo 0 para los dos 1 para javacc 2 para flex y cup
         this.probar(0, 1);
@@ -196,7 +189,7 @@ public class Compi2Proyecto1 {
                 System.out.println("---------------------------");
                 System.out.println("prueba javacc");
                 this.probarJavacc(st, n);
-                
+
             }
             if (x1 == 0 || x1 == 2) {
                 System.out.println("---------------------------");

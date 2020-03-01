@@ -12,6 +12,7 @@ import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
+import Tabla_simbolos.Vector;
 import java.util.ArrayList;
 
 /**
@@ -25,6 +26,7 @@ public class Var_acceso extends Nodo {
     public Estructura est;
     public String nest = "";
 
+    public boolean n2enadelanteSon1 = true;
     public ArrayList<Integer> arrint = new ArrayList<>();
     public ArrayList<Boolean> arrEsAccesoDoble = new ArrayList<>();
     public boolean hayAccesoDoble = false;
@@ -46,7 +48,6 @@ public class Var_acceso extends Nodo {
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
 
         Nodo n = hijos.get(0);
-
         if (n.getClass().getSimpleName().equals("Iden")) {
             Iden i = (Iden) n;
             est = ts.obtener_var(i.nombre);
@@ -64,15 +65,29 @@ public class Var_acceso extends Nodo {
 
                 //TODO tal vez hay que quitar numerico pero ya despues miramos
                 if (ac.sp.tp == Tipos.entero || ac.sp.tp == Tipos.numerico) {
-                    this.arrint.add((int) Double.parseDouble(ac.sp.valor.toString()));
+                    int auxint = (int) Double.parseDouble(ac.sp.valor.toString());
+                    this.arrint.add(auxint);
                     this.arrEsAccesoDoble.add(ac.accesoDoble);
                     this.hayAccesoDoble = this.hayAccesoDoble || ac.accesoDoble;
+
+                    if (auxint != 1 && a > 1) {
+                        System.out.println("error, valor fuera del rango :( ");
+                        this.n2enadelanteSon1 = false;
+                    }
+
                 } else {
                     System.out.println("reportar error :D");
                 }
             }
         }
 
+        if (est instanceof Vector) {
+            if (this.n2enadelanteSon1 ) {
+                return ((Vector) est).obtener(arrint.get(0));
+            } else {
+
+            }
+        }
         return null;
     }
 

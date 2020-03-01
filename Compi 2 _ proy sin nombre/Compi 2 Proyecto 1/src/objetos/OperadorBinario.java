@@ -12,6 +12,7 @@ import ClasesAuxiliares.contenedorEnum.Tipos;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
+import Tabla_simbolos.Vector;
 import java.util.ArrayList;
 
 /**
@@ -26,6 +27,7 @@ public class OperadorBinario extends Nodo {
         comparacion, desigualdad, or, and, mayorque, menorque, mayorigual, menorigual, mas, menos, por, div
     };
 
+    Auxiliar au;
     public Operando operador;
 
     public OperadorBinario(int f, int c, Nodo hijoI, Nodo hijoD, Operando op) {
@@ -48,11 +50,75 @@ public class OperadorBinario extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-
+        au = aux;
+        Object o1, o2;
         Simbolo_prim s1, s2, sr;
 
-        s1 = (Simbolo_prim) hijos.get(0).ejecutar(ts, aux);
-        s2 = (Simbolo_prim) hijos.get(1).ejecutar(ts, aux);
+        o1 = hijos.get(0).ejecutar(ts, aux);
+        o2 = hijos.get(1).ejecutar(ts, aux);
+
+        if (o1 instanceof Simbolo_prim) {
+            return ejec_sp((Simbolo_prim) o1, o2);
+        } else if (o1 instanceof Vector) {
+            return ejec_vc((Vector) o1, o2);
+        } else {  /*aun falta el instanceof de matriz */
+
+        }
+
+        System.out.println("no se ha echo operacion entre " + o1.getClass().getSimpleName() + " y " + o2.getClass().getSimpleName());
+
+        return "";
+    }
+
+    public Object ejec_vc(Vector v1, Object o2) {
+        if (o2 instanceof Simbolo_prim) {
+            int a = 0;
+            Vector v = new Vector(v1.tp);
+            for (Simbolo_prim s1 : v1.arr) {
+                v.update(a++, ejec_sp_sp(s1, (Simbolo_prim) (o2)));
+            }
+            return v;
+        } else if (o2 instanceof Vector) {
+            Vector v = new Vector(v1.tp), v2 = (Vector) o2;
+            if (v1.tamanio == 1) {
+                return ejec_sp(v1.arr.get(0), v2);
+            } else if (v2.tamanio == 1) {
+                return ejec_vc(v1, v2.arr.get(0));
+            } else if (v1.tamanio == v2.tamanio) {
+                for (int a = 0; a < v1.tamanio; a++) {
+                    Simbolo_prim s1 = v1.arr.get(a);
+                    Simbolo_prim s2 = v2.arr.get(a);
+                    v.update(a, ejec_sp_sp(s1, s2));
+                }
+                return v;
+            } else {
+                System.out.println("error, al operar 2 vectores tienen que ser del mismo tamaño o uno de solo una posicion");
+            }
+        }
+        System.out.println("error, vector solo se puede operar con vector o con un primitivo");
+        return null;
+    }
+
+    public Object ejec_sp(Simbolo_prim s1, Object o2) {
+        if (o2 instanceof Simbolo_prim) {
+            return ejec_sp_sp((Simbolo_prim) s1, (Simbolo_prim) o2);
+        } else if (o2 instanceof Vector) {
+            int a = 0;
+            Vector v2 = (Vector) o2;
+            Vector v = new Vector(v2.tp);
+            for (Simbolo_prim s2 : v2.arr) {
+                v.update(a++, ejec_sp_sp(s1, s2));
+            }
+            return v;
+        } else {  /*aun falta el instanceof de matriz */
+
+        }
+
+        return null;
+    }
+
+    public Simbolo_prim ejec_sp_sp(Simbolo_prim s1, Simbolo_prim s2) {
+        Simbolo_prim sr;
         boolean b = false;
 
         boolean esnumerico = this.esnumerico(s1) && this.esnumerico(s2);
@@ -72,7 +138,7 @@ public class OperadorBinario extends Nodo {
                 if (esnumerico) {
                     sr = new Simbolo_prim(esint ? Tipos.entero : Tipos.numerico, Double.parseDouble(s1.valor + "") + Double.parseDouble(s2.valor + ""));
                 } else if (s1.tp == Tipos.cadena || s2.tp == Tipos.cadena) {
-                    sr = new Simbolo_prim(Tipos.cadena, s1.valor + "" + s2.valor);
+                    sr = new Simbolo_prim(Tipos.cadena, s1.toString() + s2.toString());
                 } else {
                     error = 3;
                 }
@@ -189,6 +255,7 @@ public class OperadorBinario extends Nodo {
         }
 
         return sr;
+
     }
 
 }

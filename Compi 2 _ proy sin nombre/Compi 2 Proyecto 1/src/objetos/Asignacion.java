@@ -26,7 +26,7 @@ public class Asignacion extends Nodo {
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
 
         Nodo n = hijos.get(0);
-        Simbolo_prim sp = (Simbolo_prim) hijos.get(1).ejecutar(ts, aux);
+        Object sp = hijos.get(1).ejecutar(ts, aux);
 
         switch (n.getClass().getSimpleName()) {
             case "Iden":
@@ -45,27 +45,36 @@ public class Asignacion extends Nodo {
                 Estructura e = vacc.est;
                 ArrayList<Integer> arrInt = vacc.arrint;
                 if (e == null || e instanceof Vector) {
-                    System.out.println("es vector jeje");
-                    boolean todook = true;
-                    if (arrInt.size() != 1) {
+                    if (vacc.hayAccesoDoble) {
+                        System.out.println("error, en vectores no se acepta el acceso doble [[]]");
+                    } else {
+                        /* boolean todook = true;
+                         if (arrInt.size() != 1) {
 
-                        for (int a = 1; a < arrInt.size(); a++) {
-                            if (arrInt.get(a) != 1) {
-                                System.out.println("error, valor fuera del rango :( ");
-                                todook = false;
-                                break;
+                         for (int a = 1; a < arrInt.size(); a++) {
+                         if (arrInt.get(a) != 1) {
+                         System.out.println("error, valor fuera del rango :( ");
+                         todook = false;
+                         break;
+                         }
+                         }
+                         }*/
+
+                        if (vacc.n2enadelanteSon1) {
+                            if (sp instanceof Vector) {
+                                if (((Vector) sp).tamanio == 1) {
+                                    sp = ((Vector) sp).arr.get(0);
+                                }
+                            }
+                            if (sp instanceof Simbolo_prim) {
+                                if (arrInt.get(0) >= 1) {
+                                    ts.agregar_var(vacc.nest, (Simbolo_prim) sp, arrInt.get(0));
+                                } else {
+                                    System.out.println("error ya que el indice de un vector debe ser >= 1");
+                                }
                             }
                         }
                     }
-
-                    if (todook) {
-                        if (arrInt.get(0) >= 1) {
-                            ts.agregar_var(vacc.nest, sp, arrInt.get(0));
-                        } else {
-                            System.out.println("error ya que el indice de un vector debe ser >= 1");
-                        }
-                    }
-
                 }//TODO falta agregar para las demas (matriz, lista o arreglo); 
 
                 break;

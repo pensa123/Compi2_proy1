@@ -29,20 +29,23 @@ public class Tabla_Sim {
     }
 
     //TODO falta agregar las demas asignaciones a variable pero estas se haran cuando se tenga la funcion c o array o list o alguna de esas jejej salu3
+    public void agregar_var(String id, Object o) {
+        if (o instanceof Estructura) {
+            agregar_var(id, (Estructura) o);
+        } else if (o instanceof Simbolo_prim) {
+            agregar_var(id, (Estructura) o);
+        }
+    }
+
+    //TODO falta ver lo de los ambitos. 
+    public void agregar_var(String id, Estructura e) {
+        hvar.put(id, e);
+    }
+
     public void agregar_var(String id, Simbolo_prim sp) {
-        Estructura e = hvar.get(id);
         Vector v = new Vector(sp.tp);
         v.update(0, sp);
-        hvar.put(id, v);
-        /*if (e == null) {
-         Vector v = new Vector(sp.tp);
-         v.update(0, sp);
-         hvar.put(id, v);
-         } else if (e.getClass().getSimpleName().equals("Vector")) {
-         Vector v = (Vector) e;
-         v.update(-1, sp);
-         v.tp = sp.tp;
-         }*/
+        agregar_var(id , v);
     }
 
     public void agregar_var(String id, Simbolo_prim sp, int n) {

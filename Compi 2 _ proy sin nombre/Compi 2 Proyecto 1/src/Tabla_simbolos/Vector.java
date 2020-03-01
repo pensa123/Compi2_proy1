@@ -15,7 +15,8 @@ import java.util.ArrayList;
 public class Vector extends Estructura {
 
     public Tipos tp;
-    ArrayList<Simbolo_prim> arr = new ArrayList<Simbolo_prim>();
+    public ArrayList<Simbolo_prim> arr = new ArrayList<Simbolo_prim>();
+    public int tamanio = 0;
 
     public Vector() {
     }
@@ -29,7 +30,12 @@ public class Vector extends Estructura {
     }
 
     public Simbolo_prim obtener(int n) {
-        return arr.size() > n ? arr.get(n) : null;
+        n -= 1;
+        if (arr.size() > n && n >= 0) {
+            return arr.get(n);
+        } 
+        System.out.println((n+1) + " indice fuera del rango.");
+        return null;
     }
 
     @Override
@@ -62,8 +68,9 @@ public class Vector extends Estructura {
             }
             arr.add(sp);
             int a = 2;
-
         }
+
+        tamanio = arr.size();
     }
 
     @Override
@@ -99,16 +106,16 @@ public class Vector extends Estructura {
     }
 
     public Simbolo_prim parseando_ando(Simbolo_prim s, Tipos de, Tipos hacia) {
-        if(s.tp != de){
-            return s; 
+        if (s.tp != de) {
+            return s;
         }
         System.out.println(de + "  ->  " + hacia);
         s.tp = hacia;
-        if(hacia == Tipos.cadena){
-            return s; 
+        if (hacia == Tipos.cadena) {
+            return s;
         }
-        if(de == Tipos.booleano){
-            s.valor = (boolean)s.valor ? 1 : 0; 
+        if (de == Tipos.booleano) {
+            s.valor = (boolean) s.valor ? 1 : 0;
         }
 
         return s;
