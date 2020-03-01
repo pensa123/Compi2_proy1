@@ -9,6 +9,7 @@ import ClasesAuxiliares.Nodo;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
+import objetos.Iden;
 
 /**
  *
@@ -23,20 +24,21 @@ public class Print extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-        Object ob =  this.hijos.get(0).ejecutar(ts, aux);
+        Object ob = this.hijos.get(0).ejecutar(ts, aux);
 
         //hay que usar esto para comparar si es simbolo o si es una estructura o algo así :D 
         //ob instanceof Simbolo_prim
-        
-        
         if (ob == null) {
-            System.out.println("reportar error aqui jeje :D");
+            Nodo n = this.hijos.get(0);
+
+            if (n instanceof Iden) {
+                aux.agregarError(" identificador " + ((Iden) n).nombre + " no encontrado", n.fila, n.columna);
+            } else {
+                aux.agregarError(n.getClass().getSimpleName() + " devolvio null", n.fila, n.columna);
+            }
             return null;
         }
-
-        
         aux.agregar(ob.toString());
-        System.out.println(ob.toString());
         return null;
     }
 

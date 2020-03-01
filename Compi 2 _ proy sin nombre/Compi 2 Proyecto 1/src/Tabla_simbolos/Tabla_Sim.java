@@ -37,15 +37,27 @@ public class Tabla_Sim {
         }
     }
 
+    public boolean try_agregar_var(String id, Estructura e) {
+        if (hvar.containsKey(id)) {
+            hvar.put(id, e);
+        }
+        return padre == null ? false : padre.try_agregar_var(id, e);
+    }
+
     //TODO falta ver lo de los ambitos. 
     public void agregar_var(String id, Estructura e) {
-        hvar.put(id, e);
+        if (hvar.containsKey(id)) {
+            hvar.put(id, e);
+        }
+        if (padre == null || !padre.try_agregar_var(id, e)) {
+            hvar.put(id, e);
+        }
     }
 
     public void agregar_var(String id, Simbolo_prim sp) {
         Vector v = new Vector(sp.tp);
         v.update(0, sp);
-        agregar_var(id , v);
+        agregar_var(id, v);
     }
 
     public void agregar_var(String id, Simbolo_prim sp, int n) {

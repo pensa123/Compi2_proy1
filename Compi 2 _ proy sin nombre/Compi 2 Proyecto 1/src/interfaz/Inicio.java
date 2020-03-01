@@ -279,7 +279,6 @@ public class Inicio extends javax.swing.JFrame {
 
     }//GEN-LAST:event_analizar
 
-    
     public void nueva_pestana(String st) {
         try {
             CampoTexto cam = new CampoTexto(false);
@@ -295,10 +294,7 @@ public class Inicio extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
-    
-    
-    
+
     public void nueva_pestana() {
         try {
             CampoTexto cam = new CampoTexto(false);
@@ -479,9 +475,8 @@ public class Inicio extends javax.swing.JFrame {
 
     void ejecutarJavacc(ArrayList<Nodo> arr) {
         Tabla_Sim ts = new Tabla_Sim();
-        Auxiliar aux = new Auxiliar();
+        Auxiliar aux = new Auxiliar(txtConsola, txtError);
 
-        aux.tx = txtConsola;
         for (Nodo n : arr) {
             n.ejecutar(ts, aux);
         }

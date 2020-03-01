@@ -22,8 +22,11 @@ public class Instrucciones_cuerpo extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
+
+        Tabla_Sim ts2 = new Tabla_Sim(ts);
+
         for (Nodo n : hijos) {
-            n.ejecutar(ts, aux);
+            n.ejecutar(ts2, aux);
         }
         return null;
     }

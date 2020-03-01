@@ -18,6 +18,7 @@ import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
 import interfaz.Inicio;
+import java.awt.TextArea;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.StringReader;
@@ -63,7 +64,6 @@ public class Compi2Proyecto1 {
                 + "print(x + 2)");
 
         ini.nueva_pestana("x = 2; \n"
-          
                 + "if(x > 0){\n"
                 + "	print(\"esto es\");\n"
                 + "	print(\"verdadero\");\n"
@@ -71,6 +71,15 @@ public class Compi2Proyecto1 {
                 + "	print(\"esto es\");\n"
                 + "	print(\"falso\");\n"
                 + "}");
+
+        ini.nueva_pestana("print(\"probando ambitos\");\n"
+                + "x = 2; \n"
+                + "if( 2== 2){\n"
+                + "	x = 3; \n"
+                + "	y = 2; \n"
+                + "}\n"
+                + "print(x); \n"
+                + "print(y);");
         /* Tabla_Sim ts = new Tabla_Sim();
         
          Simbolo_prim sp = new Simbolo_prim(Tipos.cadena , "hola");
@@ -242,7 +251,7 @@ public class Compi2Proyecto1 {
 
     void ejecutarJavacc(ArrayList<Nodo> arr) {
         Tabla_Sim ts = new Tabla_Sim();
-        Auxiliar aux = new Auxiliar();
+        Auxiliar aux = new Auxiliar(new TextArea(), new TextArea());
         for (Nodo n : arr) {
             n.ejecutar(ts, aux);
         }

@@ -54,7 +54,7 @@ public abstract class Nodo {
     }
 
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-        System.out.println("TODO funcion ejecutar en " + this.getClass().getSimpleName() + "  no realizada aun");
+        System.out.println("TODO funcion ejecutar en " + this.getClass().getName()+ "  no realizada aun");
         return null;
     }
 

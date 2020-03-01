@@ -8,25 +8,38 @@ package Tabla_simbolos;
 import ClasesAuxiliares.contenedorEnum;
 import ClasesAuxiliares.contenedorEnum.Tipos;
 import java.awt.TextArea;
+import java.util.ArrayList;
 
 /**
  *
  * @author ferna
  */
 public class Auxiliar {
-    
+
     public TextArea tx;
+    public TextArea txterr;
     public String st = "";
-    
+    public String error = "";
+    public ArrayList<Error> arrErr = new ArrayList<>();
+
+    public Auxiliar(TextArea txt1, TextArea txt2) {
+        tx = txt1;
+        txterr = txt2;
+    }
+
     public void agregar(String ss) {
         st += ss + "\n";
         tx.setText(st);
+        System.out.println(ss);
     }
-    
+
     public void agregarError(String st, int fila, int columna) {
-        
+        arrErr.add(new Error(fila, columna, st));
+        error += "F " + fila + " c " + columna + " " + st;
+        txterr.setText(error);
+        System.out.println("Error: " + st);
     }
-    
+
     public Object ayuda_bool(Object o1) {
         if (o1 instanceof Vector) {
             Vector v1 = (Vector) o1;
@@ -37,5 +50,5 @@ public class Auxiliar {
         }
         return null;
     }
-    
+
 }
