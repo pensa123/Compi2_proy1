@@ -62,6 +62,15 @@ public class Compi2Proyecto1 {
         ini.nueva_pestana("x[5] = 8; \n"
                 + "print(x + 2)");
 
+        ini.nueva_pestana("x = 2; \n"
+          
+                + "if(x > 0){\n"
+                + "	print(\"esto es\");\n"
+                + "	print(\"verdadero\");\n"
+                + "}else{\n"
+                + "	print(\"esto es\");\n"
+                + "	print(\"falso\");\n"
+                + "}");
         /* Tabla_Sim ts = new Tabla_Sim();
         
          Simbolo_prim sp = new Simbolo_prim(Tipos.cadena , "hola");

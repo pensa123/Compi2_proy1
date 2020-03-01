@@ -235,7 +235,7 @@ Nodo  InstruccionGlobal() :
     t = <SINO> (
       n = si() 
       |
-      <LLAVEI> n =  instrucciones_cuerpos()  { n = new Else(t.beginLine, t.beginColumn , n);  } <LLAVED>
+      <LLAVEI> n =  instrucciones_cuerpos()   <LLAVED>
     ){
       return n;
     }

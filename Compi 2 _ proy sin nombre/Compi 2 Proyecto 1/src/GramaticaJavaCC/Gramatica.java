@@ -218,7 +218,6 @@ public class Gramatica implements GramaticaConstants {
     case LLAVEI:
       jj_consume_token(LLAVEI);
       n = instrucciones_cuerpos();
-                                               n = new Else(t.beginLine, t.beginColumn , n);
       jj_consume_token(LLAVED);
       break;
     default:

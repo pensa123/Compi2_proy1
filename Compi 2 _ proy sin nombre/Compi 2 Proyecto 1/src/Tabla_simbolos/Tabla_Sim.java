@@ -33,7 +33,7 @@ public class Tabla_Sim {
         if (o instanceof Estructura) {
             agregar_var(id, (Estructura) o);
         } else if (o instanceof Simbolo_prim) {
-            agregar_var(id, (Estructura) o);
+            agregar_var(id, (Simbolo_prim) o);
         }
     }
 
