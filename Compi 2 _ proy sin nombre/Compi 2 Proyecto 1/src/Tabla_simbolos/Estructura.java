@@ -5,6 +5,9 @@
  */
 package Tabla_simbolos;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author ferna
@@ -13,5 +16,9 @@ public abstract class Estructura {
 
     public String imprimir() {
         return "";
+    }
+
+    public Estructura copear() {
+        return null;
     }
 }

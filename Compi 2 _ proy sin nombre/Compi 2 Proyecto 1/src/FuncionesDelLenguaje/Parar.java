@@ -3,35 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package objetos;
+package FuncionesDelLenguaje;
 
 import ClasesAuxiliares.Nodo;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Tabla_Sim;
-import java.util.ArrayList;
 
 /**
  *
  * @author ferna
  */
-public class Instrucciones_cuerpo extends Nodo {
+public class Parar extends Nodo {
 
-    public Instrucciones_cuerpo(int f, int c, ArrayList<Nodo> hj) {
-        super(f, c, hj);
+    public Parar(int f, int c) {
+        super(f, c);
     }
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-        for (Nodo n : hijos) {
-            if (ts.haycontinue) {
-                continue;
-            }
-            if (ts.haybreak) {
-                break;
-            }
-            n.ejecutar(ts, aux);
+        if (ts.seencontroBreak()) {
+            ts.setbreaks();
         }
         return null;
     }
-
 }

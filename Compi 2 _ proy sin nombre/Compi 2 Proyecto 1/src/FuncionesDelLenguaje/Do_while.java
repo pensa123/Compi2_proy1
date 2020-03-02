@@ -21,15 +21,18 @@ public class Do_while extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-        Nodo n = hijos.get(1);
+        Nodo n = hijos.get(1), n1 = hijos.get(0);
         Object o1, o2;
         o1 = n.ejecutar(ts, aux);
         o2 = aux.ayuda_bool(o1);
 
         do {
-
-            hijos.get(0).ejecutar(ts, aux);
-
+            Tabla_Sim ts2 = new Tabla_Sim(ts);
+            ts2.esciclo = true;
+            n1.ejecutar(ts2, aux);
+            if (ts2.haybreak) {
+                break;
+            }
             o1 = n.ejecutar(ts, aux);
             o2 = aux.ayuda_bool(o1);
             if (!(o2 instanceof Boolean)) {

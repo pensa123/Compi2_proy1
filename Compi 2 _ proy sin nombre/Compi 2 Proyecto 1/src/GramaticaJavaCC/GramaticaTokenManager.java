@@ -5,6 +5,8 @@ package GramaticaJavaCC;
 import java.util.ArrayList;
 //clases mias de mi :D
 
+import FuncionesDelLenguaje.Parar;
+import FuncionesDelLenguaje.Continuar;
 import FuncionesDelLenguaje.While;
 import FuncionesDelLenguaje.Do_while;
 import FuncionesDelLenguaje.If;

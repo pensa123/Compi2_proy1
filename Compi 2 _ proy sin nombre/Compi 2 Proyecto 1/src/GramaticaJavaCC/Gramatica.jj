@@ -11,6 +11,9 @@ package GramaticaJavaCC;
 import java.util.ArrayList;
 //clases mias de mi :D
 
+import FuncionesDelLenguaje.Parar;
+import FuncionesDelLenguaje.Continuar;
+
 import FuncionesDelLenguaje.While;
 import FuncionesDelLenguaje.Do_while;
 
@@ -71,11 +74,13 @@ TOKEN : {
     | <FALSE: "false">
     | <IMPRIMIR: "print">
     | <MIENTRAS: "while">
+    | <FOR: "for">
     | <DO: "do">
     | <FUNCION: "Funcion">
     | <RETORNO: "Return">
     | <BREAK: "Break">
 | <CONTINUE: "continue">
+    | <IN: "in">
     | <SI: "if">
     | <SINO: "else">
     | <PCOMA: ";">
@@ -164,6 +169,10 @@ Nodo  InstruccionGlobal() :
   }
   {
     (
+      <CONTINUE> { n = new Continuar( token.beginLine, token.beginColumn );} (<PCOMA>)?
+      |
+      <BREAK>    { n = new Parar( token.beginLine, token.beginColumn ); }  (<PCOMA>)?
+      |
       n = ciclos_if()
       |
       n = Imprimir() 
@@ -183,10 +192,23 @@ Nodo  InstruccionGlobal() :
      n = While()
      |
      n = do_while()
+     |
+     n = foreach()
     )
     {
       return n;
     }
+  }
+
+
+  Nodo foreach():
+  {
+    Nodo n; 
+  }
+  {
+    <FOR> <PARENI> <IDENTIFICADOR> <IN> Expresion() <PAREND> <LLAVEI>
+        instrucciones_cuerpos()
+    <LLAVED>
   }
 
   Nodo While():

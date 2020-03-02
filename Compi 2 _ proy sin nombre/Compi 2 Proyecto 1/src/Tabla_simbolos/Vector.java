@@ -33,9 +33,20 @@ public class Vector extends Estructura {
         n -= 1;
         if (arr.size() > n && n >= 0) {
             return arr.get(n);
-        } 
-        System.out.println((n+1) + " indice fuera del rango.");
+        }
+        System.out.println((n + 1) + " indice fuera del rango.");
         return null;
+    }
+
+    @Override
+    public Estructura copear() {
+        Vector v2 = new Vector(tp);
+        int a = 0;
+        for (Simbolo_prim s : arr) {
+            Simbolo_prim s1 = new Simbolo_prim(s.tp, s.valor);
+            v2.update(a++, s1);
+        }
+        return v2;
     }
 
     @Override
@@ -49,7 +60,6 @@ public class Vector extends Estructura {
     }
 
     public void update(int n, Simbolo_prim sp) {
-
         if (n == -1) {
             for (int a = 0; a < arr.size(); a++) {
                 Simbolo_prim sn = new Simbolo_prim(sp.tp);

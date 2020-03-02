@@ -11,6 +11,9 @@ package GramaticaJavaCC;
 import java.util.ArrayList;
 //clases mias de mi :D
 
+import FuncionesDelLenguaje.Parar;
+import FuncionesDelLenguaje.Continuar;
+
 import FuncionesDelLenguaje.While;
 import FuncionesDelLenguaje.Do_while;
 
@@ -164,6 +167,10 @@ Nodo  InstruccionGlobal() :
   }
   {
     (
+      <CONTINUE> { n = new Continuar( token.beginLine, token.beginColumn );} (<PCOMA>)?
+      |
+      <BREAK>    { n = new Parar( token.beginLine, token.beginColumn ); }  (<PCOMA>)?
+      |
       n = ciclos_if()
       |
       n = Imprimir() 

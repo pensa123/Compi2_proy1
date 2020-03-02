@@ -12,6 +12,7 @@ import ClasesAuxiliares.contenedorEnum.Tipos;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
+import Tabla_simbolos.Vector;
 
 /**
  *
@@ -41,18 +42,42 @@ public class OperadorUnario extends Nodo {
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
 
-        Simbolo_prim sp = (Simbolo_prim) hijos.get(0).ejecutar(ts, aux);
+        Object o1 = hijos.get(0).ejecutar(ts, aux);
+
+        if (o1 instanceof Simbolo_prim) {
+            return ejec_sp((Simbolo_prim) o1, aux);
+        } else if (o1 instanceof Vector) {
+            return ejec_vc((Vector) o1, aux);
+        }
+        //TODO falta hacer el de la matriz :D
+
+        return null;
+    }
+
+    public Vector ejec_vc(Vector v1, Auxiliar aux) {
+
+        Vector v2 = new Vector(v1.tp);
+        int a = 0; 
+        for (Simbolo_prim s : v1.arr) {
+            v2.update(a++, ejec_sp(s, aux));
+        }
+
+        return v2;
+    }
+
+    public Simbolo_prim ejec_sp(Simbolo_prim sp, Auxiliar aux) {
+        sp = aux.copiar_sp(sp);
         if (o == Op.neg) {
             if (sp.tp == Tipos.entero || sp.tp == Tipos.numerico) {
                 sp.valor = -1 * (Double.parseDouble(sp.valor + ""));
             } else {
-                System.out.println("TODO marcar un error de tipos aqui");
+                aux.error("Error de tipos, se esperaba un numerico ", fila, columna);
             }
         } else {
             if (sp.tp == Tipos.booleano) {
                 sp.valor = !(boolean) sp.valor;
             } else {
-                System.out.println("marcar un error de tipos aqui");
+                aux.error("Error de tipos, se esperaba un booleano ", fila, columna);
             }
         }
 

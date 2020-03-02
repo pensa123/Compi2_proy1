@@ -60,19 +60,14 @@ public class Compi2Proyecto1 {
     }
 
     public static void probando(Inicio ini) {
-        ini.nueva_pestana("x[5] = true\n"
-                + "x[1] = 1 \n"
-                + "print(\"-----------------\");\n"
-                + "print(x)\n"
-                + "print(\"-----------------\");");
+        ini.nueva_pestana("x[5] = 5\n"
+                + "x[2][1][1][1] =  true\n"
+                + "print(x)\n");
 
         ini.nueva_pestana("x[5] = 8; \n"
-                + "print(\"-----------------\");\n"
-                + "print(x[5])\n"
-                + "print(\"-----------------\");");
-
-        ini.nueva_pestana("x[5] = 8; \n"
-                + "print(x + 2)");
+                + "x = x+2; \n"
+                + "print(x);\n"
+                + "print(x+x);");
 
         ini.nueva_pestana("x = 2; \n"
                 + "if(x > 0){\n"
@@ -93,17 +88,37 @@ public class Compi2Proyecto1 {
                 + "print(y);");
 
         ini.nueva_pestana("x = 0;\n"
+                + "if(x== 0){\n"
+                + "	print(\"funciona el if\");\n"
+                + "}\n"
                 + "while(x < 10){\n"
                 + "	print(\"va por \" + x);\n"
                 + "	x = x+1; \n"
+                + "	if(x == 5){\n"
+                + "		continue;\n"
+                + "		print(\"no deberia de llegar aqui\");\n"
+                + "	}\n"
                 + "}\n"
                 + "print(\"funciona el while\");\n"
                 + "\n"
                 + "do{\n"
                 + "	print(\"va por \" + x);\n"
-                + "	x = x-1; \n"
+                + "	x = x-1;\n"
+                + "	if(x == 6){\n"
+                + "		break;\n"
+                + "		print(\"tampoco deberia de imprimir esto\");	\n"
+                + "	} \n"
                 + "}while(x >= 0)\n"
                 + "print(\"funciona el do while\");");
+
+        ini.nueva_pestana("print(\"unarios\"); \n"
+                + "x[5] = true; \n"
+                + "y = !x; \n"
+                + "print(x);\n"
+                + "print(y);\n"
+                + "print(\"ternarios\");\n"
+                + "\n"
+                + "z = x || y ? \"abc\" : \"def\"; ");
 
     }
 
@@ -266,7 +281,7 @@ public class Compi2Proyecto1 {
 
     void ejecutarJavacc(ArrayList<Nodo> arr) {
         Tabla_Sim ts = new Tabla_Sim();
-        Auxiliar aux = new Auxiliar(new TextArea(), new TextArea());
+        Auxiliar aux = new Auxiliar(new TextArea(), new TextArea(), ts);
         for (Nodo n : arr) {
             n.ejecutar(ts, aux);
         }

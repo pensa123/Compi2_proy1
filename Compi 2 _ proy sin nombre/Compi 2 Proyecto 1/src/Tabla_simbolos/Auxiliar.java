@@ -21,13 +21,12 @@ public class Auxiliar {
     public String st = "";
     public String error = "";
     public ArrayList<Error> arrErr = new ArrayList<>();
+    public Tabla_Sim global;
 
-    public boolean haybreak = false, haycontinue = false, hayreturn = false;
-    public Object ret;
-
-    public Auxiliar(TextArea txt1, TextArea txt2) {
+    public Auxiliar(TextArea txt1, TextArea txt2, Tabla_Sim ts) {
         tx = txt1;
         txterr = txt2;
+        global = ts;
     }
 
     public void agregar(String ss) {
@@ -54,4 +53,7 @@ public class Auxiliar {
         return null;
     }
 
+    public Simbolo_prim copiar_sp(Simbolo_prim sp) {
+        return new Simbolo_prim(sp.tp, sp.valor);
+    }
 }

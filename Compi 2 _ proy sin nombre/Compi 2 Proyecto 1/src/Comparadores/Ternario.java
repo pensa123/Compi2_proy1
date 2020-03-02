@@ -25,13 +25,12 @@ public class Ternario extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-
-        Simbolo_prim s = (Simbolo_prim) hijos.get(0).ejecutar(ts, aux);
-        if (s.tp != Tipos.booleano) {
-            //TODO falta lo que dice abajo jejejeje
-            System.out.println("reportar un error y devolver nulo :D");
+        Nodo n = hijos.get(0);
+        Object o1 = n.ejecutar(ts, aux), o2 = aux.ayuda_bool(o1);
+        if (!(o2 instanceof Boolean)) {
+            aux.error("Se esperaba un valor booleano", n.fila, n.columna);
         }
-        return (boolean) s.valor ? hijos.get(1).ejecutar(ts, aux) : hijos.get(2).ejecutar(ts, aux);
+        return (boolean) o2 ? hijos.get(1).ejecutar(ts, aux) : hijos.get(2).ejecutar(ts, aux);
 
     }
 

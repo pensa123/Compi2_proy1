@@ -7,9 +7,7 @@ package FuncionesDelLenguaje;
 
 import ClasesAuxiliares.Nodo;
 import Tabla_simbolos.Auxiliar;
-import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
-import Tabla_simbolos.Vector;
 import java.util.ArrayList;
 
 /**
@@ -36,11 +34,14 @@ public class If extends Nodo {
         }
 
         if ((boolean) o2) {
-            hijos.get(1).ejecutar(ts, aux);
+            n = hijos.get(1);
         } else if (hijos.size() == 3) {
-            hijos.get(2).ejecutar(ts, aux);
+            n = hijos.get(2);
+        } else {
+            return null;
         }
-
+        Tabla_Sim ts2 = new Tabla_Sim(ts);
+        n.ejecutar(ts2, aux);
         return null;
     }
 

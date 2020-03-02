@@ -475,7 +475,7 @@ public class Inicio extends javax.swing.JFrame {
 
     void ejecutarJavacc(ArrayList<Nodo> arr) {
         Tabla_Sim ts = new Tabla_Sim();
-        Auxiliar aux = new Auxiliar(txtConsola, txtError);
+        Auxiliar aux = new Auxiliar(txtConsola, txtError, ts);
 
         for (Nodo n : arr) {
             n.ejecutar(ts, aux);

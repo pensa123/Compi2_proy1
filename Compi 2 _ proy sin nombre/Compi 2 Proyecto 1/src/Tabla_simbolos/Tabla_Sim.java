@@ -19,6 +19,11 @@ public class Tabla_Sim {
     public Tabla_Sim padre;
     public ArrayList<Tabla_Sim> hijos = new ArrayList<Tabla_Sim>();
 
+    public boolean esciclo = false, esfuncion = false;
+
+    public boolean haybreak = false, haycontinue = false, hayreturn = false;
+    public Object ret;
+
     public Tabla_Sim() {
 
     }
@@ -28,10 +33,38 @@ public class Tabla_Sim {
         padre.hijos.add(this);
     }
 
+    public void setcontinues() {
+        this.haycontinue = true;
+        if (!esciclo) {
+            padre.setcontinues();;
+        }
+    }
+
+    public void setbreaks() {
+        this.haybreak = true;
+        if (!esciclo) {
+            padre.setbreaks();
+        }
+    }
+
+    public boolean seencontroContinue() {
+        if (esciclo) {
+            return true;
+        }
+        return padre == null ? false : padre.seencontroContinue();
+    }
+
+    public boolean seencontroBreak() {
+        if (esciclo) {
+            return true;
+        }
+        return padre == null ? false : padre.seencontroBreak();
+    }
+
     //TODO falta agregar las demas asignaciones a variable pero estas se haran cuando se tenga la funcion c o array o list o alguna de esas jejej salu3
     public void agregar_var(String id, Object o) {
         if (o instanceof Estructura) {
-            agregar_var(id, (Estructura) o);
+            agregar_var(id, ((Estructura) o).copear());
         } else if (o instanceof Simbolo_prim) {
             agregar_var(id, (Simbolo_prim) o);
         }
