@@ -27,6 +27,7 @@ public class AccesoMatriz extends Nodo {
         forma = 1;
     }
 
+    @Override
     public void dibujar(Dibujador d, String padre) {
 
         String st = forma == 1 ? "[E,E]" : forma == 2 ? "E," : ",E";

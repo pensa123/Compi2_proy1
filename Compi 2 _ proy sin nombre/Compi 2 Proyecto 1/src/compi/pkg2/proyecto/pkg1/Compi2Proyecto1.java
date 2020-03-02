@@ -132,6 +132,14 @@ public class Compi2Proyecto1 {
                 + "	print(i);\n"
                 + "}");
 
+        ini.nueva_pestana("f = function(){\n"
+                + "	print(\"hola\");\n"
+                + "	}\n"
+                + "f();");
+        
+        ini.nueva_pestana("f = function(a = 2){\n" +
+"	print(\"hola\");\n" +
+"	}");
     }
 
     public Compi2Proyecto1() {

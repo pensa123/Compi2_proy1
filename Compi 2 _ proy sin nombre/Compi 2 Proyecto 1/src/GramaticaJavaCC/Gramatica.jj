@@ -19,9 +19,10 @@ import FuncionesDelLenguaje.While;
 import FuncionesDelLenguaje.Do_while;
 
 import FuncionesDelLenguaje.If;
-import FuncionesDelLenguaje.Else;
 
+import objetos.Llamada_metodo;
 import objetos.Instrucciones_cuerpo;
+import objetos.Asignacion_funcion;
 
 import ClasesAuxiliares.contenedorEnum.Tipos;
 
@@ -62,22 +63,20 @@ SKIP : {
     | "\t"
     | "\r"
     | "\n"
-    | <"//" (~["\n", "\r"])*>
-    | <"/*" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/">
+    | <"#" (~["\n", "\r"])*>
+    | <"#*" (~["*"])* "*" ("*" | ~["*","#"] (~["*"])* "*")* "#">
 }
 
 TOKEN : {
       <NUMERO: (["0"-"9"])+>
     | <DECIMAL: (["0"-"9"])+"."(["0"-"9"])+>
-    | <ENTERO: "Numero">
-    | <CADENA: "Cadena">
     | <TRUE: "true">
     | <FALSE: "false">
     | <IMPRIMIR: "print">
     | <MIENTRAS: "while">
     | <FOR: "for">
     | <DO: "do">
-    | <FUNCION: "Funcion">
+    | <FUNCION: "function">
     | <RETORNO: "Return">
     | <BREAK: "Break">
 | <CONTINUE: "continue">
@@ -105,8 +104,8 @@ TOKEN : {
     | <IGUALACION: "==">
     | <DIFERENCIACION: "!=">
     | <COMA: ",">
-    | <AND: "&&">
-    | <OR: "||">
+    | <AND: "&">
+    | <OR: "|">
     | <NOT: "!" >
     | <IDENTIFICADOR: (["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z",".", "_"] | ["0"-"9"] )*
                       | 
@@ -180,6 +179,49 @@ Nodo  InstruccionGlobal() :
       |
       n = Asignacion_llamadaMetodo()
     )  {return n;   }
+  }
+
+  ArrayList<Nodo> lista_param_dec_func() : 
+  {
+    ArrayList<Nodo> arr = new ArrayList<Nodo>();
+    Nodo n = null , n1; Token t; 
+  }
+  {
+    ( t = <IDENTIFICADOR> (<IGUAL> n =  Expresion())? { arr.add(new Iden(t.beginLine , t.beginColumn , t.image , n)); n = null; }   
+    (<COMA> t =  <IDENTIFICADOR> (<IGUAL> n = Expresion() )? { arr.add(new Iden(t.beginLine , t.beginColumn , t.image , n)); n = null; }  )* )?
+    { return arr; }
+  }
+
+  Nodo Asignacion_llamadaMetodo() : 
+  {
+    Nodo n1 , n2; Token t, t2; ArrayList<Nodo> arr;  
+  }
+  {
+    (
+      t2 = <IDENTIFICADOR> { n1 = new Iden(t2.beginLine, t2.beginColumn , t2.image);  }
+      (
+        //Asignacion    a = 2; 
+        t=<IGUAL>  (
+            n2 = Expresion()  (<PCOMA>)?  //Fin asginacion
+            {    return new Asignacion(t.beginLine, t.beginColumn , n1 , n2); }
+            |
+              <FUNCION> <PARENI> arr = lista_param_dec_func()  <PAREND> <LLAVEI>
+                n2 =   instrucciones_cuerpos()
+              <LLAVED>
+              { arr.add(n2);  return new Asignacion_funcion(t2.beginLine , t2.beginColumn , arr , t2.image); }
+            )
+         |
+         //asignacion de a[1] = 2; 
+         <CORI> n1 = Acceso_vec_mat(n1) 
+         t=<IGUAL>  n2 = Expresion()  (<PCOMA>)?  //Fin asginacion
+         { return new Asignacion(t.beginLine, t.beginColumn , n1 , n2); }
+         //lamada a metodo
+         |
+         arr = params_metodo() (<PCOMA>)?
+         { return new Llamada_metodo(t2.beginLine , t2.beginColumn , arr , t2.image ); }
+         //fin llamada a metodo
+      ) 
+    ) 
   }
 
   Nodo ciclos_if():
@@ -268,32 +310,7 @@ Nodo  InstruccionGlobal() :
   }
 
 
-  Nodo Asignacion_llamadaMetodo() : 
-  {
-    Nodo n1 , n2; Token t;
-  }
-  {
-    (
-      <IDENTIFICADOR> { n1 = new Iden(token.beginLine, token.beginColumn , token.image);  }
-      (
-        //Asignacion
-         (
-          <CORI> n1 = Acceso_vec_mat(n1) 
-         )? t=<IGUAL>  n2 = Expresion()  (<PCOMA>)?  //Fin asginacion
-         {
-          return new Asignacion(t.beginLine, t.beginColumn , n1 , n2);
-         }
-         //lamada a metodo
-         |
-         params_metodo() (<PCOMA>)?
-         {
-          return null;
-         }
-         //fin llamada a metodo
-      ) 
-    )
-    
-  }
+ 
 
   Nodo  Imprimir() :
   { 
@@ -305,7 +322,7 @@ Nodo  InstruccionGlobal() :
   }
  
 
-Nodo  Expresion() :
+Nodo Expresion() :
   {
     Nodo n , n2 , n3; Token t; 
     ArrayList<Nodo> arr = new ArrayList<Nodo>();
@@ -435,7 +452,7 @@ Nodo ExpresionRelacional() :
 
   Nodo Primitivo() :
   {
-    Nodo n; Token t;
+    Nodo n; Token t; ArrayList<Nodo> arr = new ArrayList<Nodo>(); 
   }
   {
     (
@@ -449,11 +466,11 @@ Nodo ExpresionRelacional() :
       |
       <FALSE>  {n = new Primitivo( token.beginLine, token.beginColumn , Tipos.booleano , false  ); }
       |
-      <IDENTIFICADOR> { n = new Iden(token.beginLine, token.beginColumn , token.image); }
+      t = <IDENTIFICADOR> { n = new Iden(t.beginLine, t.beginColumn , t.image); }
           (
                 <CORI> n = Acceso_vec_mat(n)  
                 |
-                params_metodo()
+                arr = params_metodo()  { n = new Llamada_metodo(t.beginLine, t.beginColumn , arr, t.image);  }
           )?
       
 
@@ -466,12 +483,13 @@ Nodo ExpresionRelacional() :
   }
 
   
-  void params_metodo():
+  ArrayList<Nodo> params_metodo():
   {
-
+    ArrayList<Nodo> arr = new ArrayList<Nodo>(); Nodo n; 
   }
   {
-    <PARENI> (Expresion() ( <COMA> Expresion() )*  )?  <PAREND>
+    <PARENI> ( n = Expresion() {arr.add(n);} ( <COMA> n =  Expresion() {arr.add(n);} )*  )?  <PAREND>
+    { return arr;  }
   }
 
 

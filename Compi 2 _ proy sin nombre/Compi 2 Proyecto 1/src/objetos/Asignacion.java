@@ -23,6 +23,7 @@ public class Asignacion extends Nodo {
         super(f, c, hijoI, hijoD);
     }
 
+    @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
 
         Nodo n = hijos.get(0);

@@ -16,87 +16,83 @@ public interface GramaticaConstants {
   /** RegularExpression Id. */
   int DECIMAL = 8;
   /** RegularExpression Id. */
-  int ENTERO = 9;
+  int TRUE = 9;
   /** RegularExpression Id. */
-  int CADENA = 10;
+  int FALSE = 10;
   /** RegularExpression Id. */
-  int TRUE = 11;
+  int IMPRIMIR = 11;
   /** RegularExpression Id. */
-  int FALSE = 12;
+  int MIENTRAS = 12;
   /** RegularExpression Id. */
-  int IMPRIMIR = 13;
+  int FOR = 13;
   /** RegularExpression Id. */
-  int MIENTRAS = 14;
+  int DO = 14;
   /** RegularExpression Id. */
-  int FOR = 15;
+  int FUNCION = 15;
   /** RegularExpression Id. */
-  int DO = 16;
+  int RETORNO = 16;
   /** RegularExpression Id. */
-  int FUNCION = 17;
+  int BREAK = 17;
   /** RegularExpression Id. */
-  int RETORNO = 18;
+  int CONTINUE = 18;
   /** RegularExpression Id. */
-  int BREAK = 19;
+  int IN = 19;
   /** RegularExpression Id. */
-  int CONTINUE = 20;
+  int SI = 20;
   /** RegularExpression Id. */
-  int IN = 21;
+  int SINO = 21;
   /** RegularExpression Id. */
-  int SI = 22;
+  int PCOMA = 22;
   /** RegularExpression Id. */
-  int SINO = 23;
+  int DOSPUNTOS = 23;
   /** RegularExpression Id. */
-  int PCOMA = 24;
+  int PARENI = 24;
   /** RegularExpression Id. */
-  int DOSPUNTOS = 25;
+  int PAREND = 25;
   /** RegularExpression Id. */
-  int PARENI = 26;
+  int CORI = 26;
   /** RegularExpression Id. */
-  int PAREND = 27;
+  int CORD = 27;
   /** RegularExpression Id. */
-  int CORI = 28;
+  int LLAVEI = 28;
   /** RegularExpression Id. */
-  int CORD = 29;
+  int LLAVED = 29;
   /** RegularExpression Id. */
-  int LLAVEI = 30;
+  int MAS = 30;
   /** RegularExpression Id. */
-  int LLAVED = 31;
+  int PREG = 31;
   /** RegularExpression Id. */
-  int MAS = 32;
+  int MENOS = 32;
   /** RegularExpression Id. */
-  int PREG = 33;
+  int POR = 33;
   /** RegularExpression Id. */
-  int MENOS = 34;
+  int DIV = 34;
   /** RegularExpression Id. */
-  int POR = 35;
+  int IGUAL = 35;
   /** RegularExpression Id. */
-  int DIV = 36;
+  int MENORQUE = 36;
   /** RegularExpression Id. */
-  int IGUAL = 37;
+  int MAYORQUE = 37;
   /** RegularExpression Id. */
-  int MENORQUE = 38;
+  int MENORIGUAL = 38;
   /** RegularExpression Id. */
-  int MAYORQUE = 39;
+  int MAYORIGUAL = 39;
   /** RegularExpression Id. */
-  int MENORIGUAL = 40;
+  int IGUALACION = 40;
   /** RegularExpression Id. */
-  int MAYORIGUAL = 41;
+  int DIFERENCIACION = 41;
   /** RegularExpression Id. */
-  int IGUALACION = 42;
+  int COMA = 42;
   /** RegularExpression Id. */
-  int DIFERENCIACION = 43;
+  int AND = 43;
   /** RegularExpression Id. */
-  int COMA = 44;
+  int OR = 44;
   /** RegularExpression Id. */
-  int AND = 45;
+  int NOT = 45;
   /** RegularExpression Id. */
-  int OR = 46;
+  int IDENTIFICADOR = 46;
   /** RegularExpression Id. */
-  int NOT = 47;
-  /** RegularExpression Id. */
-  int IDENTIFICADOR = 48;
-  /** RegularExpression Id. */
-  int STRING = 51;
+  int STRING = 49;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -114,15 +110,13 @@ public interface GramaticaConstants {
     "<token of kind 6>",
     "<NUMERO>",
     "<DECIMAL>",
-    "\"Numero\"",
-    "\"Cadena\"",
     "\"true\"",
     "\"false\"",
     "\"print\"",
     "\"while\"",
     "\"for\"",
     "\"do\"",
-    "\"Funcion\"",
+    "\"function\"",
     "\"Return\"",
     "\"Break\"",
     "\"continue\"",
@@ -150,12 +144,12 @@ public interface GramaticaConstants {
     "\"==\"",
     "\"!=\"",
     "\",\"",
-    "\"&&\"",
-    "\"||\"",
+    "\"&\"",
+    "\"|\"",
     "\"!\"",
     "<IDENTIFICADOR>",
     "\"\\\"\"",
-    "<token of kind 50>",
+    "<token of kind 48>",
     "\"\\\"\"",
   };
 

@@ -43,9 +43,7 @@ public class OperadorBinario extends Nodo {
     }
 
     public boolean esnumerico(Simbolo_prim s) {
-
         return s.tp == Tipos.numerico || s.tp == Tipos.entero;
-
     }
 
     @Override
