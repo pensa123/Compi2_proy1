@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import FuncionesDelLenguaje.Parar;
 import FuncionesDelLenguaje.Continuar;
 
+import FuncionesDelLenguaje.For;
 import FuncionesDelLenguaje.While;
 import FuncionesDelLenguaje.Do_while;
 
@@ -203,12 +204,15 @@ Nodo  InstruccionGlobal() :
 
   Nodo foreach():
   {
-    Nodo n; 
+    Nodo n , n1 , n2; Token t , t1;
   }
   {
-    <FOR> <PARENI> <IDENTIFICADOR> <IN> Expresion() <PAREND> <LLAVEI>
-        instrucciones_cuerpos()
+    t1 = <FOR> <PARENI> t = <IDENTIFICADOR> <IN> n1 =  Expresion() <PAREND> <LLAVEI>
+      n2 =   instrucciones_cuerpos()
     <LLAVED>
+    {
+      return new For(t1.beginLine , t1.beginColumn , n1 , n2 , t.image);
+    }
   }
 
   Nodo While():

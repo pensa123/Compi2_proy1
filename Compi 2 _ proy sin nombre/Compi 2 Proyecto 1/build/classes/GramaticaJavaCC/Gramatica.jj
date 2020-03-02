@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import FuncionesDelLenguaje.Parar;
 import FuncionesDelLenguaje.Continuar;
 
+import FuncionesDelLenguaje.For;
 import FuncionesDelLenguaje.While;
 import FuncionesDelLenguaje.Do_while;
 
@@ -74,11 +75,13 @@ TOKEN : {
     | <FALSE: "false">
     | <IMPRIMIR: "print">
     | <MIENTRAS: "while">
+    | <FOR: "for">
     | <DO: "do">
     | <FUNCION: "Funcion">
     | <RETORNO: "Return">
     | <BREAK: "Break">
 | <CONTINUE: "continue">
+    | <IN: "in">
     | <SI: "if">
     | <SINO: "else">
     | <PCOMA: ";">
@@ -190,9 +193,25 @@ Nodo  InstruccionGlobal() :
      n = While()
      |
      n = do_while()
+     |
+     n = foreach()
     )
     {
       return n;
+    }
+  }
+
+
+  Nodo foreach():
+  {
+    Nodo n , n1 , n2; Token t , t1;
+  }
+  {
+    t1 = <FOR> <PARENI> t = <IDENTIFICADOR> <IN> n1 =  Expresion() <PAREND> <LLAVEI>
+      n2 =   instrucciones_cuerpos()
+    <LLAVED>
+    {
+      return new For(t1.beginLine , t1.beginColumn , n1 , n2 , t.image);
     }
   }
 

@@ -120,6 +120,18 @@ public class Compi2Proyecto1 {
                 + "\n"
                 + "z = x || y ? \"abc\" : \"def\"; ");
 
+        ini.nueva_pestana("x[5] = true; \n"
+                + "x = !x; \n"
+                + "x[1] = 8; \n"
+                + "x[3] = 2; \n"
+                + "print(x);\n"
+                + "for(i in x){\n"
+                + "	if(i == 2){\n"
+                + "		break	\n"
+                + "	}\n"
+                + "	print(i);\n"
+                + "}");
+
     }
 
     public Compi2Proyecto1() {
