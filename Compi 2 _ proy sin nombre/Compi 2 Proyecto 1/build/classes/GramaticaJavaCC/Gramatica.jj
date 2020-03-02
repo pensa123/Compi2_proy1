@@ -72,7 +72,7 @@ TOKEN : {
     | <DECIMAL: (["0"-"9"])+"."(["0"-"9"])+>
     | <TRUE: "true">
     | <FALSE: "false">
-    | <IMPRIMIR: "print">
+    //| <IMPRIMIR: "print">
     | <MIENTRAS: "while">
     | <FOR: "for">
     | <DO: "do">
@@ -174,8 +174,8 @@ Nodo  InstruccionGlobal() :
       <BREAK>    { n = new Parar( token.beginLine, token.beginColumn ); }  (<PCOMA>)?
       |
       n = ciclos_if()
-      |
-      n = Imprimir() 
+      /*|
+      n = Imprimir()*/ 
       |
       n = Asignacion_llamadaMetodo()
     )  {return n;   }
@@ -312,14 +312,14 @@ Nodo  InstruccionGlobal() :
 
  
 
-  Nodo  Imprimir() :
+/*  Nodo  Imprimir() :
   { 
     Nodo n; 
   }
   {
       <IMPRIMIR> <PARENI> n = Expresion() <PAREND> (<PCOMA>)? {return new Print(token.beginLine, token.beginColumn , n); }
       
-  }
+  }*/
  
 
 Nodo Expresion() :

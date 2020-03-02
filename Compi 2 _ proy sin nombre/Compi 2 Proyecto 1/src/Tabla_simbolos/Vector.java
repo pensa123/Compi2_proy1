@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 public class Vector extends Estructura {
 
+    boolean tienetipo = false;
     public Tipos tp;
     public ArrayList<Simbolo_prim> arr = new ArrayList<Simbolo_prim>();
     public int tamanio = 0;
@@ -23,6 +24,7 @@ public class Vector extends Estructura {
 
     public Vector(Tipos t) {
         tp = t;
+        tienetipo = true;
     }
 
     public Simbolo_prim obtener() {
@@ -59,7 +61,14 @@ public class Vector extends Estructura {
         return st;
     }
 
+    public void agregar(Simbolo_prim sp) {
+        update(arr.size(), sp);
+    }
+
     public void update(int n, Simbolo_prim sp) {
+        if (!tienetipo) {
+            this.tp = sp.tp;
+        }
         if (n == -1) {
             for (int a = 0; a < arr.size(); a++) {
                 Simbolo_prim sn = new Simbolo_prim(sp.tp);
@@ -79,8 +88,10 @@ public class Vector extends Estructura {
             arr.add(sp);
             int a = 2;
         }
-
         tamanio = arr.size();
+        if (tp != sp.tp) {
+            casteo(sp.tp);
+        }
     }
 
     @Override

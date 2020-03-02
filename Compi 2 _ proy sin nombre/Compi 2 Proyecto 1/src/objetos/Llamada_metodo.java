@@ -9,17 +9,24 @@ import ClasesAuxiliares.Dibujador;
 import ClasesAuxiliares.Nodo;
 import java.util.ArrayList;
 
+import FuncionesDelLenguaje.Funciones_nativas;
+import Tabla_simbolos.Auxiliar;
+import Tabla_simbolos.Tabla_Sim;
+
 /**
  *
  * @author ferna
  */
 public class Llamada_metodo extends Nodo {
-
     String nombre = "";
+    Funciones_nativas f = new Funciones_nativas();
+    ArrayList<String> nats = new ArrayList<>();
 
     public Llamada_metodo(int f, int c, ArrayList<Nodo> hj, String s) {
         super(f, c, hj);
         nombre = s;
+        nats.add("print");
+        nats.add("c");
     }
 
     @Override
@@ -29,4 +36,16 @@ public class Llamada_metodo extends Nodo {
         dibHijos(d);
     }
 
+    @Override
+    public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
+        int auxn = nats.indexOf(nombre.toLowerCase());
+
+        if (auxn != -1) {
+            return f.selFunc(ts, aux, hijos, nombre);
+        }
+        
+        
+
+        return null;
+    }
 }

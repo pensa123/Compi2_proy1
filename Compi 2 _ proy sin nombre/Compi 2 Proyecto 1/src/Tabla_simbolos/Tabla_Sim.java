@@ -71,19 +71,19 @@ public class Tabla_Sim {
     }
 
     public boolean try_agregar_var(String id, Estructura e) {
-        if (hvar.containsKey(id)) {
-            hvar.put(id, e);
+        if (hvar.containsKey(id.toLowerCase())) {
+            hvar.put(id.toLowerCase(), e);
         }
         return padre == null ? false : padre.try_agregar_var(id, e);
     }
 
     //TODO falta ver lo de los ambitos. 
     public void agregar_var(String id, Estructura e) {
-        if (hvar.containsKey(id)) {
-            hvar.put(id, e);
+        if (hvar.containsKey(id.toLowerCase())) {
+            hvar.put(id.toLowerCase(), e);
         }
         if (padre == null || !padre.try_agregar_var(id, e)) {
-            hvar.put(id, e);
+            hvar.put(id.toLowerCase(), e);
         }
     }
 
@@ -95,23 +95,20 @@ public class Tabla_Sim {
 
     public void agregar_var(String id, Simbolo_prim sp, int n) {
         n -= 1;
-        Estructura e = hvar.get(id);
+        Estructura e = hvar.get(id.toLowerCase());
         if (e == null) {
             Vector v = new Vector(sp.tp);
             v.update(n, sp);
-            hvar.put(id, v);
+            hvar.put(id.toLowerCase(), v);
             // System.out.println("esta vacia jeje");
         } else if (e.getClass().getSimpleName().equals("Vector")) {
             Vector v = (Vector) e;
             v.update(n, sp);
-            if (v.tp != sp.tp) {
-                v.casteo(sp.tp);
-            }
         }
     }
 
     public Estructura obtener_var(String id) {
-        Estructura e = hvar.get(id);
+        Estructura e = hvar.get(id.toLowerCase());
         if (e == null && padre == null) {
             return null;
         }
