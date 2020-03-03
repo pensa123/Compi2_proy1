@@ -143,8 +143,15 @@ public class Compi2Proyecto1 {
                 + "	}\n"
                 + "saludo();");
 
-        ini.nueva_pestana("x = c(1,2,3);\n"
-                + "print(x);");
+        ini.nueva_pestana("x = c(1,2,3,4,5);\n"
+                + "print(x);\n"
+                + "mat = matrix(x, 5 , 4);\n"
+                + "print(mat);\n"
+                + "print(mat[1]);\n"
+                + "print(mat[1,1]);\n"
+                + "print(mat[1,]);\n"
+                + "print(mat[,1]);");
+
     }
 
     public Compi2Proyecto1() {

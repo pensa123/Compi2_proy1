@@ -18,8 +18,9 @@ import Tabla_simbolos.Tabla_Sim;
  * @author ferna
  */
 public class Llamada_metodo extends Nodo {
+
     String nombre = "";
-    Funciones_nativas f = new Funciones_nativas();
+    Funciones_nativas f;
     ArrayList<String> nats = new ArrayList<>();
 
     public Llamada_metodo(int f, int c, ArrayList<Nodo> hj, String s) {
@@ -27,6 +28,8 @@ public class Llamada_metodo extends Nodo {
         nombre = s;
         nats.add("print");
         nats.add("c");
+        nats.add("matrix");
+        this.f = new Funciones_nativas(f, c);
     }
 
     @Override
@@ -43,8 +46,6 @@ public class Llamada_metodo extends Nodo {
         if (auxn != -1) {
             return f.selFunc(ts, aux, hijos, nombre);
         }
-        
-        
 
         return null;
     }

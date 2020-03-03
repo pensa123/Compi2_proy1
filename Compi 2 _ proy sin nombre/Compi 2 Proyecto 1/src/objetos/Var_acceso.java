@@ -10,6 +10,7 @@ import ClasesAuxiliares.contenedorEnum;
 import ClasesAuxiliares.contenedorEnum.Tipos;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
+import Tabla_simbolos.Matriz;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
 import Tabla_simbolos.Vector;
@@ -57,7 +58,18 @@ public class Var_acceso extends Nodo {
         }
 
         if (this.acceso_matriz) {
+            System.out.println("falta acceso a matriz");
 
+            AccesoMatriz am = (AccesoMatriz) hijos.get(2);
+            //1 = e,e  2 = e,   3 = ,e 
+            
+            if (am.forma == 1) {
+            } else if (am.forma == 2) {
+
+            } else if (am.forma == 3) {
+
+            }
+            return null;
         } else {
             for (int a = 1; a < hijos.size(); a++) {
                 Acceso ac = (Acceso) hijos.get(a);
@@ -80,12 +92,11 @@ public class Var_acceso extends Nodo {
                 }
             }
         }
-
-        if (est instanceof Vector) {
-            if (this.n2enadelanteSon1 ) {
+        if (this.n2enadelanteSon1) {
+            if (est instanceof Vector) {
                 return ((Vector) est).obtener(arrint.get(0));
-            } else {
-
+            } else if (est instanceof Matriz) {
+                return ((Matriz) est).obtener(arrint.get(0));
             }
         }
         return null;

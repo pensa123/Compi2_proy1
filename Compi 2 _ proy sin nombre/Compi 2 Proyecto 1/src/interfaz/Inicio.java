@@ -477,6 +477,8 @@ public class Inicio extends javax.swing.JFrame {
         Tabla_Sim ts = new Tabla_Sim();
         Auxiliar aux = new Auxiliar(txtConsola, txtError, ts);
 
+        txtConsola.setText("");
+        txtError.setText("");
         for (Nodo n : arr) {
             n.ejecutar(ts, aux);
         }

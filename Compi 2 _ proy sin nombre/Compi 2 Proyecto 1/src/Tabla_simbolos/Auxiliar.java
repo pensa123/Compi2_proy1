@@ -35,11 +35,12 @@ public class Auxiliar {
         System.out.println(ss);
     }
 
-    public void error(String st, int fila, int columna) {
+    public Object error(String st, int fila, int columna) {
         arrErr.add(new Error(fila, columna, st));
-        error += "F " + fila + " c " + columna + " " + st;
+        error += "F " + fila + " c " + columna + " " + st +"\n";
         txterr.setText(error);
         System.out.println("Error: " + st);
+        return null;
     }
 
     public Object ayuda_bool(Object o1) {
