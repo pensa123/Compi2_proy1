@@ -148,9 +148,7 @@ public class Compi2Proyecto1 {
                 + "mat = matrix(x, 5 , 4);\n"
                 + "print(mat);\n"
                 + "print(mat[1]);\n"
-                + "print(mat[1,1]);\n"
-                + "print(mat[1,]);\n"
-                + "print(mat[,1]);");
+                + "print(mat[1,1]);");
 
     }
 
