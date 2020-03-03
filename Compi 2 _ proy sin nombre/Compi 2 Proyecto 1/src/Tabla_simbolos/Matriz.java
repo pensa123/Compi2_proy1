@@ -28,6 +28,12 @@ public class Matriz extends Estructura {
         return m2;
     }
 
+    public Simbolo_prim obtener(int i, int j) {
+        i -= 1;
+        j -= 1;
+        return obtener(this.mapeoLexicoGrafico(i, j) + 1);
+    }
+
     public Simbolo_prim obtener(int n) {
         n -= 1;
         if (arr.size() > n && n >= 0) {

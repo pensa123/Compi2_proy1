@@ -42,16 +42,6 @@ public class Funciones_nativas {
         return null;
     }
 
-    public boolean esEntero(Simbolo_prim sp) {
-        if (sp.tp == Tipos.entero) {
-            return true;
-        }
-        if (sp.tp == Tipos.numerico) {
-            return (Double.parseDouble(sp.valor + "") == (int) Double.parseDouble(sp.valor + ""));
-        }
-        return false;
-    }
-
     public Simbolo_prim esSim(Object o) {
         if (o instanceof Simbolo_prim) {
             return (Simbolo_prim) o;
@@ -88,7 +78,7 @@ public class Funciones_nativas {
         if (s1 == null || s2 == null) {
             return aux.error("row y column de funcion matrix deben de ser enteros. ", fila, columna);
         }
-        if (this.esEntero(s1) && this.esEntero(s2)) {
+        if (aux.esEntero(s1) && aux.esEntero(s2)) {
             Matriz m = new Matriz();
             m.set(v.arr, (int) Double.parseDouble(s1.valor + ""), (int) Double.parseDouble(s2.valor + ""));
             return m;

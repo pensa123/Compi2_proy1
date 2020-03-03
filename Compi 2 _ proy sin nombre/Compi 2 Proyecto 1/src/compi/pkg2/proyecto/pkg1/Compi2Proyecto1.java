@@ -62,30 +62,10 @@ public class Compi2Proyecto1 {
     public static void probando(Inicio ini) {
         ini.nueva_pestana("x[5] = 5\n"
                 + "x[2][1][1][1] =  true\n"
-                + "print(x)\n");
-
-        ini.nueva_pestana("x[5] = 8; \n"
+                + "print(x)\n"
                 + "x = x+2; \n"
                 + "print(x);\n"
                 + "print(x+x);");
-
-        ini.nueva_pestana("x = 2; \n"
-                + "if(x > 0){\n"
-                + "	print(\"esto es\");\n"
-                + "	print(\"verdadero\");\n"
-                + "}else{\n"
-                + "	print(\"esto es\");\n"
-                + "	print(\"falso\");\n"
-                + "}");
-
-        ini.nueva_pestana("print(\"probando ambitos\");\n"
-                + "x = 2; \n"
-                + "if( 2== 2){\n"
-                + "	x = 3; \n"
-                + "	y = 2; \n"
-                + "}\n"
-                + "print(x); \n"
-                + "print(y);");
 
         ini.nueva_pestana("x = 0;\n"
                 + "if(x== 0){\n"
@@ -131,25 +111,13 @@ public class Compi2Proyecto1 {
                 + "	}\n"
                 + "	print(i);\n"
                 + "}");
-
-        ini.nueva_pestana("f = function(){\n"
-                + "	print(\"hola\");\n"
-                + "	}\n"
-                + "f();");
-
-        ini.nueva_pestana("print(\"prueba metodos\")\n"
-                + "saludo = function(){\n"
-                + "	print(\"hola\");\n"
-                + "	}\n"
-                + "saludo();");
-
+        
         ini.nueva_pestana("x = c(1,2,3,4,5);\n"
                 + "print(x);\n"
                 + "mat = matrix(x, 5 , 4);\n"
                 + "print(mat);\n"
                 + "print(mat[1]);\n"
                 + "print(mat[1,1]);");
-
     }
 
     public Compi2Proyecto1() {

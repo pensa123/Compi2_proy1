@@ -10,6 +10,7 @@ import ClasesAuxiliares.Nodo;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
+import Tabla_simbolos.Vector;
 
 /**
  *
@@ -34,7 +35,8 @@ public class Acceso extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-        sp = (Simbolo_prim) hijos.get(0).ejecutar(ts, aux);
+        Object o = hijos.get(0).ejecutar(ts, aux);
+        sp = aux.dev_sp(o);
         return null;
     }
 }

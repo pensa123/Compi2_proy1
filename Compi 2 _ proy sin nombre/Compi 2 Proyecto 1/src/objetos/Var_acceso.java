@@ -10,6 +10,7 @@ import ClasesAuxiliares.contenedorEnum;
 import ClasesAuxiliares.contenedorEnum.Tipos;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
+import Tabla_simbolos.Lista;
 import Tabla_simbolos.Matriz;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
@@ -58,12 +59,24 @@ public class Var_acceso extends Nodo {
         }
 
         if (this.acceso_matriz) {
-            System.out.println("falta acceso a matriz");
-
-            AccesoMatriz am = (AccesoMatriz) hijos.get(2);
+            if (!(est instanceof Matriz)) {
+                return aux.error("Para este accecso es necesaria una matriz ", fila, columna);
+            }
+            Matriz mat = (Matriz) est;
+            AccesoMatriz am = (AccesoMatriz) hijos.get(1);
             //1 = e,e  2 = e,   3 = ,e 
-            
+
+            System.out.println(am.forma);
+            Simbolo_prim s1 = aux.dev_sp(am.hijos.get(0).ejecutar(ts, aux));
             if (am.forma == 1) {
+                Simbolo_prim s2 = aux.dev_sp(am.hijos.get(1).ejecutar(ts, aux));
+                if (s1 == null || s2 == null) {
+                    return aux.error("En matriz[n,n] se esperan dos enteros", am.fila, am.columna);
+                }
+                if (!(aux.esEntero(s1) && aux.esEntero(s2))) {
+                    return aux.error("En matriz[n,n] se esperan dos enteros", am.fila, am.columna);
+                }
+                return mat.obtener((int) Double.parseDouble(s1.valor + ""), (int) Double.parseDouble(s2.valor + ""));
             } else if (am.forma == 2) {
 
             } else if (am.forma == 3) {
@@ -76,28 +89,35 @@ public class Var_acceso extends Nodo {
                 ac.ejecutar(ts, aux);
 
                 //TODO tal vez hay que quitar numerico pero ya despues miramos
-                if (ac.sp.tp == Tipos.entero || ac.sp.tp == Tipos.numerico) {
-                    int auxint = (int) Double.parseDouble(ac.sp.valor.toString());
-                    this.arrint.add(auxint);
-                    this.arrEsAccesoDoble.add(ac.accesoDoble);
-                    this.hayAccesoDoble = this.hayAccesoDoble || ac.accesoDoble;
+                if (ac.sp != null) {
+                    if (ac.sp.tp == Tipos.entero || ac.sp.tp == Tipos.numerico) {
+                        int auxint = (int) Double.parseDouble(ac.sp.valor.toString());
+                        this.arrint.add(auxint);
+                        this.arrEsAccesoDoble.add(ac.accesoDoble);
+                        this.hayAccesoDoble = this.hayAccesoDoble || ac.accesoDoble;
 
-                    if (auxint != 1 && a > 1) {
-                        System.out.println("error, valor fuera del rango :( ");
-                        this.n2enadelanteSon1 = false;
+                        if (auxint != 1 && a > 1) {
+                            this.n2enadelanteSon1 = false;
+                        }
+
+                    } else {
+                        return aux.error("Se esperaba un entero en [] ", ac.fila, ac.columna);
                     }
-
                 } else {
-                    System.out.println("reportar error :D");
+                    return aux.error("Se espera que en [] vengan vectores de una posicion o enteros", ac.fila, ac.columna);
                 }
             }
         }
-        if (this.n2enadelanteSon1) {
+        if (est instanceof Lista) {
+            //TODOS hay que agregar el if instanceof array :D
+        } else if (this.n2enadelanteSon1) {
             if (est instanceof Vector) {
                 return ((Vector) est).obtener(arrint.get(0));
             } else if (est instanceof Matriz) {
                 return ((Matriz) est).obtener(arrint.get(0));
             }
+        } else {
+            return aux.error("Valor fuera de rango. ", fila, columna);
         }
         return null;
     }

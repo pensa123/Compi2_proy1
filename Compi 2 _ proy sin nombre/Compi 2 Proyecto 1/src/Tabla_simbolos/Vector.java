@@ -28,7 +28,7 @@ public class Vector extends Estructura {
     }
 
     public Simbolo_prim obtener() {
-        return obtener(0);
+        return obtener(1);
     }
 
     public Simbolo_prim obtener(int n) {

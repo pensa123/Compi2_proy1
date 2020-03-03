@@ -37,7 +37,7 @@ public class Auxiliar {
 
     public Object error(String st, int fila, int columna) {
         arrErr.add(new Error(fila, columna, st));
-        error += "F " + fila + " c " + columna + " " + st +"\n";
+        error += "F " + fila + " c " + columna + " " + st + "\n";
         txterr.setText(error);
         System.out.println("Error: " + st);
         return null;
@@ -56,5 +56,28 @@ public class Auxiliar {
 
     public Simbolo_prim copiar_sp(Simbolo_prim sp) {
         return new Simbolo_prim(sp.tp, sp.valor);
+    }
+
+    public Simbolo_prim dev_sp(Object o) {
+        if (o == null) {
+            return null;
+        }
+        Simbolo_prim sp = null;
+        if (o instanceof Simbolo_prim) {
+            sp = (Simbolo_prim) o;
+        } else if (o instanceof Vector) {
+            sp = ((Vector) o).obtener();
+        }
+        return sp;
+    }
+
+    public boolean esEntero(Simbolo_prim sp) {
+        if (sp.tp == Tipos.entero) {
+            return true;
+        }
+        if (sp.tp == Tipos.numerico) {
+            return (Double.parseDouble(sp.valor + "") == (int) Double.parseDouble(sp.valor + ""));
+        }
+        return false;
     }
 }
