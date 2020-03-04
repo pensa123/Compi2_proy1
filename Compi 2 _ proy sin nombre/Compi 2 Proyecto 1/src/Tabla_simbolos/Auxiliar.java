@@ -70,7 +70,7 @@ public class Auxiliar {
                 sp = ((Vector) o).obtener();
             }
         }
-        return sp;
+        return this.copiar_sp(sp);
     }
 
     public boolean esEntero(Simbolo_prim sp) {

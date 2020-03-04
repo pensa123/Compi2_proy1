@@ -28,6 +28,7 @@ public class Var_acceso extends Nodo {
     public Estructura est;
     public String nest = "";
 
+    public int forma;
     public boolean n2enadelanteSon1 = true;
     public ArrayList<Integer> arrint = new ArrayList<>();
     public ArrayList<Boolean> arrEsAccesoDoble = new ArrayList<>();
@@ -67,6 +68,7 @@ public class Var_acceso extends Nodo {
             //1 = e,e  2 = e,   3 = ,e 
 
             System.out.println(am.forma);
+            this.forma = am.forma;
             Simbolo_prim s1 = aux.dev_sp(am.hijos.get(0).ejecutar(ts, aux));
             if (am.forma == 1) {
                 Simbolo_prim s2 = aux.dev_sp(am.hijos.get(1).ejecutar(ts, aux));
@@ -76,6 +78,9 @@ public class Var_acceso extends Nodo {
                 if (!(aux.esEntero(s1) && aux.esEntero(s2))) {
                     return aux.error("En matriz[n,n] se esperan dos enteros", am.fila, am.columna);
                 }
+
+                arrint.add((int) Double.parseDouble(s1.valor + ""));
+                arrint.add((int) Double.parseDouble(s2.valor + ""));
                 return mat.obtener((int) Double.parseDouble(s1.valor + ""), (int) Double.parseDouble(s2.valor + ""));
             }
             //2 = e,   3 = ,e 
@@ -86,6 +91,7 @@ public class Var_acceso extends Nodo {
             if (!(aux.esEntero(s1))) {
                 return aux.error("En matriz[" + (bol ? "e," : ",e") + "] se espera entero", am.fila, am.columna);
             }
+            arrint.add((int) Double.parseDouble(s1.valor + ""));
             return mat.obtener((int) Double.parseDouble(s1.valor + ""), bol);
         } else {
             for (int a = 1; a < hijos.size(); a++) {

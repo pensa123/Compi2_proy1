@@ -108,12 +108,6 @@ public class Vector extends Estructura {
 
     public void casteo(Tipos aCast) {
         int n = (tp.compareTo(aCast) < 0) ? parse(aCast, tp) : parse(tp, aCast);
-        /*System.out.println("ayuuuuuuuuuuuudaaaa");
-         System.out.println("cadena - cadena " +   Tipos.cadena.compareTo(Tipos.cadena) );
-         System.out.println("cadena - numerico " +   Tipos.cadena.compareTo(Tipos.numerico) );
-         System.out.println("cadena - entero " +   Tipos.cadena.compareTo(Tipos.entero) );
-         System.out.println("cadena - booleano " +   Tipos.cadena.compareTo(Tipos.booleano) );
-         System.out.println("numerico - entero" +   Tipos.numerico.compareTo(Tipos.entero) );*/
     }
 
     public int parse(Tipos pasarDe, Tipos pasarA) {

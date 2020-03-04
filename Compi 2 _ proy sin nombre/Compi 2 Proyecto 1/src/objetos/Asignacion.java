@@ -8,6 +8,7 @@ package objetos;
 import ClasesAuxiliares.Nodo;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
+import Tabla_simbolos.Matriz;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
 import Tabla_simbolos.Vector;
@@ -47,7 +48,7 @@ public class Asignacion extends Nodo {
                 ArrayList<Integer> arrInt = vacc.arrint;
                 if (e == null || e instanceof Vector) {
                     if (vacc.hayAccesoDoble) {
-                        System.out.println("error, en vectores no se acepta el acceso doble [[]]");
+                        return aux.error("en vectores no se acepta el acceso doble [[]]", fila, columna);
                     } else {
                         /* boolean todook = true;
                          if (arrInt.size() != 1) {
@@ -62,22 +63,64 @@ public class Asignacion extends Nodo {
                          }*/
 
                         if (vacc.n2enadelanteSon1) {
+                            if (e == null) {
+
+                            }
                             if (sp instanceof Vector) {
                                 if (((Vector) sp).tamanio == 1) {
                                     sp = ((Vector) sp).arr.get(0);
+                                    //no se pone return null por que se utiliza en el if de abajo. 
                                 }
                             }
                             if (sp instanceof Simbolo_prim) {
                                 if (arrInt.get(0) >= 1) {
                                     ts.agregar_var(vacc.nest, (Simbolo_prim) sp, arrInt.get(0));
+                                    return null;
                                 } else {
-                                    System.out.println("error ya que el indice de un vector debe ser >= 1");
+                                    return aux.error("a que el indice de un vector debe ser >= 1", fila, columna);
                                 }
                             }
                         }
                     }
-                }//TODO falta agregar para las demas (matriz, lista o arreglo); 
+                } else if (e instanceof Matriz) {
+                    Matriz m1 = (Matriz) e;
+                    if (vacc.acceso_matriz) {
+                        if (vacc.forma == 1) {
+                            Simbolo_prim sp1 = aux.dev_sp(sp);
+                            if (sp1 == null) {
+                                return aux.error("se esperaba un vector de una posicion o un simbolo ", fila, columna);
+                            }
+                            m1.update(vacc.arrint.get(0), vacc.arrint.get(1), sp1);
+                            return null;
+                        }
+                        boolean modo = vacc.forma == 2;
+                        if (!(sp instanceof Vector)) {
+                            return aux.error("Se esperaba un vector en la forma [" + (modo ? "e," : ",e") + "]", fila, columna);
+                        }
+                        Vector v = (Vector) sp;
+                        if ((modo ? m1.columnas : m1.filas) == v.arr.size() || v.arr.size() == 1) {
+                            m1.update(vacc.arrint.get(0), v.arr, modo, aux);
+                            
+                            System.out.println("---------------------------");
+                            System.out.println(m1.toString());
+                            System.out.println("---------------------------");
+                            
+                            return null;
+                        }
+                        return aux.error("en el modo " + (modo ? "e," : ",e") + " el tamanio del vector y las " + (modo ? "Columna" : "FIlas") + " debe coincidir.", fila, columna);
+                    }
+                    if (vacc.n2enadelanteSon1) {
+                        Simbolo_prim sp1 = aux.dev_sp(sp);
+                        if (sp1 == null) {
+                            return aux.error("se esperaba un vector de una posicion o un simbolo ", fila, columna);
+                        }
+                        m1.update(arrInt.get(0), sp1);
+                        return null;
+                    }
+                }
 
+                System.out.println("asignacion, falta vefificar " + e.getClass().getSimpleName());
+                //TODO falta agregar para las demas (matriz, lista o arreglo); 
                 break;
             default:
                 System.out.println("TODO accion en la clase \"EJECUTAR\" _  en el switch  \"" + n.getClass().getSimpleName() + "\"");

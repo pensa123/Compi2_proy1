@@ -66,13 +66,14 @@ public class Tabla_Sim {
         if (o instanceof Estructura) {
             agregar_var(id, ((Estructura) o).copear());
         } else if (o instanceof Simbolo_prim) {
-            agregar_var(id, (Simbolo_prim) o);
+            agregar_var_sp(id, (Simbolo_prim) o);
         }
     }
 
     public boolean try_agregar_var(String id, Estructura e) {
         if (hvar.containsKey(id.toLowerCase())) {
             hvar.put(id.toLowerCase(), e);
+            return true;
         }
         return padre == null ? false : padre.try_agregar_var(id, e);
     }
@@ -87,23 +88,27 @@ public class Tabla_Sim {
         }
     }
 
-    public void agregar_var(String id, Simbolo_prim sp) {
+    public void agregar_var_sp(String id, Simbolo_prim sp) {
         Vector v = new Vector();
         v.update(0, sp);
         agregar_var(id, v);
     }
 
+    public boolean try_agregar_var(String id, Simbolo_prim sp, int n) {
+        if (hvar.containsKey(id.toLowerCase())) {
+            //hvar.put(id.toLowerCase(), e);
+            Vector v = (Vector) hvar.get(id.toLowerCase());
+            v.update(n - 1, sp);
+            return true;
+        }
+        return padre == null ? false : padre.try_agregar_var(id, sp, n);
+    }
+
     public void agregar_var(String id, Simbolo_prim sp, int n) {
-        n -= 1;
-        Estructura e = hvar.get(id.toLowerCase());
-        if (e == null) {
+        if (!try_agregar_var(id, sp, n)) {
             Vector v = new Vector();
-            v.update(n, sp);
+            v.update(n - 1, sp);
             hvar.put(id.toLowerCase(), v);
-            // System.out.println("esta vacia jeje");
-        } else if (e.getClass().getSimpleName().equals("Vector")) {
-            Vector v = (Vector) e;
-            v.update(n, sp);
         }
     }
 

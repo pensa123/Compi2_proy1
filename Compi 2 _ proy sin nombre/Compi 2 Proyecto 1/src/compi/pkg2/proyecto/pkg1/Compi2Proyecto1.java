@@ -105,14 +105,23 @@ public class Compi2Proyecto1 {
                 + "}\n"
                 + "print(\"suma de mat[3,] y mat[4,]\");\n"
                 + "print(mat[3,] + mat[4,]);\n"
-                + "mat2 = matrix(c(0 , 1), 5 , 4); \n"
+                + "mat2 = matrix(c(1 , 0), 5 , 4); \n"
                 + "print(Mat2);\n"
                 + "print(mat + mat2);");
+
+        ini.nueva_pestana("mat = matrix(c(true), 3 , 2);\n"
+                + "print(mat);\n"
+                + "mat[1,1] = 2; \n"
+                + "mat[2] = 3;\n"
+                + "print(mat);\n"
+                + "mat[,1] = c(4,5,6);\n"
+                + "print(mat);\n"
+                + "mat[1,] = c(9,10);\n"
+                + "print(mat);");
 
     }
 
     public Compi2Proyecto1() {
-
         // para ver asociatividad y si esta bien la presedencia, se haran mas pruebas
         // luego.
         /*

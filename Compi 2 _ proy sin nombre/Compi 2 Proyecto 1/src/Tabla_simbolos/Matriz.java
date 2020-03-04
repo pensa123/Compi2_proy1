@@ -28,6 +28,30 @@ public class Matriz extends Estructura {
         return m2;
     }
 
+    public void update(int n, ArrayList<Simbolo_prim> arr, boolean b, Auxiliar au) {
+        int n2 = b ? columnas : filas;
+        int n1 = b ? filas : columnas;
+        if (arr.size() == 1) {
+            if (n2 != 1) {
+                for (int a = 0; a < n2; a++) {
+                    arr.add(au.copiar_sp(arr.get(0)));
+                }
+                update(n, arr, b, au);
+            }
+        }
+        n -= 1;
+        if (n1 > n && n >= 0) {
+            for (int a = 0; a < n2; a++) {
+                if (b) {
+                    this.update(n + 1, a + 1, arr.get(a));
+                } else {
+                    this.update(a + 1, n + 1, arr.get(a));
+                }
+                //v.agregar(this.obtener(n + 1, a + 1));
+            }
+        }
+    }
+
     public Vector obtener(int n, boolean fila) {
         n -= 1;
         Vector v = null;
@@ -122,6 +146,50 @@ public class Matriz extends Estructura {
         for (int a = 0; a < n - s.length(); a++) {
             s += " ";
         }
+        return s;
+    }
+
+    public void update(int i, int j, Simbolo_prim sp) {
+        update(this.mapeoLexicoGrafico(i - 1, j - 1) + 1, sp);
+
+    }
+
+    public void update(int n, Simbolo_prim sp) {
+        n -= 1;
+        if (arr.size() > n && n >= 0) {
+            arr.set(n, sp);
+            if (tp != sp.tp) {
+                casteo(sp.tp);
+            }
+        }
+
+    }
+
+    public void casteo(Tipos aCast) {
+        int n = (tp.compareTo(aCast) < 0) ? parse(aCast, tp) : parse(tp, aCast);
+    }
+
+    public int parse(Tipos pasarDe, Tipos pasarA) {
+        System.out.println("pasar De " + pasarDe + "    a   " + pasarA);
+        for (int a = 0; a < arr.size(); a++) {
+            arr.set(a, parseando_ando(arr.get(a), pasarDe, pasarA));
+        }
+        return 1;
+    }
+
+    public Simbolo_prim parseando_ando(Simbolo_prim s, Tipos de, Tipos hacia) {
+        if (s.tp != de) {
+            return s;
+        }
+        System.out.println(de + "  ->  " + hacia);
+        s.tp = hacia;
+        if (hacia == Tipos.cadena) {
+            return s;
+        }
+        if (de == Tipos.booleano) {
+            s.valor = (boolean) s.valor ? 1 : 0;
+        }
+
         return s;
     }
 
