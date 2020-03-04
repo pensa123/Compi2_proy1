@@ -40,8 +40,26 @@ public class Funciones_nativas {
                 return matrix(ts, aux, hijos);
             case "typeof":
                 return typeof(ts, aux, hijos);
+            case "length":
+                return length(ts, aux, hijos);
         }
         return null;
+    }
+
+    public Object length(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+        if (hijos.size() != 1) {
+            return aux.error("Se esperaba solo un parametro en la funcion length()", fila, columna);
+        }
+        Simbolo_prim sp = null;
+        Object o = hijos.get(0).ejecutar(ts, aux);
+        if (o instanceof Simbolo_prim) {
+            sp = new Simbolo_prim(Tipos.entero, 1);
+        } else if (o instanceof Vector) {
+            sp = new Simbolo_prim(Tipos.entero, ((Vector) o).tamanio);
+        } else if (o instanceof Matriz) {
+            sp = new Simbolo_prim(Tipos.entero, ((Matriz) o).tamanio);
+        }//TODO falta agregar lista y arreglos :D
+        return sp;
     }
 
     public Object typeof(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {

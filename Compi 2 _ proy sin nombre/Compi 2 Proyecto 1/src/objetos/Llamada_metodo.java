@@ -30,6 +30,7 @@ public class Llamada_metodo extends Nodo {
         nats.add("c");
         nats.add("matrix");
         nats.add("typeof");
+        nats.add("length");
         this.f = new Funciones_nativas(f, c);
     }
 
