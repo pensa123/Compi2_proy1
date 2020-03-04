@@ -107,7 +107,10 @@ public class Compi2Proyecto1 {
                 + "print(mat[3,] + mat[4,]);\n"
                 + "mat2 = matrix(c(1 , 0), 5 , 4); \n"
                 + "print(Mat2);\n"
-                + "print(mat + mat2);");
+                + "print(mat + mat2);\n"
+                + "mat[1,] = mat2[1,];\n"
+                + "mat[,1] = mat2[,1]; \n"
+                + "print(mat);");
 
         ini.nueva_pestana("mat = matrix(c(true), 3 , 2);\n"
                 + "print(mat);\n"

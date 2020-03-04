@@ -20,9 +20,8 @@ public class Vector extends Estructura {
     public int tamanio = 0;
 
     public Vector() {
-       tienetipo = false;
+        tienetipo = false;
     }
-
 
     public Simbolo_prim obtener() {
         return obtener(1);
@@ -63,6 +62,9 @@ public class Vector extends Estructura {
     }
 
     public void update(int n, Simbolo_prim sp) {
+        if (sp == null) {
+            return;
+        }
         if (!tienetipo) {
             this.tp = sp.tp;
             tienetipo = true;
