@@ -20,12 +20,9 @@ public class Vector extends Estructura {
     public int tamanio = 0;
 
     public Vector() {
+       tienetipo = false;
     }
 
-    public Vector(Tipos t) {
-        tp = t;
-        tienetipo = true;
-    }
 
     public Simbolo_prim obtener() {
         return obtener(1);
@@ -42,7 +39,7 @@ public class Vector extends Estructura {
 
     @Override
     public Estructura copear() {
-        Vector v2 = new Vector(tp);
+        Vector v2 = new Vector();
         int a = 0;
         for (Simbolo_prim s : arr) {
             Simbolo_prim s1 = new Simbolo_prim(s.tp, s.valor);
@@ -68,6 +65,7 @@ public class Vector extends Estructura {
     public void update(int n, Simbolo_prim sp) {
         if (!tienetipo) {
             this.tp = sp.tp;
+            tienetipo = true;
         }
         if (n == -1) {
             for (int a = 0; a < arr.size(); a++) {

@@ -10,6 +10,7 @@ import ClasesAuxiliares.Nodo;
 import ClasesAuxiliares.contenedorEnum;
 import ClasesAuxiliares.contenedorEnum.Tipos;
 import Tabla_simbolos.Auxiliar;
+import Tabla_simbolos.Matriz;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
 import Tabla_simbolos.Vector;
@@ -59,8 +60,9 @@ public class OperadorBinario extends Nodo {
             return ejec_sp((Simbolo_prim) o1, o2);
         } else if (o1 instanceof Vector) {
             return ejec_vc((Vector) o1, o2);
-        } else {  /*aun falta el instanceof de matriz */
+        } else if (o1 instanceof Matriz) {  /*aun falta el instanceof de matriz */
 
+            return ejec_mt((Matriz) o1, o2);
         }
 
         System.out.println("no se ha echo operacion entre " + o1.getClass().getSimpleName() + " y " + o2.getClass().getSimpleName());
@@ -68,16 +70,51 @@ public class OperadorBinario extends Nodo {
         return "";
     }
 
+    public Object ejec_mt(Matriz m1, Object o2) {
+        if (o2 instanceof Vector) {
+            Simbolo_prim sp = au.dev_sp(o2);
+            if (sp == null) {
+                return au.error("Solo se puede operar una matriz con un vector de una posicion o otra matriz con el mismo tamanio", fila, columna);
+            }
+            o2 = sp;
+        } else if (o2 instanceof Matriz) {
+            Matriz m2 = (Matriz) o2;
+            if (m1.filas != m2.filas || m1.columnas != m2.columnas) {
+                au.error("Solo se pueden ejecutar matrices si tienen las mismas dimensiones", fila, columna);
+            }
+            Matriz m = new Matriz();
+            Vector v = new Vector();
+            for (int a = 0; a < m1.arr.size(); a++) {
+                Simbolo_prim sp1 = m1.arr.get(a), sp2 = m2.arr.get(a);
+                v.agregar(this.ejec_sp_sp(sp1, sp2));
+            }
+            m.set(v.arr, m1.filas, m1.columnas);
+            return m;
+        }
+
+        if (o2 instanceof Simbolo_prim) {
+            System.out.println("matriz -  simbolo");
+            Matriz m = new Matriz();
+            Vector v = new Vector();
+            for (Simbolo_prim s : m1.arr) {
+                v.agregar(ejec_sp_sp(s, (Simbolo_prim) o2));
+            }
+            m.set(v.arr, m1.filas, m1.columnas);
+            return m;
+        }
+        return au.error("Matriz solo se puede operar con matrices o vectores de una posicion", fila, columna);
+    }
+
     public Object ejec_vc(Vector v1, Object o2) {
         if (o2 instanceof Simbolo_prim) {
             int a = 0;
-            Vector v = new Vector(v1.tp);
+            Vector v = new Vector();
             for (Simbolo_prim s1 : v1.arr) {
                 v.update(a++, ejec_sp_sp(s1, (Simbolo_prim) (o2)));
             }
             return v;
         } else if (o2 instanceof Vector) {
-            Vector v = new Vector(v1.tp), v2 = (Vector) o2;
+            Vector v = new Vector(), v2 = (Vector) o2;
             if (v1.tamanio == 1) {
                 return ejec_sp(v1.arr.get(0), v2);
             } else if (v2.tamanio == 1) {
@@ -92,6 +129,12 @@ public class OperadorBinario extends Nodo {
             } else {
                 System.out.println("error, al operar 2 vectores tienen que ser del mismo tamaño o uno de solo una posicion");
             }
+        } else if (o2 instanceof Matriz) {
+            Simbolo_prim sp = au.dev_sp(v1);
+            if (sp == null) {
+                return au.error("Matriz solo se puede operar con un vector de una posicion o con una matriz de las mismas dimensiones ", fila, columna);
+            }
+            return this.ejec_sp(sp, o2);
         }
         System.out.println("error, vector solo se puede operar con vector o con un primitivo");
         return null;
@@ -103,16 +146,26 @@ public class OperadorBinario extends Nodo {
         } else if (o2 instanceof Vector) {
             int a = 0;
             Vector v2 = (Vector) o2;
-            Vector v = new Vector(v2.tp);
+            Vector v = new Vector();
             for (Simbolo_prim s2 : v2.arr) {
                 v.update(a++, ejec_sp_sp(s1, s2));
             }
             return v;
-        } else {  /*aun falta el instanceof de matriz */
+        } else if (o2 instanceof Matriz) {  /*aun falta el instanceof de matriz */
+
+            Matriz m2 = (Matriz) o2;
+            System.out.println("matriz -  simbolo");
+            Matriz m = new Matriz();
+            Vector v = new Vector();
+            for (Simbolo_prim s : m2.arr) {
+                v.agregar(ejec_sp_sp(s1, s));
+            }
+            m.set(v.arr, m2.filas, m2.columnas);
+            return m;
 
         }
 
-        return null;
+        return au.error("operando no valido", fila, columna);
     }
 
     public Simbolo_prim ejec_sp_sp(Simbolo_prim s1, Simbolo_prim s2) {

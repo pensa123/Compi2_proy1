@@ -56,7 +56,7 @@ public class OperadorUnario extends Nodo {
 
     public Vector ejec_vc(Vector v1, Auxiliar aux) {
 
-        Vector v2 = new Vector(v1.tp);
+        Vector v2 = new Vector();
         int a = 0; 
         for (Simbolo_prim s : v1.arr) {
             v2.update(a++, ejec_sp(s, aux));

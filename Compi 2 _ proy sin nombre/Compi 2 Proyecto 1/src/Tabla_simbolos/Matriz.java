@@ -28,6 +28,27 @@ public class Matriz extends Estructura {
         return m2;
     }
 
+    public Vector obtener(int n, boolean fila) {
+        n -= 1;
+        Vector v = null;
+        if (fila) { //e,
+            if (filas > n && n >= 0) {
+                v = new Vector();
+                for (int a = 0; a < columnas; a++) {
+                    v.agregar(this.obtener(n + 1, a + 1));
+                }
+            }
+        } else {    //,e
+            if (columnas > n && n >= 0) {
+                v = new Vector();
+                for (int a = 0; a < filas; a++) {
+                    v.agregar(this.obtener(a + 1, n + 1));
+                }
+            }
+        }
+        return v;
+    }
+
     public Simbolo_prim obtener(int i, int j) {
         i -= 1;
         j -= 1;

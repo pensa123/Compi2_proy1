@@ -69,7 +69,7 @@ public class Funciones_nativas {
             v = (Vector) o1;
         } else if (o1 instanceof Simbolo_prim) {
             Simbolo_prim sp = (Simbolo_prim) o1;
-            v = new Vector(sp.tp);
+            v = new Vector();
             v.agregar(sp);
         } else {
             return aux.error("data en la funcion matrix debe de ser un vector ", fila, columna);

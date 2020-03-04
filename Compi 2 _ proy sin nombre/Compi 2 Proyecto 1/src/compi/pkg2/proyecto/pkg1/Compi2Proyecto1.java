@@ -60,37 +60,6 @@ public class Compi2Proyecto1 {
     }
 
     public static void probando(Inicio ini) {
-        ini.nueva_pestana("x[5] = 5\n"
-                + "x[2][1][1][1] =  true\n"
-                + "print(x)\n"
-                + "x = x+2; \n"
-                + "print(x);\n"
-                + "print(x+x);");
-
-        ini.nueva_pestana("x = 0;\n"
-                + "if(x== 0){\n"
-                + "	print(\"funciona el if\");\n"
-                + "}\n"
-                + "while(x < 10){\n"
-                + "	print(\"va por \" + x);\n"
-                + "	x = x+1; \n"
-                + "	if(x == 5){\n"
-                + "		continue;\n"
-                + "		print(\"no deberia de llegar aqui\");\n"
-                + "	}\n"
-                + "}\n"
-                + "print(\"funciona el while\");\n"
-                + "\n"
-                + "do{\n"
-                + "	print(\"va por \" + x);\n"
-                + "	x = x-1;\n"
-                + "	if(x == 6){\n"
-                + "		break;\n"
-                + "		print(\"tampoco deberia de imprimir esto\");	\n"
-                + "	} \n"
-                + "}while(x >= 0)\n"
-                + "print(\"funciona el do while\");");
-
         ini.nueva_pestana("print(\"unarios\"); \n"
                 + "x[5] = true; \n"
                 + "y = !x; \n"
@@ -98,26 +67,48 @@ public class Compi2Proyecto1 {
                 + "print(y);\n"
                 + "print(\"ternarios\");\n"
                 + "\n"
-                + "z = x || y ? \"abc\" : \"def\"; ");
+                + "z = x | y ? \"abc\" : \"def\"; ");
 
-        ini.nueva_pestana("x[5] = true; \n"
-                + "x = !x; \n"
-                + "x[1] = 8; \n"
-                + "x[3] = 2; \n"
+        ini.nueva_pestana("print(\"Esto prueba el while, do while, if, for continue\");\n"
+                + "print(\"tambien matrices y vectores\"); \n"
+                + "x = 1; \n"
+                + "y = 2; \n"
+                + "while(y < 10){\n"
+                + "	x = c(x , y);\n"
+                + "	y = y + 1;\n"
+                + "}\n"
+                + "do{\n"
+                + "	x = c(x, y);\n"
+                + "	y = y + 1; \n"
+                + "}while(y <= 20);\n"
                 + "print(x);\n"
-                + "for(i in x){\n"
-                + "	if(i == 2){\n"
-                + "		break	\n"
-                + "	}\n"
-                + "	print(i);\n"
-                + "}");
-        
-        ini.nueva_pestana("x = c(1,2,3,4,5);\n"
-                + "print(x);\n"
-                + "mat = matrix(x, 5 , 4);\n"
+                + "mat = matrix(x , 5 , 4);\n"
                 + "print(mat);\n"
-                + "print(mat[1]);\n"
-                + "print(mat[1,1]);");
+                + "print(mat[14]);\n"
+                + "print(mat[4,3]);\n"
+                + "print(mat[4,]);\n"
+                + "print(mat[,3]);\n"
+                + ".x = mat[4,]; \n"
+                + "print(.x[3][1][1]);\n"
+                + "cadena = \"[\";\n"
+                + "for(i in mat){\n"
+                + "   cadena = cadena + i;\n"
+                + "   if(i == 20){\n"
+                + "   	continue;	\n"
+                + "   }\n"
+                + "   cadena = cadena + \", \";\n"
+                + "}\n"
+                + "cadena = cadena + \"]\";\n"
+                + "print(cadena[1]);\n"
+                + "for(i in .x){\n"
+                + "	print(i);	\n"
+                + "}\n"
+                + "print(\"suma de mat[3,] y mat[4,]\");\n"
+                + "print(mat[3,] + mat[4,]);\n"
+                + "mat2 = matrix(c(0 , 1), 5 , 4); \n"
+                + "print(Mat2);\n"
+                + "print(mat + mat2);");
+
     }
 
     public Compi2Proyecto1() {

@@ -88,7 +88,7 @@ public class Tabla_Sim {
     }
 
     public void agregar_var(String id, Simbolo_prim sp) {
-        Vector v = new Vector(sp.tp);
+        Vector v = new Vector();
         v.update(0, sp);
         agregar_var(id, v);
     }
@@ -97,7 +97,7 @@ public class Tabla_Sim {
         n -= 1;
         Estructura e = hvar.get(id.toLowerCase());
         if (e == null) {
-            Vector v = new Vector(sp.tp);
+            Vector v = new Vector();
             v.update(n, sp);
             hvar.put(id.toLowerCase(), v);
             // System.out.println("esta vacia jeje");

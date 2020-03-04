@@ -30,7 +30,7 @@ public class If extends Nodo {
         Object o1 = n.ejecutar(ts, aux);
         Object o2 = aux.ayuda_bool(o1);
         if (!(o2 instanceof Boolean)) {
-            aux.error("Se esperaba un valor booleano", n.fila, n.columna);
+            return aux.error("Se esperaba un valor booleano", n.fila, n.columna);
         }
 
         if ((boolean) o2) {

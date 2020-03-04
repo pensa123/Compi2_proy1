@@ -77,12 +77,16 @@ public class Var_acceso extends Nodo {
                     return aux.error("En matriz[n,n] se esperan dos enteros", am.fila, am.columna);
                 }
                 return mat.obtener((int) Double.parseDouble(s1.valor + ""), (int) Double.parseDouble(s2.valor + ""));
-            } else if (am.forma == 2) {
-
-            } else if (am.forma == 3) {
-
             }
-            return null;
+            //2 = e,   3 = ,e 
+            boolean bol = am.forma == 2;
+            if (s1 == null) {
+                return aux.error("En matriz[" + (bol ? "e," : ",e") + "] se espera entero", am.fila, am.columna);
+            }
+            if (!(aux.esEntero(s1))) {
+                return aux.error("En matriz[" + (bol ? "e," : ",e") + "] se espera entero", am.fila, am.columna);
+            }
+            return mat.obtener((int) Double.parseDouble(s1.valor + ""), bol);
         } else {
             for (int a = 1; a < hijos.size(); a++) {
                 Acceso ac = (Acceso) hijos.get(a);

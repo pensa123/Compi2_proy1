@@ -79,7 +79,7 @@ TOKEN : {
     | <FUNCION: "function">
     | <RETORNO: "Return">
     | <BREAK: "Break">
-| <CONTINUE: "continue">
+    | <CONTINUE: "continue">
     | <IN: "in">
     | <SI: "if">
     | <SINO: "else">
@@ -174,8 +174,8 @@ Nodo  InstruccionGlobal() :
       <BREAK>    { n = new Parar( token.beginLine, token.beginColumn ); }  (<PCOMA>)?
       |
       n = ciclos_if()
-      /*|
-      n = Imprimir()*/ 
+      |
+      <RETORNO> (<PARENI> Expresion() <PAREND>)? (<PCOMA>)? {n = null;}
       |
       n = Asignacion_llamadaMetodo()
     )  {return n;   }
