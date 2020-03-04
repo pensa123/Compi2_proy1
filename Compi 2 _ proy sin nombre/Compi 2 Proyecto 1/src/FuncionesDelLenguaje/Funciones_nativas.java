@@ -33,13 +33,33 @@ public class Funciones_nativas {
     public Object selFunc(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, String func) {
         switch (func.toLowerCase()) {
             case "print":
-                return Print(ts, aux, hijos.get(0));
+                return Print(ts, aux, hijos);
             case "c":
                 return c(ts, aux, hijos);
             case "matrix":
                 return matrix(ts, aux, hijos);
+            case "typeof":
+                return typeof(ts, aux, hijos);
         }
         return null;
+    }
+
+    public Object typeof(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+        if (hijos.size() != 1) {
+            return aux.error("En la funcion typeof se espera solo un parametro.", fila, columna);
+        }
+        Simbolo_prim sp = null;
+        Object o = hijos.get(0).ejecutar(ts, aux);
+        if (o instanceof Simbolo_prim) {
+            sp = new Simbolo_prim(Tipos.cadena, ((Simbolo_prim) o).tp.toString());
+        } else if (o instanceof Matriz) {
+            sp = new Simbolo_prim(Tipos.cadena, ((Matriz) o).tp.toString());
+        } else if (o instanceof Vector) {
+            sp = new Simbolo_prim(Tipos.cadena, ((Vector) o).tp.toString());
+        } else if (o instanceof Estructura) {
+            sp = new Simbolo_prim(Tipos.cadena, o.getClass().getSimpleName());
+        }
+        return sp;
     }
 
     public Simbolo_prim esSim(Object o) {
@@ -55,11 +75,9 @@ public class Funciones_nativas {
     }
 
     public Object matrix(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
-
         if (hijos.size() != 3) {
             return aux.error("En la funcion matrix(data, nrow, ncolumn) se esperan 3 parametros", fila, columna);
         }
-
         Object o1 = hijos.get(0).ejecutar(ts, aux),
                 o2 = hijos.get(1).ejecutar(ts, aux),
                 o3 = hijos.get(2).ejecutar(ts, aux);
@@ -105,6 +123,9 @@ public class Funciones_nativas {
     }
 
     public Object c(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+        if (hijos.size() == 0) {
+            return aux.error("En la funcion c se espera uno o mas parametros", fila, columna);
+        }
         ArrayList<Object> arro = new ArrayList<>();
         int tipo = 0;
         for (Nodo n : hijos) {
@@ -136,8 +157,11 @@ public class Funciones_nativas {
         return null;
     }
 
-    public Object Print(Tabla_Sim ts, Auxiliar aux, Nodo n) {
-
+    public Object Print(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> arr) {
+        if (arr.size() != 1) {
+            return aux.error("En la funcion print() se espera solo un parametro.", fila, columna);
+        }
+        Nodo n = arr.get(0);
         Object ob = n.ejecutar(ts, aux);
         if (ob == null) {
             if (n instanceof Iden) {

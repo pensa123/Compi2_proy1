@@ -94,17 +94,22 @@ public class Asignacion extends Nodo {
                             return null;
                         }
                         boolean modo = vacc.forma == 2;
+                        if (sp instanceof Simbolo_prim) {
+                            Vector v = new Vector();
+                            v.agregar((Simbolo_prim) sp);
+                            sp = v;
+                        }
                         if (!(sp instanceof Vector)) {
                             return aux.error("Se esperaba un vector en la forma [" + (modo ? "e," : ",e") + "]", fila, columna);
                         }
                         Vector v = (Vector) sp;
                         if ((modo ? m1.columnas : m1.filas) == v.arr.size() || v.arr.size() == 1) {
                             m1.update(vacc.arrint.get(0), v.arr, modo, aux);
-                            
+
                             System.out.println("---------------------------");
                             System.out.println(m1.toString());
                             System.out.println("---------------------------");
-                            
+
                             return null;
                         }
                         return aux.error("en el modo " + (modo ? "e," : ",e") + " el tamanio del vector y las " + (modo ? "Columna" : "FIlas") + " debe coincidir.", fila, columna);
@@ -118,7 +123,6 @@ public class Asignacion extends Nodo {
                         return null;
                     }
                 }
-
                 System.out.println("asignacion, falta vefificar " + e.getClass().getSimpleName());
                 //TODO falta agregar para las demas (matriz, lista o arreglo); 
                 break;
