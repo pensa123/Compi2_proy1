@@ -66,7 +66,7 @@ public class Auxiliar {
         if (o instanceof Simbolo_prim) {
             sp = (Simbolo_prim) o;
         } else if (o instanceof Vector) {
-            if (((Vector) o).tamanio == 1) {
+            if (((Vector) o).arr.size() == 1) {
                 sp = ((Vector) o).obtener();
             }
         }

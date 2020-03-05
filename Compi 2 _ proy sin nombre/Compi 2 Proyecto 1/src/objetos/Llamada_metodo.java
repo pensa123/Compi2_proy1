@@ -33,6 +33,7 @@ public class Llamada_metodo extends Nodo {
         nats.add("length");
         nats.add("nrow");
         nats.add("ncol");
+        nats.add("stringlength");
         this.f = new Funciones_nativas(f, c);
     }
 
@@ -50,6 +51,8 @@ public class Llamada_metodo extends Nodo {
         if (auxn != -1) {
             return f.selFunc(ts, aux, hijos, nombre);
         }
+
+        System.out.println(nombre.toLowerCase() + " no declarada");
 
         return null;
     }

@@ -46,8 +46,26 @@ public class Funciones_nativas {
                 return nalgo(ts, aux, hijos, true);
             case "nrow":
                 return nalgo(ts, aux, hijos, false);
+            case "stringlength":
+                return stringlength(ts, aux, hijos);
         }
         return null;
+    }
+
+    public Object stringlength(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+        if (hijos.size() != 1) {
+            return aux.error("En funcion stringlength() se esparaba solo un parametro. ", fila, columna);
+        }
+        Object o = hijos.get(0).ejecutar(ts, aux);
+        Simbolo_prim sp = aux.dev_sp(o);
+        if (sp == null) {
+            return aux.error("stringlength espera un vector de una poscion de tipo cadena. ", fila, columna);
+        }
+        if (sp.tp != Tipos.cadena) {
+            return aux.error("stringlength espera un vector de una poscion de tipo cadena. ", fila, columna);
+        }
+
+        return new Simbolo_prim(Tipos.entero, sp.valor.toString().length());
     }
 
     public Object nalgo(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, boolean ncol) {
