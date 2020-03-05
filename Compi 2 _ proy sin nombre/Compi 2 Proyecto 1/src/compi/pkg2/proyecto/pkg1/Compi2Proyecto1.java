@@ -46,6 +46,8 @@ public class Compi2Proyecto1 {
 
         mgrafico();
 
+        
+        
         /*String st = "\\n";
          st = st.replace("\\n", "\n");
          System.out.println("---"+ st + "----------");*/

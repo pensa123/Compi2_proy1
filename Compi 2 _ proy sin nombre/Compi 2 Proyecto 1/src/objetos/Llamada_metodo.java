@@ -9,7 +9,6 @@ import ClasesAuxiliares.Dibujador;
 import ClasesAuxiliares.Nodo;
 import java.util.ArrayList;
 
-import FuncionesDelLenguaje.Funciones_nativas;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Tabla_Sim;
 
@@ -20,7 +19,6 @@ import Tabla_simbolos.Tabla_Sim;
 public class Llamada_metodo extends Nodo {
 
     String nombre = "";
-    Funciones_nativas f;
     ArrayList<String> nats = new ArrayList<>();
 
     public Llamada_metodo(int f, int c, ArrayList<Nodo> hj, String s) {
@@ -34,7 +32,7 @@ public class Llamada_metodo extends Nodo {
         nats.add("nrow");
         nats.add("ncol");
         nats.add("stringlength");
-        this.f = new Funciones_nativas(f, c);
+        nats.add("remove");
     }
 
     @Override
@@ -49,7 +47,7 @@ public class Llamada_metodo extends Nodo {
         int auxn = nats.indexOf(nombre.toLowerCase());
 
         if (auxn != -1) {
-            return f.selFunc(ts, aux, hijos, nombre);
+            return aux.f.selFunc(ts, aux, hijos, nombre, fila, columna);
         }
 
         System.out.println(nombre.toLowerCase() + " no declarada");

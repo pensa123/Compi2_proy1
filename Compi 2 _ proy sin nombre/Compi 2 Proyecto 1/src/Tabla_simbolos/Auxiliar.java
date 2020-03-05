@@ -7,6 +7,7 @@ package Tabla_simbolos;
 
 import ClasesAuxiliares.contenedorEnum;
 import ClasesAuxiliares.contenedorEnum.Tipos;
+import FuncionesDelLenguaje.Funciones_nativas;
 import java.awt.TextArea;
 import java.util.ArrayList;
 
@@ -22,6 +23,8 @@ public class Auxiliar {
     public String error = "";
     public ArrayList<Error> arrErr = new ArrayList<>();
     public Tabla_Sim global;
+
+    public Funciones_nativas f = new Funciones_nativas();
 
     public Auxiliar(TextArea txt1, TextArea txt2, Tabla_Sim ts) {
         tx = txt1;

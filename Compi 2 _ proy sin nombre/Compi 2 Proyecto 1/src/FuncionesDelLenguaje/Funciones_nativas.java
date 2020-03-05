@@ -25,12 +25,9 @@ public class Funciones_nativas {
 
     int fila, columna;
 
-    public Funciones_nativas(int f, int c) {
+    public Object selFunc(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, String func, int f, int c) {
         fila = f;
         columna = c;
-    }
-
-    public Object selFunc(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, String func) {
         switch (func.toLowerCase()) {
             case "print":
                 return Print(ts, aux, hijos);
@@ -48,13 +45,32 @@ public class Funciones_nativas {
                 return nalgo(ts, aux, hijos, false);
             case "stringlength":
                 return stringlength(ts, aux, hijos);
+            case "remove":
+                return remove(ts, aux, hijos);
         }
         return null;
     }
 
+    public Object remove(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+        if (hijos.size() != 2) {
+            return aux.error("En la funcion remove se requieren dos parametros de tipo cadena ", fila, columna);
+        }
+        Object o1 = hijos.get(0).ejecutar(ts, aux), o2 = hijos.get(1).ejecutar(ts, aux);
+        Simbolo_prim sp1 = aux.dev_sp(o1), sp2 = aux.dev_sp(o2);
+        if (sp1 == null || sp2 == null) {
+            return aux.error("En la funcion remove se requieren dos parametros de tipo cadena ", fila, columna);
+        }
+        if (sp1.tp != Tipos.cadena || sp2.tp != Tipos.cadena) {
+            return aux.error("En la funcion remove se requieren dos parametros de tipo cadena ", fila, columna);
+        }
+        String s1 = sp1.valor.toString(), s2 = sp2.valor.toString();
+        System.out.println(s1.replace(s2, ""));
+        return new Simbolo_prim(Tipos.cadena, s1.replace(s2, ""));
+    }
+
     public Object stringlength(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
         if (hijos.size() != 1) {
-            return aux.error("En funcion stringlength() se esparaba solo un parametro. ", fila, columna);
+            return aux.error("En la funcion stringlength() se esparaba solo un parametro. ", fila, columna);
         }
         Object o = hijos.get(0).ejecutar(ts, aux);
         Simbolo_prim sp = aux.dev_sp(o);
