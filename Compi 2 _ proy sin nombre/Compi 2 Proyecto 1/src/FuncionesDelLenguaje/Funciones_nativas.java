@@ -42,6 +42,22 @@ public class Funciones_nativas {
                 return typeof(ts, aux, hijos);
             case "length":
                 return length(ts, aux, hijos);
+            case "ncol":
+                return nalgo(ts, aux, hijos, true);
+            case "nrow":
+                return nalgo(ts, aux, hijos, false);
+        }
+        return null;
+    }
+
+    public Object nalgo(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, boolean ncol) {
+        if (hijos.size() != 1) {
+            return aux.error("en la funcion " + (ncol ? "ncol" : "nrow") + " se esperaba solo un argumento. ", fila, columna);
+        }
+        Object o = hijos.get(0).ejecutar(ts, aux);
+        if (o instanceof Matriz) {
+            Matriz m = (Matriz) o;
+            return new Simbolo_prim(Tipos.numerico, (ncol ? m.columnas : m.filas));
         }
         return null;
     }
