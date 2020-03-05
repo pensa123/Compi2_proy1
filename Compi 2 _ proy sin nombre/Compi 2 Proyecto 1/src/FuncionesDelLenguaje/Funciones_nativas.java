@@ -44,10 +44,133 @@ public class Funciones_nativas {
             case "nrow":
                 return nalgo(ts, aux, hijos, false);
             case "stringlength":
-                return stringlength(ts, aux, hijos);
+            case "tolowercase":
+            case "touppercase":
+                return opstring(ts, aux, hijos, func.toLowerCase());
+            case "trunk":
+            case "round":
+                return opnum(ts, aux, hijos, func.toLowerCase());
             case "remove":
                 return remove(ts, aux, hijos);
+            case "mean":
+            case "median":
+            case "mode":
+                return oparr(ts, aux, hijos, func.toLowerCase());
         }
+        return null;
+    }
+
+    public Object oparr(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, String s) {
+        if (!(hijos.size() == 1 || hijos.size() == 2)) {
+            return aux.error("Se espera un parametro con un vector de numeros y un numero opcional para limitarlo.", fila, columna);
+        }
+        Object o = hijos.get(0).ejecutar(ts, aux);
+        if (!(o instanceof Vector)) {
+            return aux.error("Se espera un parametro con un vector de numeros y un numero opcional para limitarlo.", fila, columna);
+        }
+        Tipos t = ((Vector) o).tp;
+        if (t != Tipos.entero && t == Tipos.numerico) {
+            return aux.error("Se espera un parametro con un vector de numeros y un numero opcional para limitarlo.", fila, columna);
+        }
+        ArrayList<Double> elarrd = new ArrayList<>();
+        double limite = 0;
+        boolean b = hijos.size() == 2;
+        if (b) {
+            Object o2 = hijos.get(1).ejecutar(ts, aux);
+            Simbolo_prim sp2 = aux.dev_sp(o2);
+            if (!aux.esnum(sp2)) {
+                return aux.error("El segundo valor de " + s + " debe de ser un numero. ", fila, columna);
+            }
+            limite = Double.parseDouble(sp2.valor + "");
+        }
+        for (Simbolo_prim sp : ((Vector) o).arr) {
+            double daux = Double.parseDouble(sp.valor + "");
+            if (daux >= limite || !b) {
+                elarrd.add(daux);
+            }
+        }
+        return mode_median_mean(elarrd, s);
+    }
+
+    public Object mode_median_mean(ArrayList<Double> elarrd, String s) {
+        ArrayList<Double> arrd = new ArrayList<>();
+        ArrayList<Integer> arri = new ArrayList<>();
+        double arrdd[] = new double[elarrd.size()];
+        double suma = 0;
+        int n = 0;
+        for (Double auxd : elarrd) {
+            int naux = arrd.indexOf(auxd);
+            if (naux == -1) {
+                arri.add(1);
+                arrd.add(auxd);
+            } else {
+                arri.set(naux, arri.get(naux) + 1);
+            }
+            arrdd[n++] = auxd;
+            suma += auxd;
+        }
+
+        arrdd = burbuja(arrdd);
+        switch (s) {
+            case "mean":
+                return new Simbolo_prim(Tipos.numerico, suma / arrdd.length);
+            case "median":
+                if (arrdd.length % 2 == 0) {
+                    double d1 = arrdd[arrdd.length / 2];
+                    double d2 = arrdd[(arrdd.length / 2) - 1];
+                    return new Simbolo_prim(Tipos.numerico, (d1 + d2) / 2);
+
+                } else {
+                    return new Simbolo_prim(Tipos.numerico, arrdd[arrdd.length / 2]);
+                }
+            case "mode":
+                int grande = 0;
+                for (Integer auxn : arri) {
+                    if (auxn > grande) {
+                        grande = auxn;
+                    }
+                }
+                double dg = arrd.get(arri.indexOf(grande));
+                return new Simbolo_prim(Tipos.numerico, dg);
+        }
+        return null;
+    }
+
+    public double[] burbuja(double arr[]) {
+
+        for (int i = arr.length - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    double d = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = d;
+                }
+            }
+        }
+        return arr;
+    }
+
+    public Object opnum(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, String s) {
+        if (hijos.size() != 1) {
+            return aux.error("En la funcion " + s + " se espera un valor numerico. ", fila, columna);
+        }
+        Object o = hijos.get(0).ejecutar(ts, aux);
+        Simbolo_prim sp = aux.dev_sp(o);
+        if (sp == null) {
+            return aux.error("En la funcion " + s + " se espera un valor numerico. ", fila, columna);
+
+        }
+        if (!aux.esnum(sp)) {
+            return aux.error("En la funcion " + s + " se espera un valor numerico. ", fila, columna);
+        }
+
+        switch (s) {
+            case "round":
+                return new Simbolo_prim(Tipos.entero, Math.round(Double.parseDouble(sp.valor.toString())));
+            case "trunk":
+                return new Simbolo_prim(Tipos.entero, (int) Double.parseDouble(sp.valor.toString()));
+        }
+
         return null;
     }
 
@@ -68,20 +191,28 @@ public class Funciones_nativas {
         return new Simbolo_prim(Tipos.cadena, s1.replace(s2, ""));
     }
 
-    public Object stringlength(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+    public Object opstring(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, String s) {
         if (hijos.size() != 1) {
-            return aux.error("En la funcion stringlength() se esparaba solo un parametro. ", fila, columna);
+            return aux.error("En la funcion " + s + "() se esparaba solo un parametro. ", fila, columna);
         }
         Object o = hijos.get(0).ejecutar(ts, aux);
         Simbolo_prim sp = aux.dev_sp(o);
         if (sp == null) {
-            return aux.error("stringlength espera un vector de una poscion de tipo cadena. ", fila, columna);
+            return aux.error(s + " espera un vector de una poscion de tipo cadena. ", fila, columna);
         }
         if (sp.tp != Tipos.cadena) {
-            return aux.error("stringlength espera un vector de una poscion de tipo cadena. ", fila, columna);
+            return aux.error(s + " espera un vector de una poscion de tipo cadena. ", fila, columna);
         }
+        switch (s) {
+            case "stringlength":
+                return new Simbolo_prim(Tipos.entero, sp.valor.toString().length());
+            case "tolowercase":
+                return new Simbolo_prim(Tipos.cadena, sp.valor.toString().toLowerCase());
+            case "touppercase":
+                return new Simbolo_prim(Tipos.cadena, sp.valor.toString().toUpperCase());
 
-        return new Simbolo_prim(Tipos.entero, sp.valor.toString().length());
+        }
+        return null;
     }
 
     public Object nalgo(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, boolean ncol) {

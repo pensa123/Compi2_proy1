@@ -31,8 +31,15 @@ public class Llamada_metodo extends Nodo {
         nats.add("length");
         nats.add("nrow");
         nats.add("ncol");
-        nats.add("stringlength");
         nats.add("remove");
+        nats.add("stringlength");
+        nats.add("tolowercase");
+        nats.add("touppercase");
+        nats.add("round");
+        nats.add("trunk");
+        nats.add("mean");
+        nats.add("median");
+        nats.add("mode");
     }
 
     @Override

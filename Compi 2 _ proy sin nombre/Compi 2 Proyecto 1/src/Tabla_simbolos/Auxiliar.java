@@ -76,6 +76,13 @@ public class Auxiliar {
         return this.copiar_sp(sp);
     }
 
+    public boolean esnum(Simbolo_prim sp) {
+        if (sp == null) {
+            return false;
+        }
+        return sp.tp == Tipos.entero || sp.tp == Tipos.numerico;
+    }
+
     public boolean esEntero(Simbolo_prim sp) {
         if (sp.tp == Tipos.entero) {
             return true;

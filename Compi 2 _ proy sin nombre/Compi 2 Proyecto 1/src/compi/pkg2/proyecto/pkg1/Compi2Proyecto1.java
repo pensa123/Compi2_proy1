@@ -46,8 +46,6 @@ public class Compi2Proyecto1 {
 
         mgrafico();
 
-        
-        
         /*String st = "\\n";
          st = st.replace("\\n", "\n");
          System.out.println("---"+ st + "----------");*/
@@ -124,6 +122,15 @@ public class Compi2Proyecto1 {
                 + "mat[1,] = c(9,10);\n"
                 + "print(mat);");
 
+        ini.nueva_pestana("Vector = c(12,13,15,16,24,15,17,19,17,15)\n"
+                + "print(vector);\n"
+                + "print(mean(vector));\n"
+                + "print(mode(vector));\n"
+                + "print(median(vector));\n"
+                + "\n"
+                + "print(mean(vector, 14));\n"
+                + "print(mode(vector, 14));\n"
+                + "print(median(vector, 14));");
     }
 
     public Compi2Proyecto1() {
