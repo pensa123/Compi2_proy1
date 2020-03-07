@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public abstract class Nodo {
 
-    public ArrayList<Nodo> hijos;
+    public ArrayList<Nodo> hijos = new ArrayList<Nodo>();
     public int fila;
     public int columna;
     public boolean tieneHijos;
@@ -54,25 +54,23 @@ public abstract class Nodo {
     }
 
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-        System.out.println("TODO funcion ejecutar en " + this.getClass().getName()+ "  no realizada aun");
+        System.out.println("TODO funcion ejecutar en " + this.getClass().getName() + "  no realizada aun");
         return null;
     }
 
     public void dibujar(Dibujador d, String padre) {
         //d.st += this.hashCode() + "[label=\"" + this.getClass().getSimpleName() + " " + fila  + " " + columna + "\" ]; \n";
         d.st += this.hashCode() + "[label=\"" + this.getClass().getSimpleName() + "\" ]; \n";
-        d.st += padre + " ->  " + this.hashCode() + "; \n";
+        d.st += padre + " ->  " + this.hashCode() + ";\n";
         dibHijos(d);
     }
 
     public void dibHijos(Dibujador d) {
-        if (tieneHijos || false) {
+        if (tieneHijos) {
             for (Nodo n : hijos) {
                 n.dibujar(d, this.hashCode() + "");
             }
         }
     }
-    
 
-    
 }

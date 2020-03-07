@@ -10,6 +10,7 @@ import ClasesAuxiliares.contenedorEnum.Tipos;
 import FuncionesDelLenguaje.Funciones_nativas;
 import java.awt.TextArea;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -24,12 +25,32 @@ public class Auxiliar {
     public ArrayList<Error> arrErr = new ArrayList<>();
     public Tabla_Sim global;
 
+    public HashMap<String, Funcion> hfun = new HashMap<String, Funcion>();
+
+    public ArrayList<String> nats = new ArrayList<>();
     public Funciones_nativas f = new Funciones_nativas();
 
     public Auxiliar(TextArea txt1, TextArea txt2, Tabla_Sim ts) {
         tx = txt1;
         txterr = txt2;
         global = ts;
+
+        nats.add("print");
+        nats.add("c");
+        nats.add("matrix");
+        nats.add("typeof");
+        nats.add("length");
+        nats.add("nrow");
+        nats.add("ncol");
+        nats.add("remove");
+        nats.add("stringlength");
+        nats.add("tolowercase");
+        nats.add("touppercase");
+        nats.add("round");
+        nats.add("trunk");
+        nats.add("mean");
+        nats.add("median");
+        nats.add("mode");
     }
 
     public void agregar(String ss) {
@@ -91,5 +112,34 @@ public class Auxiliar {
             return (Double.parseDouble(sp.valor + "") == (int) Double.parseDouble(sp.valor + ""));
         }
         return false;
+    }
+
+    public boolean addFunc(String id, Funcion f) {
+        if (nats.indexOf(id.toLowerCase()) != -1) {
+            return false;
+        }
+        if (hfun.containsKey(id.toLowerCase())) {
+            return false;
+        }
+        hfun.put(id.toLowerCase(), f);
+        return true;
+    }
+
+    public boolean hayfun(String id) {
+        return hfun.get(id.toLowerCase()) != null;
+    }
+
+    public Object ejecFun(String id, ArrayList<Object> arro, int fila, int columna, Tabla_Sim estoy) {
+
+        Funcion f = hfun.get(id.toLowerCase());
+
+        if (f == null) {
+            return null;
+        }
+
+        Tabla_Sim tabla_fun = new Tabla_Sim(global);
+
+        return f.ejecutar(tabla_fun, this, arro, fila, columna, estoy);
+
     }
 }

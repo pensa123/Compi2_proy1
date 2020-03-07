@@ -25,6 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import objetos.Asignacion_funcion;
 
 public class Inicio extends javax.swing.JFrame {
 
@@ -479,8 +480,19 @@ public class Inicio extends javax.swing.JFrame {
 
         txtConsola.setText("");
         txtError.setText("");
+        //ejecucion1 declaracion de funciones
+
         for (Nodo n : arr) {
-            n.ejecutar(ts, aux);
+            if (n instanceof Asignacion_funcion) {
+                n.ejecutar(ts, aux);
+            }
+        }
+
+        //llamada 2 ejecucion del resto jeje salu2. 
+        for (Nodo n : arr) {
+            if (!(n instanceof Asignacion_funcion)) {
+                n.ejecutar(ts, aux);
+            }
         }
     }
 

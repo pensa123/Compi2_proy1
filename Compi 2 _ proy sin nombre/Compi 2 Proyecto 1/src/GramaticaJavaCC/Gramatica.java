@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import FuncionesDelLenguaje.Parar;
 import FuncionesDelLenguaje.Continuar;
+import FuncionesDelLenguaje.Retorno;
 
 import FuncionesDelLenguaje.For;
 import FuncionesDelLenguaje.While;
@@ -115,7 +116,7 @@ public class Gramatica implements GramaticaConstants {
   }
 
   final public Nodo InstruccionCuerpo() throws ParseException {
-    Nodo n;
+    Nodo n= null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case CONTINUE:
       jj_consume_token(CONTINUE);
@@ -152,7 +153,7 @@ public class Gramatica implements GramaticaConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case PARENI:
         jj_consume_token(PARENI);
-        Expresion();
+        n = Expresion();
         jj_consume_token(PAREND);
         break;
       default:
@@ -167,7 +168,7 @@ public class Gramatica implements GramaticaConstants {
         jj_la1[5] = jj_gen;
         ;
       }
-                                                             n = null;
+                                                                   n = new Retorno(token.beginLine, token.beginColumn , n);
       break;
     case IDENTIFICADOR:
       n = Asignacion_llamadaMetodo();

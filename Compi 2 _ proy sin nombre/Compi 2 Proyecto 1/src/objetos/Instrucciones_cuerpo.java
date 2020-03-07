@@ -23,6 +23,10 @@ public class Instrucciones_cuerpo extends Nodo {
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
         for (Nodo n : hijos) {
+            if (n instanceof Asignacion_funcion) {
+                aux.error("Solo se pueden crear funciones en el ambito global. ", n.fila, n.columna);
+                continue;
+            }
             if (ts.haycontinue) {
                 continue;
             }

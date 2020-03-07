@@ -33,6 +33,14 @@ public class Tabla_Sim {
         padre.hijos.add(this);
     }
 
+    public void setReturn(Object o) {
+        this.hayreturn = true;
+        ret = o;
+        if (!esfuncion) {
+            padre.setReturn(o);
+        }
+    }
+
     public void setcontinues() {
         this.haycontinue = true;
         if (!esciclo) {
@@ -45,6 +53,13 @@ public class Tabla_Sim {
         if (!esciclo) {
             padre.setbreaks();
         }
+    }
+
+    public boolean seencontroReturn() {
+        if (this.esfuncion) {
+            return true;
+        }
+        return padre == null ? false : padre.seencontroReturn();
     }
 
     public boolean seencontroContinue() {

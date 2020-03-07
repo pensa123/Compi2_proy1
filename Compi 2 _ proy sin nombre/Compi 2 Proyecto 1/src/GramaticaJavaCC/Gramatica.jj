@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import FuncionesDelLenguaje.Parar;
 import FuncionesDelLenguaje.Continuar;
+import FuncionesDelLenguaje.Retorno;
 
 import FuncionesDelLenguaje.For;
 import FuncionesDelLenguaje.While;
@@ -165,7 +166,7 @@ Nodo  InstruccionGlobal() :
 
   Nodo InstruccionCuerpo():
   {
-    Nodo n; 
+    Nodo n= null; 
   }
   {
     (
@@ -175,7 +176,7 @@ Nodo  InstruccionGlobal() :
       |
       n = ciclos_if()
       |
-      <RETORNO> (<PARENI> Expresion() <PAREND>)? (<PCOMA>)? {n = null;}
+      <RETORNO> (<PARENI> n =  Expresion()  <PAREND>)? (<PCOMA>)? {n = new Retorno(token.beginLine, token.beginColumn , n);}
       |
       n = Asignacion_llamadaMetodo()
     )  {return n;   }

@@ -131,6 +131,20 @@ public class Compi2Proyecto1 {
                 + "print(mean(vector, 14));\n"
                 + "print(mode(vector, 14));\n"
                 + "print(median(vector, 14));");
+
+        ini.nueva_pestana("saludo = function(){\n"
+                + "	print(\"hola\");	\n"
+                + "}\n"
+                + "saludo();\n"
+                + "a = 5; \n"
+                + "salu2 = function(a){\n"
+                + "	print(\"hola \" + a);\n"
+                + "}\n"
+                + "salu2(\"yo\");\n"
+                + "getsaludo = function(){\n"
+                + "		return(\"hola\");\n"
+                + "}\n"
+                + "print(getsaludo());");
     }
 
     public Compi2Proyecto1() {

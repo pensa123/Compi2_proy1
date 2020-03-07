@@ -7,6 +7,9 @@ package objetos;
 
 import ClasesAuxiliares.Dibujador;
 import ClasesAuxiliares.Nodo;
+import Tabla_simbolos.Auxiliar;
+import Tabla_simbolos.Funcion;
+import Tabla_simbolos.Tabla_Sim;
 import java.util.ArrayList;
 
 /**
@@ -29,4 +32,19 @@ public class Asignacion_funcion extends Nodo {
         dibHijos(d);
     }
 
+    @Override
+    public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
+        ArrayList<Nodo> vars = new ArrayList<Nodo>();
+        for (int a = 0; a < hijos.size() - 1; a++) {
+            vars.add(hijos.get(a));
+        }
+        Nodo ic = hijos.get(hijos.size() - 1);
+        Funcion f = new Funcion(nombre, ic, vars);
+
+        if (aux.addFunc(nombre, f)) {
+            return null;
+        }
+        aux.error("Ya existe una funcion con el nombre " + nombre, fila, columna);
+        return null;
+    }
 }
