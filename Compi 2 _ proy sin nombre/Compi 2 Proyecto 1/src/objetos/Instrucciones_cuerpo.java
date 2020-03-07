@@ -30,7 +30,7 @@ public class Instrucciones_cuerpo extends Nodo {
             if (ts.haycontinue) {
                 continue;
             }
-            if (ts.haybreak) {
+            if (ts.haybreak || ts.hayreturn) {
                 break;
             }
             n.ejecutar(ts, aux);

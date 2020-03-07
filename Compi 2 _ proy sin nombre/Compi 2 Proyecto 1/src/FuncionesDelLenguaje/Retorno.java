@@ -27,7 +27,7 @@ public class Retorno extends Nodo {
                 return aux.error("Return devolvio null", fila, columna);
             }
             ts.setReturn(o);
-            System.out.println("si hay return");
+            System.out.print(" ");
             return null;
         }
         return aux.error("No se esperaba un return ya que no se esta dentro de una funcion. ", fila, columna);
