@@ -40,12 +40,16 @@ public class Simbolo_prim {
                 break;
         }
     }
-    
+
     @Override
-    public String toString(){
-        if(tp == Tipos.entero){
-            return (int)Double.parseDouble(valor+"")+"";
+    public String toString() {
+        if (tp == Tipos.entero) {
+            return (int) Double.parseDouble(valor + "") + "";
         }
-        return valor+"";
+        return valor + "";
+    }
+
+    public Simbolo_prim copear() {
+        return new Simbolo_prim(tp, valor);
     }
 }

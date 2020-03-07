@@ -56,8 +56,30 @@ public class Funciones_nativas {
             case "median":
             case "mode":
                 return oparr(ts, aux, hijos, func.toLowerCase());
+            case "list":
+                return lista(ts, aux, hijos);
         }
         return null;
+    }
+
+    public Object lista(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+        if (hijos.size() == 0) {
+            return aux.error("Se esperaba al menos un paremtro en la funciono c", fila, columna);
+        }
+
+        Lista lst = new Lista();
+        for (Nodo n : hijos) {
+            Object oaux = n.ejecutar(ts, aux);
+            if (oaux == null) {
+                return aux.error("Error en parametro de la funcion list", n.fila, n.columna);
+            }
+            if (oaux instanceof Matriz) {//TODOS agregar arrays pal rato.
+                return aux.error("en lista no se permite agregar matrices", n.fila, n.columna);
+            }
+            lst.agregar(oaux);
+        }
+
+        return lst;
     }
 
     public Object oparr(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, String s) {

@@ -51,6 +51,7 @@ public class Auxiliar {
         nats.add("mean");
         nats.add("median");
         nats.add("mode");
+        nats.add("list");
     }
 
     public void agregar(String ss) {

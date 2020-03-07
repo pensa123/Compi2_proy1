@@ -23,7 +23,8 @@ public class Parar extends Nodo {
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
         if (ts.seencontroBreak()) {
             ts.setbreaks();
+            return null;
         }
-        return null;
+        return aux.error("No se esperaba un break ya que no se esta en un ciclo. ", fila, columna);
     }
 }
