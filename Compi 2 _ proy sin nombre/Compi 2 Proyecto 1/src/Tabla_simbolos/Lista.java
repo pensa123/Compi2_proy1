@@ -16,6 +16,15 @@ public class Lista extends Estructura {
     public boolean masDeUnNivel = false;
     public ArrayList<Object> arr = new ArrayList<>();
 
+    public boolean set(Object o, int n) {
+        n -= 1;
+        if (arr.size() > n && n >= 0) {
+            arr.set(n, o);
+            return true;
+        }
+        return false;
+    }
+
     public Object acceso1(int n) {
         n -= 1;
         if (arr.size() > n && n >= 0) {
@@ -58,6 +67,11 @@ public class Lista extends Estructura {
         if (o instanceof Lista) {
             this.masDeUnNivel = true;
         }
+        if (o instanceof Simbolo_prim) {
+            Vector v = new Vector();
+            v.agregar((Simbolo_prim) o);
+            o = v;
+        }
         arr.add(o);
     }
 
@@ -71,6 +85,8 @@ public class Lista extends Estructura {
             }
             if (o instanceof Simbolo_prim) {
                 st += o.toString();
+            } else if (o instanceof Vector && ((Vector) o).arr.size() == 1) {
+                st += ((Vector) o).arr.get(0).toString();
             } else {
                 st += o.getClass().getSimpleName();
             }

@@ -8,6 +8,7 @@ package objetos;
 import ClasesAuxiliares.Nodo;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
+import Tabla_simbolos.Lista;
 import Tabla_simbolos.Matriz;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
@@ -42,8 +43,10 @@ public class Asignacion extends Nodo {
                  dependiendo de que tipo sea o si no esta establecido sera la forma de proceder :( 
                  se debe obtener un arreglo con los accesos que estan solicitando  
                  */
-                n.ejecutar(ts, aux);
                 Var_acceso vacc = (Var_acceso) n;
+
+                vacc.mostrarErrores = false;
+                vacc.ejecutar(ts, aux);
                 Estructura e = vacc.est;
                 ArrayList<Integer> arrInt = vacc.arrint;
                 if (e == null || e instanceof Vector) {
@@ -122,6 +125,8 @@ public class Asignacion extends Nodo {
                         m1.update(arrInt.get(0), sp1);
                         return null;
                     }
+                } else if (e instanceof Lista) {
+                    return setLista((Lista) e, 0, aux, vacc, sp);
                 }
                 System.out.println("asignacion, falta vefificar " + e.getClass().getSimpleName());
                 //TODO falta agregar para las demas (matriz, lista o arreglo); 
@@ -134,4 +139,83 @@ public class Asignacion extends Nodo {
         return null;
     }
 
+    public Object setVec(Vector vec, int n, Auxiliar aux, Var_acceso vac, Object ins) {
+        if (!(n < vac.arrint.size())) {
+            return null;
+        }
+        int fila = vac.arrNodo_paerrores.get(n).fila;
+        int columna = vac.arrNodo_paerrores.get(n).columna;
+        if (vac.ultimoAccesoDoble >= n) {
+            return aux.error("No se pude obtener un acceso doble despues de uno normal", fila, columna);
+        }
+        for (int a = n + 1; a < vac.arrint.size(); a++) {
+            if (vac.arrint.get(a) != 1) {
+                return aux.error("Indice fuera de rango " + vac.arrint.get(a), vac.arrNodo_paerrores.get(a).fila, vac.arrNodo_paerrores.get(a).columna);
+            }
+        }
+        if (ins instanceof Vector) {
+            if (((Vector) ins).arr.size() == 1) {
+                vec.update(vac.arrint.get(n) - 1, ((Vector) ins).arr.get(0));
+                return null;
+            }
+        } else if (ins instanceof Simbolo_prim) {
+            vec.update(vac.arrint.get(n) - 1, (Simbolo_prim) ins);
+            return null;
+        }
+
+        return aux.error("En la posicion de un vector solo se aceptan simbolos. ", fila, columna);
+    }
+
+    public Object setLista(Lista lst, int n, Auxiliar aux, Var_acceso vac, Object ins) {
+        if (!(n < vac.arrint.size())) {
+            return null;
+        }
+        int fila = vac.arrNodo_paerrores.get(n).fila;
+        int columna = vac.arrNodo_paerrores.get(n).columna;
+        Object o = null;
+        if (vac.arrEsAccesoDoble.get(n)) {
+            if (n + 1 == vac.arrint.size()) {
+                if (ins instanceof Vector || ins instanceof Lista || ins instanceof Simbolo_prim) {
+                    lst.set(ins, vac.arrint.get(n));
+                    return null;
+                }
+                return aux.error("Listas solo acepta listas, vectores y primarios", fila, columna);
+            }
+            o = lst.acceso2(vac.arrint.get(n));
+            if (o instanceof Lista) {
+                return setLista((Lista) o, n + 1, aux, vac, ins);
+            } else if (o instanceof Vector) {
+                return setVec((Vector) o, n + 1, aux, vac, ins);
+            }
+
+        } else {
+            if (vac.ultimoAccesoDoble >= n) {
+                return aux.error("No se pude obtener un acceso doble despues de uno normal", fila, columna);
+            }
+            for (int a = n + 1; a < vac.arrint.size(); a++) {
+                if (vac.arrint.get(a) != 1) {
+                    return aux.error("Indice fuera de rango " + vac.arrint.get(a), vac.arrNodo_paerrores.get(a).fila, vac.arrNodo_paerrores.get(a).columna);
+                }
+            }
+            if (ins instanceof Vector) {
+                if (((Vector) ins).arr.size() == 1) {
+                    lst.set(ins, vac.arrint.get(n));
+                } else {
+                    return aux.error("con el acceso [] solo se aceptan primitvos o vectores o listas de un solo elemento. ", fila, columna);
+                }
+            } else if (ins instanceof Lista) {
+                if (((Lista) ins).arr.size() == 1) {
+                    lst.set(ins, vac.arrint.get(n));
+                } else {
+                    return aux.error("con el acceso [] solo se aceptan primitvos o vectores o listas de un solo elemento. ", fila, columna);
+                }
+            } else if (ins instanceof Simbolo_prim) {
+                lst.set(ins, vac.arrint.get(n));
+            } else {
+                return aux.error("con el acceso [] solo se aceptan primitvos o vectores o listas de un solo elemento. ", fila, columna);
+            }
+            return null;
+        }
+        return null;
+    }
 }

@@ -23,6 +23,7 @@ import java.util.ArrayList;
  */
 public class Var_acceso extends Nodo {
 
+    public boolean mostrarErrores = true;
     public boolean acceso_matriz;
 
     public Estructura est;
@@ -146,16 +147,29 @@ public class Var_acceso extends Nodo {
         int fila = this.arrNodo_paerrores.get(n).fila;
         int columna = this.arrNodo_paerrores.get(n).columna;
         if (ultimoAccesoDoble >= n) {
-            return aux.error("no se puede hacer un acceso doble sobre un vector.", fila, columna);
+            return mostrarErrores ? aux.error("no se puede hacer un acceso doble sobre un vector.", fila, columna) : null;
+        }
+        Object o = vec.obtener(arrint.get(n));
+        if (n + 1 == arrint.size()) {
+            if (o == null) {
+                return mostrarErrores ? aux.error("Indice fuera de rango ", fila, columna) : null;
+            }
+            return o;
         }
         if (arrint.get(n) == 1) {
-            if (n + 1 == arrint.size()) {
-                return vec;
-            }
-
-            return sacarDatoVec(vec, n + 1, aux);
+            return o == null ? sacarDatoVec(vec, n + 1, aux) : o;
         }
-        return aux.error("Indice fuera de rango ", fila, columna);
+
+        if (o instanceof Simbolo_prim) {
+            Vector v = new Vector();
+            v.agregar((Simbolo_prim) o);
+            o = v;
+        }
+
+        if (o instanceof Vector) {
+            return sacarDatoVec((Vector) o, n + 1, aux);
+        }
+        return mostrarErrores ? aux.error("Indice fuera de rango ", fila, columna) : null;
     }
 
     public Object sacarDatosLista(Lista lst, int n, Auxiliar aux) {
@@ -171,7 +185,7 @@ public class Var_acceso extends Nodo {
             o = lst.acceso1(arrint.get(n));
         }
         if (o == null) {
-            return aux.error("Indice " + arrint.get(n) + " fuera de rango", fila, columna);
+            return mostrarErrores ? aux.error("Indice " + arrint.get(n) + " fuera de rango", fila, columna) : null;
         }
         if (n + 1 == arrint.size()) {
             return o;
