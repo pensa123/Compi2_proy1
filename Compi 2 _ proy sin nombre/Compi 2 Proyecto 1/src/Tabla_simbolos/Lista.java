@@ -31,9 +31,11 @@ public class Lista extends Estructura {
         if (arr.size() > n && n >= 0) {
             Object o = arr.get(n);
             if (o instanceof Estructura) {
-                return ((Estructura) o).copear();
+                return ((Estructura) o);
+                //return ((Estructura) o).copear();
             } else {
-                return ((Simbolo_prim) o).copear();
+                return ((Simbolo_prim) o);
+                //return ((Simbolo_prim) o).copear();
             }
         }
         return null;

@@ -41,9 +41,9 @@ public class Compi2Proyecto1 {
      * @param args the command line arguments
      */
     ArrayList<String> toPruebas = new ArrayList<String>();
-    
+
     public static void main(String[] args) {
-        
+
         mgrafico();
 
         /*String st = "\\n";
@@ -51,14 +51,14 @@ public class Compi2Proyecto1 {
          System.out.println("---"+ st + "----------");*/
         //Compi2Proyecto1 c2 = new Compi2Proyecto1();
     }
-    
+
     public static void mgrafico() {
         Inicio ini = new Inicio();
         ini.setVisible(true);
-        
+
         probando(ini);
     }
-    
+
     public static void probando(Inicio ini) {
         ini.nueva_pestana("print(\"unarios\"); \n"
                 + "x[5] = true; \n"
@@ -68,7 +68,7 @@ public class Compi2Proyecto1 {
                 + "print(\"ternarios\");\n"
                 + "\n"
                 + "z = x | y ? \"abc\" : \"def\"; ");
-        
+
         ini.nueva_pestana("print(\"Esto prueba el while, do while, if, for continue\");\n"
                 + "print(\"tambien matrices y vectores\"); \n"
                 + "x = 1; \n"
@@ -111,7 +111,7 @@ public class Compi2Proyecto1 {
                 + "mat[1,] = mat2[1,];\n"
                 + "mat[,1] = mat2[,1]; \n"
                 + "print(mat);");
-        
+
         ini.nueva_pestana("mat = matrix(c(true), 3 , 2);\n"
                 + "print(mat);\n"
                 + "mat[1,1] = 2; \n"
@@ -121,7 +121,7 @@ public class Compi2Proyecto1 {
                 + "print(mat);\n"
                 + "mat[1,] = c(9,10);\n"
                 + "print(mat);");
-        
+
         ini.nueva_pestana("Vector = c(12,13,15,16,24,15,17,19,17,15)\n"
                 + "print(vector);\n"
                 + "print(mean(vector));\n"
@@ -131,7 +131,7 @@ public class Compi2Proyecto1 {
                 + "print(mean(vector, 14));\n"
                 + "print(mode(vector, 14));\n"
                 + "print(median(vector, 14));");
-        
+
         ini.nueva_pestana("saludo = function(){\n"
                 + "	print(\"hola\");	\n"
                 + "}\n"
@@ -145,7 +145,7 @@ public class Compi2Proyecto1 {
                 + "		return(\"hola\");\n"
                 + "}\n"
                 + "print(getsaludo());");
-        
+
         ini.nueva_pestana("factorial = function(n){\n"
                 + "	if(n == 0 | n == 1){\n"
                 + "		return(1); \n"
@@ -153,7 +153,7 @@ public class Compi2Proyecto1 {
                 + "	return(factorial(n-1)*n);\n"
                 + "}\n"
                 + "print(factorial(1));");
-        
+
         ini.nueva_pestana("factorial = function(n){ \n"
                 + "    if(n <= 0){ \n"
                 + "        return(1); \n"
@@ -192,11 +192,12 @@ public class Compi2Proyecto1 {
                 + "print(\"Potencia: \"+potencia(2,10));\n"
                 + "print(\"Fibonacci:\"+fibonacci(10));\n"
                 + "print(\"Ackermann:\"+ackermann(3,6));");
-        
+
         ini.nueva_pestana("Lista2 = list(\"hola mundo\", 43, TRUE, 32.3)\n"
-                + "print(lista2);");
+                + "print(lista2);\n"
+                + "print(lista2[1]);");
     }
-    
+
     public Compi2Proyecto1() {
         // para ver asociatividad y si esta bien la presedencia, se haran mas pruebas
         // luego.
@@ -224,7 +225,7 @@ public class Compi2Proyecto1 {
                 + "         print( - 6  ); "
                 + "         print( !true  ); "
                 + "");
-        
+
         this.toPruebas.add("  "
                 + "         print( 2 +  3 ); \n"
                 + "         print( 2 +  3.5 ); \n"
@@ -251,26 +252,26 @@ public class Compi2Proyecto1 {
                 + "         print( \"prueba and\" +  true && true ); \n"
                 + "         print( true || false); \n"
                 + "");
-        
+
         this.toPruebas.add(" print(\"hola\"   +   (true  || true)); ");
         this.toPruebas.add(" print(  true ? true ? \"v1v2\" : \"v1f2\" : \"f1\"   ); ");
-        
+
         this.toPruebas.add(" print(  algo[1][1][[1]]   ); ");
         this.toPruebas.add(" prueba = 5 ");
-        
+
         this.toPruebas.add(" x=2; \n"
                 + "x[1][[1]] = 3; \n"
                 + "n[1,1] = 1;"
                 + "x[1,] = 2;"
                 + "x[,1] = 3;");
-        
+
         this.toPruebas.add("x = \"hola\"; \n "
                 + "print( x );\n"
                 + "x = 1 + 2 + 3;\n"
                 + "print(x);");
-        
+
         this.toPruebas.add("if(2==2){ print(\"es true\"); }else if(2 == 2) { print(\"segundo es true\"); } else { print(\"no es true\");  } ");
-        
+
         this.toPruebas.add("while(true){ print(\"hola\");}   \n"
                 + "do { print(\"hola\") }while(true)");
 
@@ -278,9 +279,9 @@ public class Compi2Proyecto1 {
         // el segundo 0 para los dos 1 para javacc 2 para flex y cup
         this.probar(0, 1);
     }
-    
+
     void probar(int x, int x1) {
-        
+
         if (x == 0) {
             for (int a = 0; a < this.toPruebas.size(); a++) {
                 String st = toPruebas.get(a);
@@ -304,14 +305,14 @@ public class Compi2Proyecto1 {
         } else {
             String st = toPruebas.get(x - 1);
             int n = x;
-            
+
             System.out.println("-------------------------------");
             System.out.println(st);
             if (x1 == 0 || x1 == 1) {
                 System.out.println("---------------------------");
                 System.out.println("prueba javacc");
                 this.probarJavacc(st, n);
-                
+
             }
             if (x1 == 0 || x1 == 2) {
                 System.out.println("---------------------------");
@@ -319,26 +320,26 @@ public class Compi2Proyecto1 {
                 this.probarFlexYCup(st, n);
                 System.out.println("---------------------------");
             }
-            
+
         }
     }
-    
+
     boolean probarJavacc(String stPrueba, int n) {
         try {
-            
+
             Gramatica parser = new Gramatica(new BufferedReader(new StringReader(stPrueba)));
             parser.Analizar();
-            
+
             System.out.println("-------------------------------");
             System.out.println("Todo bien todo correcto");
             System.out.println("-------------------------------");
-            
+
             ArrayList arr = parser.arr;
-            
+
             this.dibujar(arr, "INICIO_JAVACC");
-            
+
             this.ejecutarJavacc(arr);
-            
+
             return false;
         } catch (ParseException e) {
             // consola.setText(consola.getText() + e.getMessage() + "\n");
@@ -349,10 +350,10 @@ public class Compi2Proyecto1 {
             System.err.println(e.getMessage());
             System.out.println("error en prueba " + n + " javacc");
         }
-        
+
         return true;
     }
-    
+
     void ejecutarJavacc(ArrayList<Nodo> arr) {
         Tabla_Sim ts = new Tabla_Sim();
         Auxiliar aux = new Auxiliar(new TextArea(), new TextArea(), ts);
@@ -360,33 +361,33 @@ public class Compi2Proyecto1 {
             n.ejecutar(ts, aux);
         }
     }
-    
+
     void probarFlexYCup(String stPrueba, int n) {
-        
+
         Lexer lexer = new Lexer(new BufferedReader(new StringReader(stPrueba)));
         Sint s = new Sint(lexer);
-        
+
         try {
             s.parse();
-            
+
             ArrayList arr = s.arr;
             this.dibujar(arr, "INICIO_FLEX_Y_CUP");
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public void dibujar(ArrayList<Nodo> arr, String title) {
         Dibujador d = new Dibujador();
-        
+
         d.st = "digraph G { \n " + title + " ;\n ";
-        
+
         for (Nodo n : arr) {
-            
+
             n.dibujar(d, title);
         }
-        
+
         d.st += "}";
         System.out.println(d.st);
     }

@@ -32,7 +32,9 @@ public class Var_acceso extends Nodo {
     public boolean n2enadelanteSon1 = true;
     public ArrayList<Integer> arrint = new ArrayList<>();
     public ArrayList<Boolean> arrEsAccesoDoble = new ArrayList<>();
+    public ArrayList<Nodo> arrNodo_paerrores = new ArrayList<>();
     public boolean hayAccesoDoble = false;
+    public int ultimoAccesoDoble = -1;
 
     //de ambas formas en nodo(0) es el identificador :D 
     //el izquierdo siempre sera un identificador y el derecho un acceso a matriz :D 
@@ -78,7 +80,6 @@ public class Var_acceso extends Nodo {
                 if (!(aux.esEntero(s1) && aux.esEntero(s2))) {
                     return aux.error("En matriz[n,n] se esperan dos enteros", am.fila, am.columna);
                 }
-
                 arrint.add((int) Double.parseDouble(s1.valor + ""));
                 arrint.add((int) Double.parseDouble(s2.valor + ""));
                 return mat.obtener((int) Double.parseDouble(s1.valor + ""), (int) Double.parseDouble(s2.valor + ""));
@@ -97,7 +98,7 @@ public class Var_acceso extends Nodo {
             for (int a = 1; a < hijos.size(); a++) {
                 Acceso ac = (Acceso) hijos.get(a);
                 ac.ejecutar(ts, aux);
-
+                arrNodo_paerrores.add(ac);
                 //TODO tal vez hay que quitar numerico pero ya despues miramos
                 if (ac.sp != null) {
                     if (ac.sp.tp == Tipos.entero || ac.sp.tp == Tipos.numerico) {
@@ -105,6 +106,10 @@ public class Var_acceso extends Nodo {
                         this.arrint.add(auxint);
                         this.arrEsAccesoDoble.add(ac.accesoDoble);
                         this.hayAccesoDoble = this.hayAccesoDoble || ac.accesoDoble;
+
+                        if (ac.accesoDoble) {
+                            this.ultimoAccesoDoble = a - 1;
+                        }
 
                         if (auxint != 1 && a > 1) {
                             this.n2enadelanteSon1 = false;
@@ -119,6 +124,8 @@ public class Var_acceso extends Nodo {
             }
         }
         if (est instanceof Lista) {
+
+            return sacarDatosLista((Lista) est, 0, aux);
             //TODOS hay que agregar el if instanceof array :D
         } else if (this.n2enadelanteSon1) {
             if (est instanceof Vector) {
@@ -132,4 +139,53 @@ public class Var_acceso extends Nodo {
         return null;
     }
 
+    public Object sacarDatoVec(Vector vec, int n, Auxiliar aux) {
+        if (!(n < this.arrint.size())) {
+            return null;
+        }
+        int fila = this.arrNodo_paerrores.get(n).fila;
+        int columna = this.arrNodo_paerrores.get(n).columna;
+        if (ultimoAccesoDoble >= n) {
+            return aux.error("no se puede hacer un acceso doble sobre un vector.", fila, columna);
+        }
+        if (arrint.get(n) == 1) {
+            if (n + 1 == arrint.size()) {
+                return vec;
+            }
+
+            return sacarDatoVec(vec, n + 1, aux);
+        }
+        return aux.error("Indice fuera de rango ", fila, columna);
+    }
+
+    public Object sacarDatosLista(Lista lst, int n, Auxiliar aux) {
+        if (!(n < this.arrint.size())) {
+            return null;
+        }
+        int fila = this.arrNodo_paerrores.get(n).fila;
+        int columna = this.arrNodo_paerrores.get(n).columna;
+        Object o = null;
+        if (this.arrEsAccesoDoble.get(n)) {
+            o = lst.acceso2(arrint.get(n));
+        } else {
+            o = lst.acceso1(arrint.get(n));
+        }
+        if (o == null) {
+            return aux.error("Indice " + arrint.get(n) + " fuera de rango", fila, columna);
+        }
+        if (n + 1 == arrint.size()) {
+            return o;
+        }
+
+        if (o instanceof Lista) {
+            return sacarDatosLista((Lista) o, n + 1, aux);
+        } else if (o instanceof Vector) {
+            return sacarDatoVec((Vector) o, n + 1, aux);
+        } else if (o instanceof Simbolo_prim) {
+            Vector v = new Vector();
+            v.agregar((Simbolo_prim) o);
+            return sacarDatoVec(v, n + 1, aux);
+        }
+        return null;
+    }
 }
