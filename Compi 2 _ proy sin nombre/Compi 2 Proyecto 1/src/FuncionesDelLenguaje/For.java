@@ -9,6 +9,7 @@ import ClasesAuxiliares.Dibujador;
 import ClasesAuxiliares.Nodo;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
+import Tabla_simbolos.Lista;
 import Tabla_simbolos.Matriz;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
@@ -50,11 +51,25 @@ public class For extends Nodo {
             ejecVec((Vector) o1, ts, aux, n);
         } else if (o1 instanceof Matriz) {
             ejecMat((Matriz) o1, ts, aux, n);
+        } else if (o1 instanceof Lista) {
+            ejecList((Lista) o1, ts, aux, n);
         } else {
             //falta comparar si son las demas estructuras sino es error alv :D
         }
         
         return null;
+    }
+    
+    public void ejecArrOb(ArrayList<Object> arr, Tabla_Sim ts, Auxiliar aux, Nodo n) {
+        for (Object sp : arr) {
+            Tabla_Sim ts2 = new Tabla_Sim(ts);
+            ts2.esciclo = true;
+            ts2.agregar_var(st, sp);
+            n.ejecutar(ts2, aux);
+            if (ts2.haybreak) {
+                break;
+            }
+        }
     }
     
     public void ejecArrSP(ArrayList<Simbolo_prim> arr, Tabla_Sim ts, Auxiliar aux, Nodo n) {
@@ -67,6 +82,10 @@ public class For extends Nodo {
                 break;
             }
         }
+    }
+    
+    public void ejecList(Lista lst, Tabla_Sim ts, Auxiliar aux, Nodo n) {
+        this.ejecArrOb(lst.arr, ts, aux, n);
     }
     
     public void ejecMat(Matriz m, Tabla_Sim ts, Auxiliar aux, Nodo n) {

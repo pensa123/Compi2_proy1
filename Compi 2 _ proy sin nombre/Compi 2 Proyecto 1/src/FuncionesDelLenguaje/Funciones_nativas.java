@@ -329,6 +329,20 @@ public class Funciones_nativas {
         return n > n2 ? n : n2;
     }
 
+    public Tipos gettp(int n) {
+        switch (n) {
+            case 3:
+                return Tipos.cadena;
+            case 2:
+                return Tipos.nulo;
+            case 1:
+                return Tipos.entero;
+            case 0:
+                return Tipos.booleano;
+        }
+        return Tipos.nulo;
+    }
+
     public int stp(int n, Tipos tp) {
         switch (tp) {
             case cadena:
@@ -353,12 +367,19 @@ public class Funciones_nativas {
             Object o = n.ejecutar(ts, aux);
             if (o instanceof Lista) {
                 tipo = st(tipo, 4);
-                arro.add(o);
+                Lista lst = (Lista) ((Lista) o).copear();
+                if (lst.masDeUnNivel && false) {
+                    arro.add(o);
+                } else {
+                    for (Object o2 : lst.arr) {
+                        arro.add(o2);
+                    }
+                }
             } else if (o instanceof Vector) {
-                Vector v2 = (Vector) o;
+                Vector v2 = (Vector) ((Vector) o).copear();
                 tipo = stp(tipo, v2.tp);
                 for (Simbolo_prim s : v2.arr) {
-                    arro.add(s);
+                    arro.add(s.copear());
                 }
             } else { //es simbolo
                 arro.add(o);
@@ -367,15 +388,20 @@ public class Funciones_nativas {
         }
 
         if (tipo != 4) {
-            Vector v = new Vector();
+            Vector v = new Vector(gettp(tipo));
             for (Object oo : arro) {
                 Simbolo_prim s = (Simbolo_prim) oo;
                 v.agregar(s);
             }
             return v;
-        }
+        } else {
 
-        return null;
+            Lista lst = new Lista();
+            for (Object oo : arro) {
+                lst.agregar(oo);
+            }
+            return lst;
+        }
     }
 
     public Object Print(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> arr) {

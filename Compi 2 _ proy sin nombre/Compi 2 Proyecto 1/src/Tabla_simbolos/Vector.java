@@ -23,6 +23,11 @@ public class Vector extends Estructura {
         tienetipo = false;
     }
 
+    public Vector(Tipos tp) {
+        this.tp = tp;
+        tienetipo = true;
+    }
+
     public Simbolo_prim obtener() {
         return obtener(1);
     }

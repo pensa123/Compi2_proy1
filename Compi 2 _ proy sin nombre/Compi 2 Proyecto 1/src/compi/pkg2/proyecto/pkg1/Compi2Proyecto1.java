@@ -198,6 +198,16 @@ public class Compi2Proyecto1 {
                 + "print(lista2[1]);\n"
                 + "lista2[1] = \"hola\";\n"
                 + "print(lista2[1]);");
+
+        ini.nueva_pestana("Lista1 = list(\"hola mundo\");\n"
+                + "lista2 = list(42,true, 32.3);\n"
+                + "lista3 = c(lista1, lista2);\n"
+                + "print(lista3);");
+
+        ini.nueva_pestana("l1= list(\"hola\");\n"
+                + "l1= c(l1 , \"como\");\n"
+                + "l1 = c(l1 , \"estas\");\n"
+                + "print(l1);");
     }
 
     public Compi2Proyecto1() {
