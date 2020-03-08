@@ -195,6 +195,8 @@ public class Compi2Proyecto1 {
 
         ini.nueva_pestana("Lista2 = list(\"hola mundo\", 43, TRUE, 32.3)\n"
                 + "print(lista2);\n"
+                + "print(lista2[1]);\n"
+                + "lista2[1] = \"hola\";\n"
                 + "print(lista2[1]);");
     }
 
