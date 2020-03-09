@@ -92,6 +92,8 @@ TOKEN : {
     | <CORD: "]">
     | <LLAVEI: "{">
     | <LLAVED: "}">
+    | <MODULO: "%%">
+    | <POTENCIA: "^">
     | <MAS: "+">
     | <PREG: "?">
     | <MENOS: "-">
@@ -424,16 +426,33 @@ Nodo ExpresionRelacional() :
     Nodo n , n2;
   }
   {
-      n = ExpresionUnaria()
+      n = ExpPotencia()
       (
-          <POR> n2 = ExpresionUnaria() {n = new OperadorBinario(1 , 1, n , n2, Operando.por); }
+          <POR> n2 = ExpPotencia() {n = new OperadorBinario(1 , 1, n , n2, Operando.por); }
           |
-          <DIV> n2 = ExpresionUnaria() { n = new OperadorBinario(1 , 1, n , n2, Operando.div);}
+          <DIV> n2 = ExpPotencia() { n = new OperadorBinario(1 , 1, n , n2, Operando.div);}
       )*
       {
         return n;
       }
   }
+
+  Nodo ExpPotencia() :
+  {
+    Nodo n , n2;
+  }
+  {
+      n = ExpresionUnaria()
+      (
+          <POTENCIA> n2 = ExpresionUnaria() {n = new OperadorBinario(1 , 1, n , n2, Operando.potencia); }
+          |
+          <MODULO> n2 = ExpresionUnaria() { n = new OperadorBinario(1 , 1, n , n2, Operando.modulo);}
+      )*
+      {
+        return n;
+      }
+  }
+
 
   Nodo ExpresionUnaria() :
   {

@@ -14,6 +14,7 @@ import GramaticaJavaCC.ParseException;
 import GramaticaJavaCC.TokenMgrError;
 import Lexico.Lexer;
 import Sintactico.Sint;
+import Tabla_simbolos.Array;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
@@ -45,7 +46,22 @@ public class Compi2Proyecto1 {
     public static void main(String[] args) {
 
         mgrafico();
+        /*ArrayList<Integer> arrd = new ArrayList<>();
+         arrd.add(3);
+         arrd.add(3);
+         arrd.add(3);
+         arrd.add(3);
+         ArrayList<Object> arro = new ArrayList<>();
+         arro.add(new Simbolo_prim(Tipos.cadena, "hola"));
+         arro.add(new Simbolo_prim(Tipos.cadena, "como"));
+         arro.add(new Simbolo_prim(Tipos.cadena, "estas"));
+         Array arr = new Array(arro, arrd);
+         System.out.println(arr.toString());
 
+         */
+        //arr.imp();
+
+        //System.out.println( 2.1 % 0.5);
         /*String st = "\\n";
          st = st.replace("\\n", "\n");
          System.out.println("---"+ st + "----------");*/
@@ -122,38 +138,15 @@ public class Compi2Proyecto1 {
                 + "mat[1,] = c(9,10);\n"
                 + "print(mat);");
 
-        ini.nueva_pestana("Vector = c(12,13,15,16,24,15,17,19,17,15)\n"
-                + "print(vector);\n"
-                + "print(mean(vector));\n"
-                + "print(mode(vector));\n"
-                + "print(median(vector));\n"
-                + "\n"
-                + "print(mean(vector, 14));\n"
-                + "print(mode(vector, 14));\n"
-                + "print(median(vector, 14));");
-
-        ini.nueva_pestana("saludo = function(){\n"
-                + "	print(\"hola\");	\n"
-                + "}\n"
-                + "saludo();\n"
-                + "a = 5; \n"
-                + "salu2 = function(a){\n"
-                + "	print(\"hola \" + a);\n"
-                + "}\n"
-                + "salu2(\"yo\");\n"
-                + "getsaludo = function(){\n"
-                + "		return(\"hola\");\n"
-                + "}\n"
-                + "print(getsaludo());");
-
-        ini.nueva_pestana("factorial = function(n){\n"
-                + "	if(n == 0 | n == 1){\n"
-                + "		return(1); \n"
-                + "	}\n"
-                + "	return(factorial(n-1)*n);\n"
-                + "}\n"
-                + "print(factorial(1));");
-
+        /*        ini.nueva_pestana("Vector = c(12,13,15,16,24,15,17,19,17,15)\n"
+         + "print(vector);\n"
+         + "print(mean(vector));\n"
+         + "print(mode(vector));\n"
+         + "print(median(vector));\n"
+         + "\n"
+         + "print(mean(vector, 14));\n"
+         + "print(mode(vector, 14));\n"
+         + "print(median(vector, 14));");*/
         ini.nueva_pestana("factorial = function(n){ \n"
                 + "    if(n <= 0){ \n"
                 + "        return(1); \n"
@@ -204,10 +197,9 @@ public class Compi2Proyecto1 {
                 + "lista3 = c(lista1, lista2);\n"
                 + "print(lista3);");
 
-        ini.nueva_pestana("l1= list(\"hola\");\n"
-                + "l1= c(l1 , \"como\");\n"
-                + "l1 = c(l1 , \"estas\");\n"
-                + "print(l1);");
+        ini.nueva_pestana("result = array(c(5, list(7,8,9)), c(2,3,3))\n"
+                + "print(result);");
+
     }
 
     public Compi2Proyecto1() {

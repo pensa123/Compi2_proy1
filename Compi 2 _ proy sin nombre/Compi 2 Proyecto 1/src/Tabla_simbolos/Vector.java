@@ -101,6 +101,10 @@ public class Vector extends Estructura {
 
     @Override
     public String toString() {
+        if (arr.size() == 1) {
+            return arr.get(0).toString();
+        }
+
         String st = "[";
         boolean nvez = false;
         for (Simbolo_prim s : arr) {

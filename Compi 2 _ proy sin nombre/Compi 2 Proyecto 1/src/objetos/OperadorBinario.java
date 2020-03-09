@@ -25,7 +25,7 @@ public class OperadorBinario extends Nodo {
     //TODO FALTA POTENCIA Y MODULO
     public enum Operando {
 
-        comparacion, desigualdad, or, and, mayorque, menorque, mayorigual, menorigual, mas, menos, por, div
+        comparacion, desigualdad, or, and, mayorque, menorque, mayorigual, menorigual, mas, menos, por, div, potencia, modulo
     };
 
     Auxiliar au;
@@ -222,6 +222,20 @@ public class OperadorBinario extends Nodo {
                 }
                 break;
             //todo falta potencia y modulo
+            case potencia:
+                if (esnumerico) {
+                    sr = new Simbolo_prim(esint ? Tipos.entero : Tipos.numerico, Math.pow(Double.parseDouble(s1.valor + ""), Double.parseDouble(s2.valor + "")));
+                } else {
+                    error = 1;
+                }
+                break;
+            case modulo:
+                if (esnumerico) {
+                    sr = new Simbolo_prim(esint ? Tipos.entero : Tipos.numerico, Double.parseDouble(s1.valor + "") % Double.parseDouble(s2.valor + ""));
+                } else {
+                    error = 1;
+                }
+                break;
 
             case comparacion:
             case desigualdad:

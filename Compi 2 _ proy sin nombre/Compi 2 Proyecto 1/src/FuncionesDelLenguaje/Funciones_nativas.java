@@ -7,6 +7,7 @@ package FuncionesDelLenguaje;
 
 import ClasesAuxiliares.Nodo;
 import ClasesAuxiliares.contenedorEnum.Tipos;
+import Tabla_simbolos.Array;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
 import Tabla_simbolos.Lista;
@@ -29,6 +30,8 @@ public class Funciones_nativas {
         fila = f;
         columna = c;
         switch (func.toLowerCase()) {
+            case "array":
+                return Arr(ts, aux, hijos);
             case "print":
                 return Print(ts, aux, hijos);
             case "c":
@@ -60,6 +63,49 @@ public class Funciones_nativas {
                 return lista(ts, aux, hijos);
         }
         return null;
+    }
+
+    public Object Arr(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+        if (hijos.size() != 2) {
+            return aux.error("La funcion array espera 2 argumentos, array(expresion , vector);", fila, columna);
+        }
+        Object o1 = hijos.get(0).ejecutar(ts, aux), o2 = hijos.get(1).ejecutar(ts, aux);
+
+        if (o2 instanceof Simbolo_prim) {
+            Vector v = new Vector();
+            v.agregar((Simbolo_prim) o2);
+            o2 = v;
+        }
+        if (!(o2 instanceof Vector)) {
+            return aux.error("El segundo parametro de la funcion array se espera que sea un vector de enteros. ", fila, columna);
+        }
+        Vector v = (Vector) o2;
+        if (!(v.tp == Tipos.entero || v.tp == Tipos.numerico)) {
+            return aux.error("El segundo parametro de la funcion array se espera que sea un vector de enteros. ", fila, columna);
+        }
+
+        ArrayList<Integer> arri = new ArrayList<>();
+        ArrayList<Object> arro = new ArrayList<>();
+        for (Simbolo_prim s : v.arr) {
+            arri.add((int) Double.parseDouble(s.valor + ""));
+        }
+
+        if (o1 instanceof Simbolo_prim) {
+            arro.add(o1);
+        } else if (o1 instanceof Vector) {
+            for (Simbolo_prim sp : ((Vector) o1).arr) {
+                arro.add(sp.copear());
+            }
+        } else if (o1 instanceof Lista) {
+            for (Object sp : ((Lista) o1).arr) {
+                arro.add(sp);
+            }
+        } else {
+            return aux.error("Array solo acepta listas, vectores y simbolos. ", fila, columna);
+        }
+
+        System.out.println("llego hasta aqui.");
+        return new Array(arro, arri);
     }
 
     public Object lista(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
