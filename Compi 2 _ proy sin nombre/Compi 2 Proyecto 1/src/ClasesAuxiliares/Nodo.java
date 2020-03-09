@@ -66,8 +66,11 @@ public abstract class Nodo {
     }
 
     public void dibHijos(Dibujador d) {
-        if (tieneHijos) {
+        if (tieneHijos && hijos != null) {
             for (Nodo n : hijos) {
+                if (n == null) {
+                    continue;
+                }
                 n.dibujar(d, this.hashCode() + "");
             }
         }

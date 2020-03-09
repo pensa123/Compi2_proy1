@@ -12,11 +12,11 @@ import java.util.ArrayList;
  * @author ferna
  */
 public class Array extends Estructura {
-    
+
     public ArrayList<Object> arr = new ArrayList<>();
     public ArrayList<Integer> arrD = new ArrayList<>();
     public int cantidad = 0;
-    
+
     @Override
     public Estructura copear() {
         Array arrA = new Array();
@@ -31,20 +31,36 @@ public class Array extends Estructura {
         }
         return arrA;
     }
-    
+
     private Array() {
-        
+
     }
-    
+
+    public void Update(ArrayList<Integer> arri, Object o) {
+        int n = this.mapeoLexico(arri);
+        if (n == -1) {
+            return;
+        }
+
+        if (o instanceof Simbolo_prim) {
+            o = new Vector((Simbolo_prim) o);
+        }
+        if (o instanceof Estructura) {
+            o = ((Estructura) o).copear();
+
+            arr.set(n, o);
+        }
+    }
+
     public Object obtener(ArrayList<Integer> arri) {
         int n = this.mapeoLexico(arri);
-        return n == -1 ? null : arr.get(n);        
+        return n == -1 ? null : arr.get(n);
     }
-    
+
     public Array(ArrayList<Object> arro, ArrayList<Integer> arri) {
         setPrim(arro, arri);
     }
-    
+
     public boolean verif() {
         int c = 1;
         if (arrD == null || arrD.size() == 0) {
@@ -59,7 +75,7 @@ public class Array extends Estructura {
         cantidad = c;
         return true;
     }
-    
+
     public ArrayList<Integer> copyArr(ArrayList<Integer> arri) {
         ArrayList<Integer> arr = new ArrayList<>();
         for (Integer i : arri) {
@@ -67,7 +83,7 @@ public class Array extends Estructura {
         }
         return arr;
     }
-    
+
     public ArrayList<Integer> concatArrayAtras(ArrayList<Integer> arri, int n) {
         ArrayList<Integer> arr = new ArrayList<>();
         arr.add(n);
@@ -76,7 +92,7 @@ public class Array extends Estructura {
         }
         return arr;
     }
-    
+
     public void setPrim(ArrayList<Object> arro, ArrayList<Integer> arri) {
         arrD = copyArr(arri);
         if (!verif() || arro == null || arro.size() == 0) {
@@ -85,24 +101,28 @@ public class Array extends Estructura {
         }
         int c = 0;
         for (int a = 0; a < cantidad; a++) {
-            arr.add(arro.get(c++));
+            Object oaux = arro.get(c++);
+            if (oaux instanceof Simbolo_prim) {
+                oaux = new Vector((Simbolo_prim) oaux);
+            }
+            arr.add(oaux);
             if (c == arro.size()) {
                 c = 0;
             }
         }
     }
-    
+
     public void imp() {
         System.out.println("imprimiendo ando.");
         System.out.println(arrD);
         System.out.println("imp_inv");
         imp_inv(arrD.size() - 1, "", 0);
         System.out.println("normalito");
-        
+
         imp(0, "", 0, new ArrayList<>());
-        
+
     }
-    
+
     public void imp_inv(int n, String st, int n2) {
         if (n == -1) {
             System.out.println(st + " " + n2);
@@ -115,14 +135,14 @@ public class Array extends Estructura {
             imp_inv(n - 1, "[" + (a) + "]" + st, n2 + a - 1);
         }
     }
-    
+
     public int mapeoLexico(ArrayList<Integer> arrI) {
         if (arrI.size() != arrD.size()) {
             return -1;
         }
-        
+
         int c = 0;
-        
+
         for (int a = arrI.size() - 1; a != -1; a--) {
             if (a != arrD.size() - 1) {
                 c = c * (arrD.get(a));
@@ -135,25 +155,25 @@ public class Array extends Estructura {
         }
         return c;
     }
-    
+
     public void imp(int n, String st, int n2, ArrayList<Integer> arri) {
-        
+
         if (!(n < arrD.size())) {
             //System.out.println(st + " " + n2);
             int aux = mapeoLexico(arri);
             System.out.println(arri + "   " + aux + " " + arr.get(aux).toString());
             return;
         }
-        
+
         ArrayList<Integer> arri2;
-        
+
         for (int a = 1; a <= arrD.get(n); a++) {
             arri2 = this.copyArr(arri);
             arri2.add(a);
             imp(n + 1, st + "[" + (a) + "]", n2, arri2);
         }
     }
-    
+
     public String ayudamdd(ArrayList<Integer> arri, int n, String st) {
         if (n == 1) {
             if (!st.equals("")) {
@@ -166,15 +186,15 @@ public class Array extends Estructura {
             ArrayList<Integer> arri2 = this.concatArrayAtras(arri, 1 + a);
             st2 += ayudamdd(arri2, n - 1, "," + (a + 1) + st);
         }
-        
+
         return st2;
     }
-    
+
     public String comoMatriz(ArrayList<Integer> arri) {
-        
+
         int columnas = arrD.get(1);
         int filas = arrD.get(0);
-        
+
         String st = "", esp = "";
         int n = 4 + 2;
         for (int a = 0; a < 4; a++) {
@@ -192,21 +212,29 @@ public class Array extends Estructura {
                 arri2 = this.concatArrayAtras(arri2, i + 1);
                 int indice = this.mapeoLexico(arri2);
                 //               System.out.println(indice);
-                st += impesp(arr.get(indice).toString(), n + 2);
+                Object o = arr.get(indice);
+                String stt = "";
+                if (o instanceof Simbolo_prim) {
+                    stt = o.toString();
+                } else if (o instanceof Vector) {
+                    stt = ((Vector) o).arr.size() == 1 ? o.toString() : o.getClass().getSimpleName();
+                } else if (o instanceof Lista) {
+                    stt = ((Lista) o).arr.size() == 1 ? o.toString() : o.getClass().getSimpleName();
+                }
+                st += impesp(stt, n + 2);
             }
             st += "\n";
         }
         return st;
     }
-    
+
     public String impesp(String s, int n) {
-        
         for (int a = 0; a < n - s.length(); a++) {
             s += " ";
         }
         return s;
     }
-    
+
     @Override
     public String toString() {
         String st = "";
@@ -224,5 +252,5 @@ public class Array extends Estructura {
         }
         return ayudamdd(new ArrayList<>(), this.arrD.size() - 1, "");
     }
-    
+
 }

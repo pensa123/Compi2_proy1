@@ -9,11 +9,11 @@ import ClasesAuxiliares.Dibujador;
 import ClasesAuxiliares.Nodo;
 import ClasesAuxiliares.contenedorEnum;
 import ClasesAuxiliares.contenedorEnum.Tipos;
+import GramaticaFlexYCup.Lexer;
+import GramaticaFlexYCup.Sint;
 import GramaticaJavaCC.Gramatica;
 import GramaticaJavaCC.ParseException;
 import GramaticaJavaCC.TokenMgrError;
-import Lexico.Lexer;
-import Sintactico.Sint;
 import Tabla_simbolos.Array;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Simbolo_prim;
@@ -202,6 +202,13 @@ public class Compi2Proyecto1 {
                 + "print(\"--------------------\");\n"
                 + "print(arr[1][3][1][1]);");
 
+        ini.nueva_pestana("arr = array(c(5, list(7,8,9 , c(1,2))), c(2,3,3))\n"
+                + "print(arr);\n"
+                + "print(\"--------------------\");\n"
+                + "arr[1][1][1] = \"Hola\"; \n"
+                + "print(arr[1][1][1]);");
+        
+        ini.nueva_pestana("print(\"hola\");");
     }
 
     public Compi2Proyecto1() {
@@ -376,7 +383,7 @@ public class Compi2Proyecto1 {
         try {
             s.parse();
 
-            ArrayList arr = s.arr;
+            ArrayList arr = s.miarr;
             this.dibujar(arr, "INICIO_FLEX_Y_CUP");
 
         } catch (Exception e) {

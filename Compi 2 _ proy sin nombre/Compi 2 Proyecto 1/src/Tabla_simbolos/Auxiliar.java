@@ -5,7 +5,6 @@
  */
 package Tabla_simbolos;
 
-import ClasesAuxiliares.contenedorEnum;
 import ClasesAuxiliares.contenedorEnum.Tipos;
 import FuncionesDelLenguaje.Funciones_nativas;
 import java.awt.TextArea;

@@ -2,6 +2,8 @@ package interfaz;
 
 import ClasesAuxiliares.Dibujador;
 import ClasesAuxiliares.Nodo;
+import GramaticaFlexYCup.Lexer;
+import GramaticaFlexYCup.Sint;
 import GramaticaJavaCC.Gramatica;
 import GramaticaJavaCC.ParseException;
 import GramaticaJavaCC.TokenMgrError;
@@ -75,6 +77,7 @@ public class Inicio extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         txtConsola = new java.awt.TextArea();
         txtError = new java.awt.TextArea();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -84,6 +87,7 @@ public class Inicio extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -99,7 +103,7 @@ public class Inicio extends javax.swing.JFrame {
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTabbedPane1.setForeground(new java.awt.Color(255, 245, 245));
 
-        jButton1.setText("Ejecutar");
+        jButton1.setText("Ejecutar Javacc");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -116,6 +120,18 @@ public class Inicio extends javax.swing.JFrame {
 
         txtError.setBackground(new java.awt.Color(0, 0, 0));
         txtError.setForeground(new java.awt.Color(204, 0, 0));
+
+        jButton2.setText("Ejecutar Flex y Cup");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jButton2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton2KeyPressed(evt);
+            }
+        });
 
         jMenu2.setText("Archivo");
 
@@ -168,13 +184,22 @@ public class Inicio extends javax.swing.JFrame {
         jMenu3.add(jMenuItem3);
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
-        jMenuItem6.setText("Ejecutar");
+        jMenuItem6.setText("Ejecutar JavaCC");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
             }
         });
         jMenu3.add(jMenuItem6);
+
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        jMenuItem7.setText("Ejecutar Flex y cup");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem7);
 
         jMenuBar1.add(jMenu3);
 
@@ -189,11 +214,15 @@ public class Inicio extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
-                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtConsola, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)))
+                        .addComponent(txtConsola, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(493, 493, 493)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -206,7 +235,9 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtConsola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addGap(4, 4, 4)
                 .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -341,11 +372,11 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        ejecutar();
+        ejecutar(true);
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
-    private void ejecutar() {
+    private void ejecutar(boolean javacc) {
 
         if (this.jTabbedPane1.getTabCount() == 0) {
             return;
@@ -354,8 +385,11 @@ public class Inicio extends javax.swing.JFrame {
         String texto = area.getTexto();
 
         //TODO validar si se ejecuta en javacc o en flex y cup 
-        ejecJavacc(texto);
-
+        if (javacc) {
+            ejecJavacc(texto);
+        } else {
+            this.ejecFlexYCup(texto);
+        }
         //System.out.println(texto);
 
         /*System.out.println("path: " + area.path);
@@ -367,7 +401,7 @@ public class Inicio extends javax.swing.JFrame {
 
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        ejecutar();
+        ejecutar(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -379,6 +413,20 @@ public class Inicio extends javax.swing.JFrame {
         System.out.println("hola.");
 
     }//GEN-LAST:event_formWindowOpened
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        this.ejecutar(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton2KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2KeyPressed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        ejecutar(false);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     public void guardarArchivo() {
         try {
@@ -430,6 +478,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JFileChooser fileCh;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -439,10 +488,28 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private java.awt.TextArea txtConsola;
     private java.awt.TextArea txtError;
     // End of variables declaration//GEN-END:variables
+
+    public boolean ejecFlexYCup(String stPrueba) {
+        Lexer lexer = new Lexer(new BufferedReader(new StringReader(stPrueba)));
+        Sint s = new Sint(lexer);
+
+        try {
+            s.parse();
+            ArrayList arr = s.miarr;
+            this.dibujar(arr, "INICIO_FLEX_Y_CUP");
+            
+            this.ejecutarAST(arr, "FLEX Y CUP");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
     boolean ejecJavacc(String st) {
         try {
@@ -458,7 +525,7 @@ public class Inicio extends javax.swing.JFrame {
 
             this.dibujar(arr, "INICIO_JAVACC");
 
-            this.ejecutarJavacc(arr);
+            this.ejecutarAST(arr, "JAVACC");
 
             return false;
         } catch (ParseException e) {
@@ -474,11 +541,12 @@ public class Inicio extends javax.swing.JFrame {
         return true;
     }
 
-    void ejecutarJavacc(ArrayList<Nodo> arr) {
+    void ejecutarAST(ArrayList<Nodo> arr, String st) {
         Tabla_Sim ts = new Tabla_Sim();
         Auxiliar aux = new Auxiliar(txtConsola, txtError, ts);
 
-        txtConsola.setText("");
+        aux.st = st + "\n";
+        txtConsola.setText(st + "\n");
         txtError.setText("");
         //ejecucion1 declaracion de funciones
 

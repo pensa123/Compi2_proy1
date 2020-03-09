@@ -1,6 +1,6 @@
-package Lexico;
+package GramaticaFlexYCup;
 import java_cup.runtime.*;
-import Sintactico.sym;
+import GramaticaFlexYCup.sym;
 %%
 
 %class Lexer
@@ -25,26 +25,30 @@ import Sintactico.sym;
 FinLinea        =   \r|\n|\r\n
 InputCharacter  =   [^\r\n]
 WhiteSpace      =   {FinLinea} | [ \t\f]
-numero          =   [0-9] [0-9]*
-real            =   [0-9]+\.[0-9]+
+entero          =   [0-9] [0-9]*
+numerico          =   [0-9]+\.[0-9]+
 Letra           =   [a-zA-Z]
-Identificador   =   [_a-zA-Z]([_a-zA-Z]|{numero})*
+iden   =   [_a-zA-Z]([_a-zA-Z]|{numerico})*
 ComentarioLinea =   "//" ~"\n"
 ComentarioMulti =   "/*" ~"*/"
 %%
 
 <YYINITIAL> {
-    {numero}            { return symbol(sym.numero, yytext().toLowerCase());  }
+    {entero}            { return symbol(sym.entero, yytext().toLowerCase());  }
+    {numerico}            { return symbol(sym.numerico, yytext().toLowerCase());  }
+    {iden}            { return symbol(sym.iden, yytext().toLowerCase());  }
+    ","                 { return symbol(sym.coma, ":="); }
     "="                 { return symbol(sym.igual, ":="); }
     "+"                 { return symbol(sym.mas, "+"); }
     "-"                 { return symbol(sym.menos, "-"); }
     "*"                 { return symbol(sym.por, "*"); }
     "/"                 { return symbol(sym.division, "/"); }
+    "^"                 { return symbol(sym.potencia, "/"); }
+    "%%"                 { return symbol(sym.modular, "/"); }
     ";"                 { return symbol(sym.pComa, ";"); }
     ":"                 { return symbol(sym.dosPuntos, ":"); }
     "("                 { return symbol(sym.parenI, "("); }
     ")"                 { return symbol(sym.parenD, ")"); }
-    "print"          { return symbol(sym.imprimir, ")"); }
     \"                  { yybegin(STRING); NuevoString.setLength(0);}
     {ComentarioLinea}   { /* ignore */}
     {ComentarioMulti}   { /* ignore */}

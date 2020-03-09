@@ -6,6 +6,7 @@
 package objetos;
 
 import ClasesAuxiliares.Nodo;
+import Tabla_simbolos.Array;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
 import Tabla_simbolos.Lista;
@@ -30,7 +31,9 @@ public class Asignacion extends Nodo {
 
         Nodo n = hijos.get(0);
         Object sp = hijos.get(1).ejecutar(ts, aux);
-
+        if (sp == null) {
+            return aux.error("Se esta tratando de asignar un valor nulo. ", fila, columna);
+        }
         switch (n.getClass().getSimpleName()) {
             case "Iden":
                 String s = ((Iden) n).nombre;
@@ -127,14 +130,63 @@ public class Asignacion extends Nodo {
                     }
                 } else if (e instanceof Lista) {
                     return setLista((Lista) e, 0, aux, vacc, sp);
+                } else if (e instanceof Array) {
+                    return setArr((Array) e, aux, vacc, sp);
                 }
-                System.out.println("asignacion, falta vefificar " + e.getClass().getSimpleName());
+
+                System.out.println("asignacion, falta verificar " + e.getClass().getSimpleName());
                 //TODO falta agregar para las demas (matriz, lista o arreglo); 
                 break;
             default:
                 System.out.println("TODO accion en la clase \"EJECUTAR\" _  en el switch  \"" + n.getClass().getSimpleName() + "\"");
                 break;
 
+        }
+        return null;
+    }
+
+    public ArrayList<Integer> copyArr(ArrayList<Integer> arri) {
+        ArrayList<Integer> arr = new ArrayList<>();
+        for (Integer i : arri) {
+            arr.add(i);
+        }
+        return arr;
+    }
+
+    public Object setArr(Array arr, Auxiliar aux, Var_acceso vac, Object ins) {
+        if (arr.arrD.size() > vac.arrint.size()) {
+            return aux.error("Indice fuera del rango", fila, columna);
+        }
+        ArrayList<Integer> arri2 = this.copyArr(vac.arrint);
+        ArrayList<Integer> arriS = new ArrayList<>();
+        for (int a = 0; a < arr.arrD.size(); a++) {
+            arriS.add(arri2.remove(0));
+            vac.arrint.remove(0);
+            Nodo n = vac.arrNodo_paerrores.remove(0);
+            if (vac.arrEsAccesoDoble.remove(0)) {
+                return aux.error("No se puede acceder a un arreglo con acceso dobles, se requiere el simple [] ", n.fila, n.columna);
+            }
+            vac.ultimoAccesoDoble--;
+        }
+        Object o = arr.obtener(arriS);
+        if (o == null) {
+            return aux.error("Indice fuera de rango", fila, columna);
+        }
+        if (arri2.size() == 0) {
+            if (ins instanceof Array) {
+                return aux.error("no se pueden insertar arreglos en arreglos.", fila, columna);
+            }
+            arr.Update(arriS, ins);
+            return o;
+        }
+        if (o instanceof Simbolo_prim) {
+            o = new Vector((Simbolo_prim) o);
+        }
+
+        if (o instanceof Vector) {
+            return this.setVec((Vector) o, 0, aux, vac, ins);
+        } else if (o instanceof Lista) {
+            return this.setLista((Lista) o, 0, aux, vac, ins);
         }
         return null;
     }
