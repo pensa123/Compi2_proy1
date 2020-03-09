@@ -197,8 +197,10 @@ public class Compi2Proyecto1 {
                 + "lista3 = c(lista1, lista2);\n"
                 + "print(lista3);");
 
-        ini.nueva_pestana("result = array(c(5, list(7,8,9)), c(2,3,3))\n"
-                + "print(result);");
+        ini.nueva_pestana("arr = array(c(5, list(7,8,9 , c(1,2))), c(2,3,3))\n"
+                + "print(arr);\n"
+                + "print(\"--------------------\");\n"
+                + "print(arr[1][3][1][1]);");
 
     }
 

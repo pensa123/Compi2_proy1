@@ -8,6 +8,7 @@ package objetos;
 import ClasesAuxiliares.Nodo;
 import ClasesAuxiliares.contenedorEnum;
 import ClasesAuxiliares.contenedorEnum.Tipos;
+import Tabla_simbolos.Array;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
 import Tabla_simbolos.Lista;
@@ -124,8 +125,9 @@ public class Var_acceso extends Nodo {
                 }
             }
         }
-        if (est instanceof Lista) {
-
+        if (est instanceof Array) {
+            return mostrarErrores ? sacarDatosArr((Array) est, aux) : null;
+        } else if (est instanceof Lista) {
             return sacarDatosLista((Lista) est, 0, aux);
             //TODOS hay que agregar el if instanceof array :D
         } else if (this.n2enadelanteSon1) {
@@ -136,6 +138,51 @@ public class Var_acceso extends Nodo {
             }
         } else {
             return aux.error("Valor fuera de rango. ", fila, columna);
+        }
+        return null;
+    }
+
+    public ArrayList<Integer> copyArr(ArrayList<Integer> arri) {
+        ArrayList<Integer> arr = new ArrayList<>();
+        for (Integer i : arri) {
+            arr.add(i);
+        }
+        return arr;
+    }
+
+    public Object sacarDatosArr(Array arr, Auxiliar aux) {
+        if (arr.arrD.size() > arrint.size()) {
+            return mostrarErrores ? aux.error("Indice fuera del rango", fila, columna) : null;
+        }
+        ArrayList<Integer> arri2 = this.copyArr(arrint);
+        ArrayList<Integer> arriS = new ArrayList<>();
+        for (int a = 0; a < arr.arrD.size(); a++) {
+            arriS.add(arri2.remove(0));
+            this.arrint.remove(0);
+            Nodo n = this.arrNodo_paerrores.remove(0);
+            if (this.arrEsAccesoDoble.remove(0)) {
+                return aux.error("No se puede acceder a un arreglo con acceso dobles, se requiere el simple [] ", n.fila, n.columna);
+            }
+            this.ultimoAccesoDoble--;
+        }
+
+        Object o = arr.obtener(arriS);
+
+        if (o == null) {
+            return mostrarErrores ? aux.error("Indice fuera de rango", fila, columna) : null;
+        }
+
+        if (arri2.size() == 0) {
+            return o;
+        }
+        if (o instanceof Simbolo_prim) {
+            o = new Vector((Simbolo_prim) o);
+        }
+
+        if (o instanceof Vector) {
+            return this.sacarDatoVec((Vector) o, 0, aux);
+        } else if (o instanceof Lista) {
+            return this.sacarDatosLista((Lista) o, 0, aux);
         }
         return null;
     }

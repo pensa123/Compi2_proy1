@@ -23,6 +23,10 @@ public class Vector extends Estructura {
         tienetipo = false;
     }
 
+    public Vector(Simbolo_prim sp) {
+        this.agregar(sp);
+    }
+
     public Vector(Tipos tp) {
         this.tp = tp;
         tienetipo = true;
