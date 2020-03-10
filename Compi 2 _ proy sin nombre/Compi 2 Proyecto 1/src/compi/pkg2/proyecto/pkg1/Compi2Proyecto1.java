@@ -211,7 +211,40 @@ public class Compi2Proyecto1 {
                 + "arr[1][1][1] = \"Hola\"; \n"
                 + "print(arr[1][1][1]);");
 
-        ini.nueva_pestana("print(\"hola\");");
+        ini.nueva_pestana("print(\"lo que llevo de flex y cup\");\n"
+                + "mat = matrix(c(2,3) , 3 , 4);\n"
+                + "print(mat);\n"
+                + "print(mat[1,]);\n"
+                + "print(mat[,1]);\n"
+                + "print(mat[1,1]);\n"
+                + "print(mat[1]);\n"
+                + "arr = array(c(2,3,4,5) , c(2,3,2));\n"
+                + "print(arr);\n"
+                + "arr[1][1][1] = \"Holaa\";\n"
+                + "print(arr[1][1][1]);\n"
+                + "f = function(a){\n"
+                + "	print(a);\n"
+                + "}\n"
+                + "x = 2; \n"
+                + "f(x);\n"
+                + "f2 = function(){\n"
+                + "	print(\"no te saludare dos veces\");\n"
+                + "	if(2 == 2){\n"
+                + "		return(\"hola\"); 	\n"
+                + "	}	\n"
+                + "	print(\"hola\");\n"
+                + "}\n"
+                + "f2();\n"
+                + "while(true){\n"
+                + "	x = x +1;\n"
+                + "	if(x == 4){\n"
+                + "		continue;\n"
+                + "	}\n"
+                + "	if(x == 10){\n"
+                + "		break;	\n"
+                + "	}\n"
+                + "	print(x);\n"
+                + "}");
     }
 
     public Compi2Proyecto1() {
@@ -288,8 +321,7 @@ public class Compi2Proyecto1 {
 
         this.toPruebas.add("if(2==2){ print(\"es true\"); }else if(2 == 2) { print(\"segundo es true\"); } else { print(\"no es true\");  } ");
 
-        this.toPruebas.add("while(true){ print(\"hola\");}   \n"
-                + "do { print(\"hola\") }while(true)");
+        this.toPruebas.add("");
 
         // el primero es para probar el numero de prueba
         // el segundo 0 para los dos 1 para javacc 2 para flex y cup

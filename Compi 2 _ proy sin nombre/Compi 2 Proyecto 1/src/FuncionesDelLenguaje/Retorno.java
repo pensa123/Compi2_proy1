@@ -22,9 +22,14 @@ public class Retorno extends Nodo {
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
         if (ts.seencontroReturn()) {
-            Object o = hijos.get(0).ejecutar(ts, aux);
-            if (o == null) {
-                return aux.error("Return devolvio null", fila, columna);
+            Object o = null;
+            if (hijos.size() == 1) {
+                if (hijos.get(0) != null) {
+                    o = hijos.get(0).ejecutar(ts, aux);
+                    if (o == null) {
+                        return aux.error("Return devolvio null", fila, columna);
+                    }
+                }
             }
             ts.setReturn(o);
             System.out.println("hola");

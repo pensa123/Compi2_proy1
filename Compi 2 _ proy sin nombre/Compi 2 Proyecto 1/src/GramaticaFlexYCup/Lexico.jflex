@@ -27,8 +27,7 @@ InputCharacter  =   [^\r\n]
 WhiteSpace      =   {FinLinea} | [ \t\f]
 entero          =   [0-9] [0-9]*
 numerico          =   [0-9]+\.[0-9]+
-Letra           =   [a-zA-Z]
-iden   =   [_a-zA-Z]([_a-zA-Z]|{numerico})*
+iden   =   [_a-zA-Z]([_a-zA-Z]|{entero})*
 ComentarioLinea =   "//" ~"\n"
 ComentarioMulti =   "/*" ~"*/"
 %%
@@ -36,8 +35,16 @@ ComentarioMulti =   "/*" ~"*/"
 <YYINITIAL> {
     {entero}            { return symbol(sym.entero, yytext());  }
     {numerico}            { return symbol(sym.numerico, yytext());  }
+    "Do"                 { return symbol(sym.Do, yytext()); }
+    "Break"                 { return symbol(sym.Break, yytext()); }
+    "continue"                 { return symbol(sym.Continue, yytext()); }
+    "return"                 { return symbol(sym.Return, yytext()); }
+    "function"                 { return symbol(sym.Function, yytext()); }
     "true"                 { return symbol(sym.True, yytext()); }
     "false"                 { return symbol(sym.False, yytext()); }
+    "while"                 { return symbol(sym.While, yytext()); }
+    "if"                 { return symbol(sym.If, yytext()); }
+    "Else"                 { return symbol(sym.Else, yytext()); }
     ","                 { return symbol(sym.coma, yytext()); }
     "="                 { return symbol(sym.igual, yytext()); }
     
@@ -64,6 +71,9 @@ ComentarioMulti =   "/*" ~"*/"
     "?"                 { return symbol(sym.preg, yytext()); }
     ":"                 { return symbol(sym.dosPuntos, yytext()); }
 
+    "{"                 { return symbol(sym.llavei, yytext()); }
+    "}"                 { return symbol(sym.llaved, yytext()); }
+   
     "["                 { return symbol(sym.cori, yytext()); }
     "]"                 { return symbol(sym.cord, yytext()); }
     

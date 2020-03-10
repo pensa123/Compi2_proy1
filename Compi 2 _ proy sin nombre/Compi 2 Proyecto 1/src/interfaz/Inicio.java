@@ -501,8 +501,12 @@ public class Inicio extends javax.swing.JFrame {
         try {
             s.parse();
             ArrayList arr = s.miarr;
+
+            System.out.println("-------------------------------");
+            System.out.println("Esto es Flex y cup");
+            System.out.println("-------------------------------");
             this.dibujar(arr, "INICIO_FLEX_Y_CUP");
-            
+
             this.ejecutarAST(arr, "FLEX Y CUP");
         } catch (Exception e) {
             e.printStackTrace();
@@ -518,7 +522,7 @@ public class Inicio extends javax.swing.JFrame {
             parser.Analizar();
 
             System.out.println("-------------------------------");
-            System.out.println("Todo bien todo correcto");
+            System.out.println("Esto es javacc");
             System.out.println("-------------------------------");
 
             ArrayList arr = parser.arr;

@@ -4,21 +4,46 @@ import java_cup.runtime.*;
 //clases de java :D
 import java.util.ArrayList;
 //clases mias de mi :D
-import ClasesAuxiliares.Nodo;
-import ClasesAuxiliares.contenedorEnum.Tipos;
-import objetos.Primitivo;
+
+import FuncionesDelLenguaje.Parar;
+import FuncionesDelLenguaje.Continuar;
+import FuncionesDelLenguaje.Retorno;
+
+import FuncionesDelLenguaje.For;
+import FuncionesDelLenguaje.While;
+import FuncionesDelLenguaje.Do_while;
+
+import FuncionesDelLenguaje.If;
+
 import objetos.Llamada_metodo;
-import objetos.OperadorBinario;
-import objetos.OperadorBinario.Operando;
-import objetos.OperadorUnario;
-import objetos.OperadorUnario.Op;
-import objetos.Acceso;
-import objetos.AccesoMatriz;
-import objetos.Var_acceso;
+import objetos.Instrucciones_cuerpo;
+import objetos.Asignacion_funcion;
+
+import ClasesAuxiliares.contenedorEnum.Tipos;
+
+import ClasesAuxiliares.contenedorEnum.Tipos;
+
+import ClasesAuxiliares.Nodo;
+import FuncionesDelLenguaje.Print;
+
 import Comparadores.Ternario;
 
 import objetos.Iden;
 import objetos.Asignacion;
+
+
+import objetos.Acceso;
+import objetos.AccesoMatriz;
+import objetos.Var_acceso;
+
+import objetos.Primitivo;
+
+import objetos.OperadorBinario;
+import objetos.OperadorBinario.Operando;
+
+import objetos.OperadorUnario;
+import objetos.OperadorUnario.Op;
+
 
 
 parser code 
@@ -36,16 +61,16 @@ parser code
 
 /* Terminals (tokens returned by the scanner). */
 terminal String entero, numerico, igual, mas, menos, por, division, pComa, coma, dosPuntos;
-terminal String parenI, parenD, cadena, iden, modular, potencia, True, False, not; 
+terminal String parenI, parenD, cadena, iden, modular, potencia, True, False, not, Break, Do; 
 terminal String igualigual, noigual, menorigual, mayorigual, menorque,mayorque, or , and, preg; 
-terminal String cori , cord; 
+terminal String cori , cord , If, llavei, llaved, Else, Function, Return, While, Continue; 
 
 /* Non terminals */
 non terminal INICIO;
 
-non terminal Nodo  PRIMITIVO, EXPRESION, ARITMETICA, ASIGNACION;
-non terminal Nodo  INSTRUCCION, LLAMADAFUNC, SALIDA , IDEN_ACCESO, IDEN_ACCESO2;
-non terminal ArrayList<Nodo> LISTAPARAMS, LISTAPARAMS2, INSTRUCCIONES, LISTACORCHETES;
+non terminal Nodo  PRIMITIVO, EXPRESION, ARITMETICA, ASIGNACION, ELSE_IF, FUN_IF, DECFUNC, TRANSFERENCIA;
+non terminal Nodo  INSTRUCCION, LLAMADAFUNC, SALIDA , IDEN_ACCESO, IDEN_ACCESO2, PARAMS_DEC_FUN, WHILE, DO_WHILE;
+non terminal ArrayList<Nodo> LISTAPARAMS, LISTAPARAMS2, INSTRUCCIONES, LISTACORCHETES, LISTA_PARAMS_FUN , LISTA_PARAMS_FUN2;
 
 
 //non terminal Object ; 
@@ -73,29 +98,87 @@ INSTRUCCIONES ::= INSTRUCCIONES:arr INSTRUCCION:a    {: arr.add(a); RESULT = arr
                 |                     {: RESULT = new ArrayList<Nodo>(); :}
                 ;
 
-INSTRUCCION ::= LLAMADAFUNC:a  SALIDA{: RESULT = a; :}
-                | ASIGNACION:a SALIDA{: RESULT = a; :}
+INSTRUCCION ::= LLAMADAFUNC:a        SALIDA{: RESULT = a; :}
+                | ASIGNACION:a       SALIDA{: RESULT = a; :}
+                | FUN_IF:a                 {: RESULT = a; :}
+                | DECFUNC:a                {: RESULT = a; :}
+                | WHILE:a                  {: RESULT = a; :}
+                | DO_WHILE:a         SALIDA{: RESULT = a; :}
+                | TRANSFERENCIA:a    SALIDA{: RESULT = a; :}
               ;
 
+DO_WHILE ::= Do:a llavei  INSTRUCCIONES:arr llaved While parenI EXPRESION:n1 parenD {: Nodo n = new Instrucciones_cuerpo(0,0,arr); 
+                                                                        RESULT = new Do_while(aleft , aright , n , n1);:}
+        ;
 
-ASIGNACION ::= IDEN_ACCESO:n igual:a EXPRESION:n2 {: RESULT  =  new Asignacion(aleft, aright , n , n2); :}
+WHILE ::= While:a parenI EXPRESION:n parenD llavei INSTRUCCIONES:arr llaved {: Nodo n1 = new Instrucciones_cuerpo(0,0,arr); 
+                                                                        RESULT = new While(aleft , aright , n , n1); :}
+        ;
+
+DECFUNC ::= iden:a igual Function parenI LISTA_PARAMS_FUN:arr  parenD llavei INSTRUCCIONES:arr2  llaved 
+                        {: 
+                        Nodo n = new Instrucciones_cuerpo(0,0 , arr2);
+                        arr.add(n);
+                        RESULT = new Asignacion_funcion(aleft , aright , arr , a); :};
+
+TRANSFERENCIA ::= Return:a                         {: RESULT = new Retorno(aleft, aright , null); :}
+        | Return:a parenI EXPRESION:n parenD {: RESULT = new Retorno(aleft, aright , n);    :}
+        | Break:a        {:RESULT = new Parar( aleft, aright ); :}
+        | Continue:a    {:RESULT = new Continuar( aleft, aright ); :}
+        ;
+
+LISTA_PARAMS_FUN  ::=  LISTA_PARAMS_FUN2:arr {:RESULT = arr; :} 
+                        | {: RESULT = new ArrayList<Nodo>(); :}
+                        ; 
+
+LISTA_PARAMS_FUN2 ::=  LISTA_PARAMS_FUN2:arr coma PARAMS_DEC_FUN:n {: arr.add(n); RESULT = arr; :}
+                        | PARAMS_DEC_FUN:n {: ArrayList<Nodo> arr = new ArrayList<Nodo>(); arr.add(n); RESULT = arr; :}
+                        ; 
+                
+PARAMS_DEC_FUN    ::= iden:a                   {: RESULT =  new Iden(aleft , aright , a); :}
+                |     iden:a igual EXPRESION:n {: RESULT =  new Iden(aleft , aright , a, n); :}
+                ;
+        
+FUN_IF ::= If:a parenI EXPRESION:n parenD llavei  INSTRUCCIONES:arr  llaved ELSE_IF:n2 {:  Nodo n1 = new Instrucciones_cuerpo(0 , 0 , arr); 
+                                                                                        /* if operador expresiones_cuerpo*/ 
+                                                                                        ArrayList<Nodo> arr2 = new ArrayList<Nodo>();
+                                                                                        arr2.add(n); arr2.add(n1);
+                                                                                        if(n2 != null){ arr2.add(n2); }
+                                                                                        RESULT = new If(aleft , aright ,arr2 );
+                                                                                        :}
+                ;
+
+ELSE_IF ::= Else llavei INSTRUCCIONES:arr llaved{: RESULT = new Instrucciones_cuerpo(0 , 0 , arr);  :} 
+        | Else FUN_IF:a  {: RESULT = a; :}
+         | {: RESULT = null;:} ; 
+
+
+ASIGNACION ::= 
+        iden:i igual:a EXPRESION:n2        {: Nodo n  =  new Iden(ileft , iright , i);
+                                              RESULT  =  new Asignacion(aleft, aright , n , n2); :}
+        |
+        IDEN_ACCESO:n igual:a EXPRESION:n2 {: RESULT  =  new Asignacion(aleft, aright , n , n2); :}
         ;
 
 
-IDEN_ACCESO ::= iden:a IDEN_ACCESO2          {: Nodo n =  new Iden(aleft , aright , a);:}  
-                | LISTACORCHETES:arr  {:        RESULT = new Var_acceso(arr.get(0).fila, arr.get(0).columna , arr);  :}
-                |iden:a                      {: RESULT =  new Iden(aleft , aright , a); :}
+IDEN_ACCESO ::= IDEN_ACCESO2:n        {: RESULT = n;  :}  
+                | LISTACORCHETES:arr  {: RESULT = new Var_acceso(arr.get(0).fila, arr.get(0).columna , arr);  :}
         ;
 
-IDEN_ACCESO2 ::=  cori EXPRESION coma EXPRESION cord {::}
-                | cori EXPRESION:n  coma cord {:  :}
-                | cori coma EXPRESION:n  cord {:  :}
+IDEN_ACCESO2 ::= iden:a  cori:t EXPRESION:n1 coma EXPRESION:n2 cord {: Nodo n = new AccesoMatriz(tleft , tright , n1 , n2 );  
+                                                                       RESULT = new Var_acceso(tleft , tright , new Iden(aleft , aright , a) , n); :}
+                |iden:a  cori:t EXPRESION:n1  coma cord        {: Nodo n = new AccesoMatriz(tleft , tright , n1 , true );  
+                                                                       RESULT = new Var_acceso(tleft , tright , new Iden(aleft , aright , a) , n); :}
+                |iden:a  cori:t coma EXPRESION:n1  cord        {: Nodo n = new AccesoMatriz(tleft , tright , n1 , false );  
+                                                                       RESULT = new Var_acceso(tleft , tright , new Iden(aleft , aright , a) , n); :}
                 ; 
         
-LISTACORCHETES ::= LISTACORCHETES:arr cori EXPRESION:n cord {: arr.add(n); RESULT = arr; :}
+LISTACORCHETES ::= LISTACORCHETES:arr cori:a EXPRESION:n cord {: arr.add(new Acceso(aleft , aright , n , false )); RESULT = arr; :}
+                | LISTACORCHETES:arr cori:a cori EXPRESION:n cord cord {: arr.add(new Acceso(aleft , aright , n , true )); RESULT = arr; :}
                 | iden:a  cori EXPRESION:n2 cord  {:ArrayList<Nodo> arr = new ArrayList<Nodo>(); 
-                        Nodo n =  new Iden(aleft , aright , a); arr.add(n); 
-                        arr.add(n2); RESULT  = arr;  :}; 
+                        Nodo n =  new Iden(aleft , aright , a);  
+                        arr.add(n);arr.add(new Acceso(aleft , aright , n2 , false ));   RESULT  = arr;  :}
+                        ; 
 
 LLAMADAFUNC ::= iden:a parenI LISTAPARAMS:arr parenD  {: RESULT = new Llamada_metodo(aleft, aright , arr, a);    :}
            ;
@@ -145,7 +228,8 @@ PRIMITIVO ::= numerico:e  {: RESULT = new  Primitivo(eleft , eright , Tipos.nume
             | entero:e  {:   RESULT = new  Primitivo(eleft , eright , Tipos.entero,  e ); :}
             | True:e  {:   RESULT = new  Primitivo(eleft , eright , Tipos.booleano,  true ); :}
             | False:e  {:   RESULT = new  Primitivo(eleft , eright , Tipos.booleano,  false ); :}
-            | iden:e   {:  RESULT = new Iden(eleft, eright, e); :}
+            | IDEN_ACCESO:n   {:  RESULT = n; :}
+            |iden:a               {: RESULT =  new Iden(aleft , aright , a); :}
            ;
 
 SALIDA ::= pComa | ; 
