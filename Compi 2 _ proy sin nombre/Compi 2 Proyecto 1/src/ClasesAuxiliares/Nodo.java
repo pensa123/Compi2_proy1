@@ -19,7 +19,7 @@ public abstract class Nodo {
     public int fila;
     public int columna;
     public boolean tieneHijos;
-
+    
     public void saludo() {
         System.out.println("hola");
     }

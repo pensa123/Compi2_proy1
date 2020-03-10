@@ -9,6 +9,7 @@ import ClasesAuxiliares.Dibujador;
 import ClasesAuxiliares.Nodo;
 import ClasesAuxiliares.contenedorEnum;
 import ClasesAuxiliares.contenedorEnum.Tipos;
+import FuncionesDelLenguaje.Parar;
 import GramaticaFlexYCup.Lexer;
 import GramaticaFlexYCup.Sint;
 import GramaticaJavaCC.Gramatica;
@@ -16,8 +17,10 @@ import GramaticaJavaCC.ParseException;
 import GramaticaJavaCC.TokenMgrError;
 import Tabla_simbolos.Array;
 import Tabla_simbolos.Auxiliar;
+import Tabla_simbolos.Estructura;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
+import Tabla_simbolos.Vector;
 import interfaz.Inicio;
 import java.awt.TextArea;
 import java.io.BufferedReader;
@@ -46,6 +49,7 @@ public class Compi2Proyecto1 {
     public static void main(String[] args) {
 
         mgrafico();
+
         /*ArrayList<Integer> arrd = new ArrayList<>();
          arrd.add(3);
          arrd.add(3);
@@ -60,7 +64,6 @@ public class Compi2Proyecto1 {
 
          */
         //arr.imp();
-
         //System.out.println( 2.1 % 0.5);
         /*String st = "\\n";
          st = st.replace("\\n", "\n");
@@ -207,7 +210,7 @@ public class Compi2Proyecto1 {
                 + "print(\"--------------------\");\n"
                 + "arr[1][1][1] = \"Hola\"; \n"
                 + "print(arr[1][1][1]);");
-        
+
         ini.nueva_pestana("print(\"hola\");");
     }
 

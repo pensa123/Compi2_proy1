@@ -474,7 +474,7 @@ public class Gramatica implements GramaticaConstants {
       }
       jj_consume_token(OR);
       n2 = CondicionAnd();
-                                   n = new OperadorBinario(1 , 1, n , n2, Operando.or);
+                                   n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.or);
     }
       {if (true) return n;}
     throw new Error("Missing return statement in function");
@@ -495,7 +495,7 @@ public class Gramatica implements GramaticaConstants {
       }
       jj_consume_token(AND);
       n2 = ExpresionIgualdad();
-                                           n = new OperadorBinario(1 , 1, n , n2, Operando.and);
+                                           n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.and);
     }
         {if (true) return n;}
     throw new Error("Missing return statement in function");
@@ -519,12 +519,12 @@ public class Gramatica implements GramaticaConstants {
       case IGUALACION:
         jj_consume_token(IGUALACION);
         n2 = ExpresionRelacional();
-                                                   n = new OperadorBinario(1 , 1, n , n2, Operando.comparacion);
+                                                   n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.comparacion);
         break;
       case DIFERENCIACION:
         jj_consume_token(DIFERENCIACION);
         n2 = ExpresionRelacional();
-                                                        n = new OperadorBinario(1 , 1, n , n2, Operando.desigualdad);
+                                                        n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.desigualdad);
         break;
       default:
         jj_la1[24] = jj_gen;
@@ -556,22 +556,22 @@ public class Gramatica implements GramaticaConstants {
       case MAYORQUE:
         jj_consume_token(MAYORQUE);
         n2 = ExpresionAditiva();
-                                               n = new OperadorBinario(1 , 1, n , n2, Operando.mayorque);
+                                               n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.mayorque);
         break;
       case MENORQUE:
         jj_consume_token(MENORQUE);
         n2 = ExpresionAditiva();
-                                               n = new OperadorBinario(1 , 1, n , n2, Operando.menorque);
+                                               n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.menorque);
         break;
       case MAYORIGUAL:
         jj_consume_token(MAYORIGUAL);
         n2 = ExpresionAditiva();
-                                                 n = new OperadorBinario(1 , 1, n , n2, Operando.mayorigual);
+                                                 n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.mayorigual);
         break;
       case MENORIGUAL:
         jj_consume_token(MENORIGUAL);
         n2 = ExpresionAditiva();
-                                                 n = new OperadorBinario(1 , 1, n , n2, Operando.menorigual);
+                                                 n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.menorigual);
         break;
       default:
         jj_la1[26] = jj_gen;
@@ -601,12 +601,12 @@ public class Gramatica implements GramaticaConstants {
       case MAS:
         jj_consume_token(MAS);
         n2 = ExpresionMultiplicativa();
-                                                 n = new OperadorBinario(1 , 1, n , n2, Operando.mas);
+                                                 n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.mas);
         break;
       case MENOS:
         jj_consume_token(MENOS);
         n2 = ExpresionMultiplicativa();
-                                                  n = new OperadorBinario(1 , 1, n , n2, Operando.menos);
+                                                  n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.menos);
         break;
       default:
         jj_la1[28] = jj_gen;
@@ -636,12 +636,12 @@ public class Gramatica implements GramaticaConstants {
       case POR:
         jj_consume_token(POR);
         n2 = ExpPotencia();
-                                    n = new OperadorBinario(1 , 1, n , n2, Operando.por);
+                                    n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.por);
         break;
       case DIV:
         jj_consume_token(DIV);
         n2 = ExpPotencia();
-                                     n = new OperadorBinario(1 , 1, n , n2, Operando.div);
+                                     n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.div);
         break;
       default:
         jj_la1[30] = jj_gen;
@@ -671,12 +671,12 @@ public class Gramatica implements GramaticaConstants {
       case POTENCIA:
         jj_consume_token(POTENCIA);
         n2 = ExpresionUnaria();
-                                             n = new OperadorBinario(1 , 1, n , n2, Operando.potencia);
+                                             n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.potencia);
         break;
       case MODULO:
         jj_consume_token(MODULO);
         n2 = ExpresionUnaria();
-                                            n = new OperadorBinario(1 , 1, n , n2, Operando.modulo);
+                                            n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.modulo);
         break;
       default:
         jj_la1[32] = jj_gen;
@@ -694,12 +694,12 @@ public class Gramatica implements GramaticaConstants {
     case MENOS:
       jj_consume_token(MENOS);
       n = ExpresionUnaria();
-                                     n = new OperadorUnario(1 , 1 , n, Op.neg);
+                                     n = new OperadorUnario(token.beginLine , token.beginColumn, n, Op.neg);
       break;
     case NOT:
       jj_consume_token(NOT);
       n = ExpresionUnaria();
-                                    n = new OperadorUnario(1 , 1 , n, Op.not);
+                                    n = new OperadorUnario(token.beginLine , token.beginColumn, n, Op.not);
       break;
     case NUMERO:
     case DECIMAL:

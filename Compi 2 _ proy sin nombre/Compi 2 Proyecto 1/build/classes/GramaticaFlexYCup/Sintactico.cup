@@ -8,6 +8,17 @@ import ClasesAuxiliares.Nodo;
 import ClasesAuxiliares.contenedorEnum.Tipos;
 import objetos.Primitivo;
 import objetos.Llamada_metodo;
+import objetos.OperadorBinario;
+import objetos.OperadorBinario.Operando;
+import objetos.OperadorUnario;
+import objetos.OperadorUnario.Op;
+import objetos.Acceso;
+import objetos.AccesoMatriz;
+import objetos.Var_acceso;
+import Comparadores.Ternario;
+
+import objetos.Iden;
+import objetos.Asignacion;
 
 
 parser code 
@@ -25,33 +36,68 @@ parser code
 
 /* Terminals (tokens returned by the scanner). */
 terminal String entero, numerico, igual, mas, menos, por, division, pComa, coma, dosPuntos;
-terminal String parenI, parenD, cadena, iden, modular, potencia; 
+terminal String parenI, parenD, cadena, iden, modular, potencia, True, False, not; 
+terminal String igualigual, noigual, menorigual, mayorigual, menorque,mayorque, or , and, preg; 
+terminal String cori , cord; 
 
 /* Non terminals */
 non terminal INICIO;
 
-non terminal Nodo  PRIMITIVO, EXPRESION, ARITMETICA;
-non terminal Nodo INSTRUCCIONES, INSTRUCCION, LLAMADAFUNC, SALIDA;
-non terminal ArrayList<Nodo> LISTAPARAMS, LISTAPARAMS2;
+non terminal Nodo  PRIMITIVO, EXPRESION, ARITMETICA, ASIGNACION;
+non terminal Nodo  INSTRUCCION, LLAMADAFUNC, SALIDA , IDEN_ACCESO, IDEN_ACCESO2;
+non terminal ArrayList<Nodo> LISTAPARAMS, LISTAPARAMS2, INSTRUCCIONES, LISTACORCHETES;
 
+
+//non terminal Object ; 
+
+
+
+precedence right igual;
+precedence right preg , dosPuntos;
+precedence left or;
+precedence left and;
+precedence left igualigual, noigual;
+precedence left mayorque, mayorigual, menorque , menorigual;
 precedence left mas, menos;
 precedence left por, division, modular;
 precedence left potencia;
+precedence right not , menos; 
 precedence left parenI, parenD;
 
 start with INICIO;
 
-INICIO ::= INSTRUCCIONES:e {:  :}
+INICIO ::= INSTRUCCIONES:e {: miarr = e;  :}
          ;
 
-INSTRUCCIONES ::= INSTRUCCIONES INSTRUCCION:a    {: miarr.add(a); :}
-                |  INSTRUCCION:a                   {: miarr.add(a); :}
+INSTRUCCIONES ::= INSTRUCCIONES:arr INSTRUCCION:a    {: arr.add(a); RESULT = arr; :}
+                |                     {: RESULT = new ArrayList<Nodo>(); :}
                 ;
 
-INSTRUCCION ::= LLAMADAFUNC:a{: RESULT = a; :}
+INSTRUCCION ::= LLAMADAFUNC:a  SALIDA{: RESULT = a; :}
+                | ASIGNACION:a SALIDA{: RESULT = a; :}
               ;
 
-LLAMADAFUNC ::= iden:a parenI LISTAPARAMS:arr parenD SALIDA {: RESULT = new Llamada_metodo(aleft, aright , arr, a);    :}
+
+ASIGNACION ::= IDEN_ACCESO:n igual:a EXPRESION:n2 {: RESULT  =  new Asignacion(aleft, aright , n , n2); :}
+        ;
+
+
+IDEN_ACCESO ::= iden:a IDEN_ACCESO2          {: Nodo n =  new Iden(aleft , aright , a);:}  
+                | LISTACORCHETES:arr  {:        RESULT = new Var_acceso(arr.get(0).fila, arr.get(0).columna , arr);  :}
+                |iden:a                      {: RESULT =  new Iden(aleft , aright , a); :}
+        ;
+
+IDEN_ACCESO2 ::=  cori EXPRESION coma EXPRESION cord {::}
+                | cori EXPRESION:n  coma cord {:  :}
+                | cori coma EXPRESION:n  cord {:  :}
+                ; 
+        
+LISTACORCHETES ::= LISTACORCHETES:arr cori EXPRESION:n cord {: arr.add(n); RESULT = arr; :}
+                | iden:a  cori EXPRESION:n2 cord  {:ArrayList<Nodo> arr = new ArrayList<Nodo>(); 
+                        Nodo n =  new Iden(aleft , aright , a); arr.add(n); 
+                        arr.add(n2); RESULT  = arr;  :}; 
+
+LLAMADAFUNC ::= iden:a parenI LISTAPARAMS:arr parenD  {: RESULT = new Llamada_metodo(aleft, aright , arr, a);    :}
            ;
 
 LISTAPARAMS ::= LISTAPARAMS2:a {: RESULT = a;  :}  
@@ -62,23 +108,44 @@ LISTAPARAMS2 ::= LISTAPARAMS2:arr coma EXPRESION:a {: arr.add(a);  RESULT  = arr
                 | EXPRESION:a   {: ArrayList<Nodo> arr = new ArrayList<>();  arr.add(a); RESULT = arr;   :};
 
 
-EXPRESION ::=  ARITMETICA:e                 {:  :}  
+EXPRESION ::=  ARITMETICA:e                 {: RESULT = e; :}  
            |   PRIMITIVO:e                  {: RESULT = e; :}
-           |   parenI EXPRESION:e parenD    {:  :}
-
+           |   parenI EXPRESION:e parenD    {: RESULT = e; :}
+           |   LLAMADAFUNC:e                {: RESULT = e; :}
+           |   EXPRESION:n preg:a EXPRESION:n1 dosPuntos EXPRESION:n2 
+                {: ArrayList<Nodo> arr = new ArrayList<Nodo>();
+                arr.add(n); arr.add(n1); arr.add(n2); 
+                RESULT = new Ternario(aleft , aright , arr);   
+                :} 
            ;
 
-ARITMETICA ::= menos  EXPRESION:e                 {:  :} %prec menos 
-             | EXPRESION:a mas EXPRESION:b       {:  :}
-             | EXPRESION:a menos EXPRESION:b     {:  :}
-             | EXPRESION:a por EXPRESION:b       {:  :}
-             | EXPRESION:a division EXPRESION:b  {:  :}
-             | EXPRESION:a potencia EXPRESION:b  {:  :}
-             | EXPRESION:a modular EXPRESION:b  {:  :}
+ARITMETICA ::= menos:a  EXPRESION:n                    {:  RESULT = new OperadorUnario(aleft  , aright, n, Op.neg);                     :} 
+                | not:a  EXPRESION:n                   {:  RESULT = new OperadorUnario(aleft  , aright, n, Op.not);                     :} 
+                | EXPRESION:n mas:a EXPRESION:n2       {:  RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.mas);          :}
+                | EXPRESION:n menos:a EXPRESION:n2     {:  RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.menos);        :}
+                | EXPRESION:n por:a EXPRESION:n2       {:  RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.por);          :}
+                | EXPRESION:n division:a EXPRESION:n2  {:  RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.div);          :}
+                | EXPRESION:n potencia:a EXPRESION:n2  {:  RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.potencia);     :}
+                | EXPRESION:n modular:a EXPRESION:n2  {: RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.modulo);         :}
+
+
+                | EXPRESION:n igualigual:a EXPRESION:n2  {: RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.comparacion);         :}
+                | EXPRESION:n noigual:a EXPRESION:n2  {: RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.desigualdad);         :}
+                | EXPRESION:n mayorque:a EXPRESION:n2  {: RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.mayorque);         :}
+                | EXPRESION:n mayorigual:a EXPRESION:n2  {: RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.mayorigual);         :}
+                | EXPRESION:n menorque:a EXPRESION:n2  {: RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.menorque);         :}
+                | EXPRESION:n menorigual:a EXPRESION:n2  {: RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.menorigual);         :}
+               
+                | EXPRESION:n or:a EXPRESION:n2  {: RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.or);         :}
+                | EXPRESION:n and:a EXPRESION:n2  {: RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.and);         :}
              ;
 
 PRIMITIVO ::= numerico:e  {: RESULT = new  Primitivo(eleft , eright , Tipos.numerico,  Double.parseDouble(e) ); :}
             | cadena:e  {:   RESULT = new  Primitivo(eleft , eright , Tipos.cadena,  e ); :}
+            | entero:e  {:   RESULT = new  Primitivo(eleft , eright , Tipos.entero,  e ); :}
+            | True:e  {:   RESULT = new  Primitivo(eleft , eright , Tipos.booleano,  true ); :}
+            | False:e  {:   RESULT = new  Primitivo(eleft , eright , Tipos.booleano,  false ); :}
+            | iden:e   {:  RESULT = new Iden(eleft, eright, e); :}
            ;
 
 SALIDA ::= pComa | ; 

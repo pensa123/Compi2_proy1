@@ -7,14 +7,12 @@ package objetos;
 
 import ClasesAuxiliares.Dibujador;
 import ClasesAuxiliares.Nodo;
-import ClasesAuxiliares.contenedorEnum;
 import ClasesAuxiliares.contenedorEnum.Tipos;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Matriz;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
 import Tabla_simbolos.Vector;
-import java.util.ArrayList;
 
 /**
  *

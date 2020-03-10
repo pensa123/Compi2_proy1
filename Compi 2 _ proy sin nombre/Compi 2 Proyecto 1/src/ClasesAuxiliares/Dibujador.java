@@ -10,8 +10,5 @@ package ClasesAuxiliares;
  * @author ferna
  */
 public class Dibujador {
-    
-    
-    public String st = ""; 
-    
+    public String st = "";
 }

@@ -346,7 +346,7 @@ Nodo Expresion() :
   {
     n = CondicionAnd() 
     (
-        <OR> n2 = CondicionAnd() { n = new OperadorBinario(1 , 1, n , n2, Operando.or); }
+        <OR> n2 = CondicionAnd() { n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.or); }
     )*
     { 
       return n;
@@ -361,7 +361,7 @@ Nodo Expresion() :
   {
       n = ExpresionIgualdad() 
       (
-          <AND> n2 = ExpresionIgualdad() { n = new OperadorBinario(1 , 1, n , n2, Operando.and); }
+          <AND> n2 = ExpresionIgualdad() { n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.and); }
       )*
       {
         return n;
@@ -375,9 +375,9 @@ Nodo Expresion() :
   {
       n = ExpresionRelacional() 
       (
-          <IGUALACION> n2 = ExpresionRelacional() {n = new OperadorBinario(1 , 1, n , n2, Operando.comparacion);}
+          <IGUALACION> n2 = ExpresionRelacional() {n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.comparacion);}
           |
-          <DIFERENCIACION> n2 =  ExpresionRelacional() {n = new OperadorBinario(1 , 1, n , n2, Operando.desigualdad); }
+          <DIFERENCIACION> n2 =  ExpresionRelacional() {n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.desigualdad); }
       )*
       {
         return n;
@@ -392,13 +392,13 @@ Nodo ExpresionRelacional() :
   {
      n = ExpresionAditiva() 
       (
-          <MAYORQUE> n2 = ExpresionAditiva() { n = new OperadorBinario(1 , 1, n , n2, Operando.mayorque);}
+          <MAYORQUE> n2 = ExpresionAditiva() { n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.mayorque);}
           |
-          <MENORQUE> n2 = ExpresionAditiva() { n = new OperadorBinario(1 , 1, n , n2, Operando.menorque);}
+          <MENORQUE> n2 = ExpresionAditiva() { n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.menorque);}
           |
-          <MAYORIGUAL> n2 = ExpresionAditiva() { n = new OperadorBinario(1 , 1, n , n2, Operando.mayorigual);}
+          <MAYORIGUAL> n2 = ExpresionAditiva() { n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.mayorigual);}
           |
-          <MENORIGUAL> n2 = ExpresionAditiva() { n = new OperadorBinario(1 , 1, n , n2, Operando.menorigual);}
+          <MENORIGUAL> n2 = ExpresionAditiva() { n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.menorigual);}
       )*
       {
         return n;
@@ -412,9 +412,9 @@ Nodo ExpresionRelacional() :
   {
       n = ExpresionMultiplicativa()
       (
-          <MAS> n2=  ExpresionMultiplicativa() { n = new OperadorBinario(1 , 1, n , n2, Operando.mas); }
+          <MAS> n2=  ExpresionMultiplicativa() { n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.mas); }
           |
-          <MENOS> n2 = ExpresionMultiplicativa() {n = new OperadorBinario(1 , 1, n , n2, Operando.menos); }
+          <MENOS> n2 = ExpresionMultiplicativa() {n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.menos); }
       )*
       {
         return n;
@@ -428,9 +428,9 @@ Nodo ExpresionRelacional() :
   {
       n = ExpPotencia()
       (
-          <POR> n2 = ExpPotencia() {n = new OperadorBinario(1 , 1, n , n2, Operando.por); }
+          <POR> n2 = ExpPotencia() {n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.por); }
           |
-          <DIV> n2 = ExpPotencia() { n = new OperadorBinario(1 , 1, n , n2, Operando.div);}
+          <DIV> n2 = ExpPotencia() { n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.div);}
       )*
       {
         return n;
@@ -444,9 +444,9 @@ Nodo ExpresionRelacional() :
   {
       n = ExpresionUnaria()
       (
-          <POTENCIA> n2 = ExpresionUnaria() {n = new OperadorBinario(1 , 1, n , n2, Operando.potencia); }
+          <POTENCIA> n2 = ExpresionUnaria() {n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.potencia); }
           |
-          <MODULO> n2 = ExpresionUnaria() { n = new OperadorBinario(1 , 1, n , n2, Operando.modulo);}
+          <MODULO> n2 = ExpresionUnaria() { n = new OperadorBinario(token.beginLine , token.beginColumn, n , n2, Operando.modulo);}
       )*
       {
         return n;
@@ -460,9 +460,9 @@ Nodo ExpresionRelacional() :
   }
   {
     (
-      <MENOS> n = ExpresionUnaria() {n = new OperadorUnario(1 , 1 , n, Op.neg);  }
+      <MENOS> n = ExpresionUnaria() {n = new OperadorUnario(token.beginLine , token.beginColumn, n, Op.neg);  }
       |
-      <NOT> n = ExpresionUnaria() { n = new OperadorUnario(1 , 1 , n, Op.not);  }
+      <NOT> n = ExpresionUnaria() { n = new OperadorUnario(token.beginLine , token.beginColumn, n, Op.not);  }
       |
       n= Primitivo() {}
     ){

@@ -34,22 +34,43 @@ ComentarioMulti =   "/*" ~"*/"
 %%
 
 <YYINITIAL> {
-    {entero}            { return symbol(sym.entero, yytext().toLowerCase());  }
-    {numerico}            { return symbol(sym.numerico, yytext().toLowerCase());  }
-    {iden}            { return symbol(sym.iden, yytext().toLowerCase());  }
-    ","                 { return symbol(sym.coma, ":="); }
-    "="                 { return symbol(sym.igual, ":="); }
-    "+"                 { return symbol(sym.mas, "+"); }
-    "-"                 { return symbol(sym.menos, "-"); }
-    "*"                 { return symbol(sym.por, "*"); }
-    "/"                 { return symbol(sym.division, "/"); }
-    "^"                 { return symbol(sym.potencia, "/"); }
-    "%%"                 { return symbol(sym.modular, "/"); }
-    ";"                 { return symbol(sym.pComa, ";"); }
-    ":"                 { return symbol(sym.dosPuntos, ":"); }
-    "("                 { return symbol(sym.parenI, "("); }
-    ")"                 { return symbol(sym.parenD, ")"); }
+    {entero}            { return symbol(sym.entero, yytext());  }
+    {numerico}            { return symbol(sym.numerico, yytext());  }
+    "true"                 { return symbol(sym.True, yytext()); }
+    "false"                 { return symbol(sym.False, yytext()); }
+    ","                 { return symbol(sym.coma, yytext()); }
+    "="                 { return symbol(sym.igual, yytext()); }
+    
+    "=="                 { return symbol(sym.igualigual, yytext()); }
+    "!="                 { return symbol(sym.noigual, yytext()); }
+    "<="                 { return symbol(sym.menorigual, yytext()); }
+    ">="                 { return symbol(sym.mayorigual, yytext()); }
+    "<"                 { return symbol(sym.menorque, yytext()); }
+    ">"                 { return symbol(sym.mayorque, yytext()); }
+    
+    "|"                 { return symbol(sym.or, yytext()); }
+    "&"                 { return symbol(sym.and, yytext()); }
+    
+    
+    "+"                 { return symbol(sym.mas, yytext()); }
+    "-"                 { return symbol(sym.menos, yytext()); }
+    "!"                 { return symbol(sym.not, yytext()); }
+    "*"                 { return symbol(sym.por, yytext()); }
+    "/"                 { return symbol(sym.division, yytext()); }
+    "^"                 { return symbol(sym.potencia, yytext()); }
+    "%%"                 { return symbol(sym.modular, yytext()); }
+    ";"                 { return symbol(sym.pComa, yytext()); }
+    
+    "?"                 { return symbol(sym.preg, yytext()); }
+    ":"                 { return symbol(sym.dosPuntos, yytext()); }
+
+    "["                 { return symbol(sym.cori, yytext()); }
+    "]"                 { return symbol(sym.cord, yytext()); }
+    
+    "("                 { return symbol(sym.parenI, yytext()); }
+    ")"                 { return symbol(sym.parenD, yytext()); }
     \"                  { yybegin(STRING); NuevoString.setLength(0);}
+    {iden}            { return symbol(sym.iden, yytext());  }
     {ComentarioLinea}   { /* ignore */}
     {ComentarioMulti}   { /* ignore */}
     {WhiteSpace}        {}

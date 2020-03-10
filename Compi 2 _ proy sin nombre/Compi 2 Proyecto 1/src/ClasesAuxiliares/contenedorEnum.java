@@ -12,7 +12,6 @@ package ClasesAuxiliares;
 public class contenedorEnum {
 
     public enum Tipos {
-
         cadena, numerico, entero, booleano , nulo
     }
 

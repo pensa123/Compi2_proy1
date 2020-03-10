@@ -26,7 +26,6 @@ public class OperadorUnario extends Nodo {
     }
 
     public enum Op {
-
         neg, not
     };
 
@@ -41,7 +40,6 @@ public class OperadorUnario extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-
         Object o1 = hijos.get(0).ejecutar(ts, aux);
 
         if (o1 instanceof Simbolo_prim) {
@@ -50,7 +48,6 @@ public class OperadorUnario extends Nodo {
             return ejec_vc((Vector) o1, aux);
         }
         //TODO falta hacer el de la matriz :D
-
         return null;
     }
 

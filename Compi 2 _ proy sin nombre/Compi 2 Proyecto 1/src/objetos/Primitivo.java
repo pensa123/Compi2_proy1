@@ -18,8 +18,6 @@ import Tabla_simbolos.Tabla_Sim;
  */
 public class Primitivo extends Nodo {
 
-
-
     public Tipos tipo;
     public Object valor;
 
@@ -49,15 +47,13 @@ public class Primitivo extends Nodo {
 
     @Override
     public void dibujar(Dibujador d, String padre) {
-
         d.st += this.hashCode() + "[label=\"" + this.getClass().getSimpleName() + " " + tipo + " " + valor + "\" ]; \n";
         d.st += padre + " ->  " + this.hashCode() + "; \n";
     }
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-        Simbolo_prim sp = new Simbolo_prim(tipo , valor);
-        return sp;
+        return new Simbolo_prim(tipo, valor);
     }
 
 }
