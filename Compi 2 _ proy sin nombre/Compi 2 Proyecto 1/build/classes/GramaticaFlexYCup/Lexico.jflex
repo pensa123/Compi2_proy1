@@ -35,6 +35,10 @@ ComentarioMulti =   "/*" ~"*/"
 <YYINITIAL> {
     {entero}            { return symbol(sym.entero, yytext());  }
     {numerico}            { return symbol(sym.numerico, yytext());  }
+    //"=>"                 { return symbol(sym.flecha, yytext()); }
+    "null"                 { return symbol(sym.Null, yytext()); }
+    "In"                 { return symbol(sym.In, yytext()); }
+    "For"                 { return symbol(sym.For, yytext()); }
     "Do"                 { return symbol(sym.Do, yytext()); }
     "Break"                 { return symbol(sym.Break, yytext()); }
     "continue"                 { return symbol(sym.Continue, yytext()); }

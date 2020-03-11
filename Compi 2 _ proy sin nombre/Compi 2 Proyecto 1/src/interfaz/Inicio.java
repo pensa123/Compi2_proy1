@@ -15,6 +15,7 @@ import java.io.FileReader;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import java.awt.Desktop;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -78,6 +79,8 @@ public class Inicio extends javax.swing.JFrame {
         txtConsola = new java.awt.TextArea();
         txtError = new java.awt.TextArea();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -130,6 +133,30 @@ public class Inicio extends javax.swing.JFrame {
         jButton2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jButton2KeyPressed(evt);
+            }
+        });
+
+        jButton3.setText("AST flex y cup");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jButton3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton3KeyPressed(evt);
+            }
+        });
+
+        jButton4.setText("AST JAVACC");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jButton4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton4KeyPressed(evt);
             }
         });
 
@@ -218,11 +245,15 @@ public class Inicio extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtConsola, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(493, 493, 493)))
+                        .addGap(107, 107, 107)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(251, 251, 251)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -231,14 +262,16 @@ public class Inicio extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 1, Short.MAX_VALUE)
+                        .addGap(0, 16, Short.MAX_VALUE)
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtConsola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(4, 4, 4)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
+                .addGap(10, 10, 10)
                 .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -428,6 +461,24 @@ public class Inicio extends javax.swing.JFrame {
         ejecutar(false);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        abrirAST("AST_FLEX_Y_CUP");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton3KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3KeyPressed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        abrirAST("AST_JAVACC");
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton4KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4KeyPressed
+
     public void guardarArchivo() {
         try {
             if (this.jTabbedPane1.getTabCount() == 0) {
@@ -479,6 +530,8 @@ public class Inicio extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -505,7 +558,7 @@ public class Inicio extends javax.swing.JFrame {
             System.out.println("-------------------------------");
             System.out.println("Esto es Flex y cup");
             System.out.println("-------------------------------");
-            this.dibujar(arr, "INICIO_FLEX_Y_CUP");
+            this.dibujar(arr, "AST_FLEX_Y_CUP");
 
             this.ejecutarAST(arr, "FLEX Y CUP");
         } catch (Exception e) {
@@ -527,7 +580,7 @@ public class Inicio extends javax.swing.JFrame {
 
             ArrayList arr = parser.arr;
 
-            this.dibujar(arr, "INICIO_JAVACC");
+            this.dibujar(arr, "AST_JAVACC");
 
             this.ejecutarAST(arr, "JAVACC");
 
@@ -568,6 +621,16 @@ public class Inicio extends javax.swing.JFrame {
         }
     }
 
+    public void abrirAST(String title) {
+        String archivo = new File(".").getAbsolutePath() + "\\" + title;
+        File f2 = new File(archivo + ".jpg");
+        try {
+            Desktop.getDesktop().open(f2);
+        } catch (IOException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void dibujar(ArrayList<Nodo> arr, String title) {
         Dibujador d = new Dibujador();
 
@@ -579,7 +642,24 @@ public class Inicio extends javax.swing.JFrame {
         }
 
         d.st += "}";
-        System.out.println(d.st);
+
+        String archivo = new File(".").getAbsolutePath() + "\\" + title;
+        File f = new File(archivo + ".txt");
+
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+            bw.write(d.st);
+            bw.flush();
+            bw.close();
+        } catch (Exception e) {
+        }
+        try {
+            String comando = "dot -Tjpg \"" + archivo + ".txt\" -o \"" + archivo + ".jpg\"";
+            Runtime.getRuntime().exec(comando);
+        } catch (Exception e) {
+        }
+
+        //System.out.println(d.st);
     }
 
 }

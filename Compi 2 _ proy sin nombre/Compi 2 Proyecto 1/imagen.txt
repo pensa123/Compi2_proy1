@@ -1,0 +1,7 @@
+digraph G { 
+ INICIO_FLEX_Y_CUP ;
+ 121289116[label="Llamada_metodo -print-" ]; 
+INICIO_FLEX_Y_CUP ->  121289116; 
+2032745374[label="Primitivo cadena hola" ]; 
+121289116 ->  2032745374; 
+}

@@ -126,6 +126,7 @@ public class Vector extends Estructura {
     }
 
     public int parse(Tipos pasarDe, Tipos pasarA) {
+        tp = pasarA;
         System.out.println("pasar De " + pasarDe + "    a   " + pasarA);
         for (int a = 0; a < arr.size(); a++) {
             arr.set(a, parseando_ando(arr.get(a), pasarDe, pasarA));
@@ -134,10 +135,10 @@ public class Vector extends Estructura {
     }
 
     public Simbolo_prim parseando_ando(Simbolo_prim s, Tipos de, Tipos hacia) {
-        if (s.tp != de) {
+        if (s.tp == hacia) {
             return s;
         }
-        System.out.println(de + "  ->  " + hacia);
+        System.out.println(s.toString() + "  " +  de + "  ->  " + hacia);
         s.tp = hacia;
         if (hacia == Tipos.cadena) {
             return s;
@@ -146,6 +147,9 @@ public class Vector extends Estructura {
             s.valor = (boolean) s.valor ? 1 : 0;
         }
 
+        if(de == Tipos.nulo){
+            s.valor = s.getDef(hacia);
+        }
         return s;
     }
 }

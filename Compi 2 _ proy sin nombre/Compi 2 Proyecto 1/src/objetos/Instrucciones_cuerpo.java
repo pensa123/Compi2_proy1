@@ -27,10 +27,10 @@ public class Instrucciones_cuerpo extends Nodo {
                 aux.error("Solo se pueden crear funciones en el ambito global. ", n.fila, n.columna);
                 continue;
             }
-            if (ts.haycontinue) {
+            /*if (ts.haycontinue) {
                 continue;
-            }
-            if (ts.haybreak || ts.hayreturn) {
+            }*/
+            if (ts.haybreak || ts.hayreturn || ts.haycontinue) {
                 break;
             }
             n.ejecutar(ts, aux);

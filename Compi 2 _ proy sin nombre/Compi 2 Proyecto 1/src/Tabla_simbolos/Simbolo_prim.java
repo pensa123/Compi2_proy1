@@ -23,28 +23,31 @@ public class Simbolo_prim {
         valor = val;
     }
 
+    public Object getDef(Tipos tp2) {
+        switch (tp2) {
+            case cadena:
+                return "";
+            case booleano:
+                return false;
+            case entero:
+                return 0;
+            case numerico:
+                return 0;
+        }
+        return "NULL";
+    }
+
     public Simbolo_prim(Tipos tprim) {
         tp = tprim;
-        switch (tprim) {
-            case cadena:
-                valor = "";
-                break;
-            case booleano:
-                valor = false;
-                break;
-            case entero:
-                valor = 0;
-                break;
-            case numerico:
-                valor = 0;
-                break;
-        }
+        valor = this.getDef(tp);
     }
 
     @Override
     public String toString() {
         if (tp == Tipos.entero) {
             return (int) Double.parseDouble(valor + "") + "";
+        } else if (tp == Tipos.nulo) {
+            return "NULL";
         }
         return valor + "";
     }

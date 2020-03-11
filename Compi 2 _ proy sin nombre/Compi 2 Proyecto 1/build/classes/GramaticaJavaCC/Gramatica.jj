@@ -71,6 +71,7 @@ SKIP : {
 TOKEN : {
       <NUMERO: (["0"-"9"])+>
     | <DECIMAL: (["0"-"9"])+"."(["0"-"9"])+>
+    | <NULL: "null">
     | <TRUE: "true">
     | <FALSE: "false">
     //| <IMPRIMIR: "print">
@@ -494,6 +495,8 @@ Nodo ExpresionRelacional() :
           )?
       
 
+      |
+      <NULL> {n  = new Primitivo(token.beginLine , token.beginColumn , Tipos.nulo, "");}
       |
       <PARENI> n= Expresion() <PAREND> { }
     )

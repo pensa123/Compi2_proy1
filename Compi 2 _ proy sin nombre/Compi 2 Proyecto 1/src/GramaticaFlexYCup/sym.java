@@ -8,8 +8,10 @@ package GramaticaFlexYCup;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
+  public static final int In = 43;
   public static final int igualigual = 23;
   public static final int True = 18;
+  public static final int Null = 44;
   public static final int If = 34;
   public static final int dosPuntos = 11;
   public static final int coma = 10;
@@ -24,6 +26,7 @@ public class sym {
   public static final int pComa = 9;
   public static final int While = 40;
   public static final int menos = 6;
+  public static final int For = 42;
   public static final int cori = 32;
   public static final int EOF = 0;
   public static final int mas = 5;
@@ -92,7 +95,10 @@ public class sym {
   "Function",
   "Return",
   "While",
-  "Continue"
+  "Continue",
+  "For",
+  "In",
+  "Null"
   };
 }
 

@@ -170,6 +170,7 @@ public class Matriz extends Estructura {
     }
 
     public int parse(Tipos pasarDe, Tipos pasarA) {
+        tp = pasarA; 
         System.out.println("pasar De " + pasarDe + "    a   " + pasarA);
         for (int a = 0; a < arr.size(); a++) {
             arr.set(a, parseando_ando(arr.get(a), pasarDe, pasarA));
@@ -178,7 +179,7 @@ public class Matriz extends Estructura {
     }
 
     public Simbolo_prim parseando_ando(Simbolo_prim s, Tipos de, Tipos hacia) {
-        if (s.tp != de) {
+        if (s.tp == hacia) {
             return s;
         }
         System.out.println(de + "  ->  " + hacia);
@@ -188,6 +189,10 @@ public class Matriz extends Estructura {
         }
         if (de == Tipos.booleano) {
             s.valor = (boolean) s.valor ? 1 : 0;
+        }
+        
+        if( de == Tipos.nulo){
+            s.valor = s.getDef(hacia);
         }
 
         return s;

@@ -22,9 +22,13 @@ import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
 import Tabla_simbolos.Vector;
 import interfaz.Inicio;
+import java.awt.Desktop;
 import java.awt.TextArea;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
 
@@ -48,6 +52,28 @@ public class Compi2Proyecto1 {
 
     public static void main(String[] args) {
 
+        /*
+        
+         String st = new File(".").getAbsolutePath() + "\\algo.html";
+
+         File f = new File(st);
+         try {
+         BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+         bw.write("<head>\n"
+         + "</head>\n"
+         + "<body>\n"
+         + "	<h1>Hola</h1>\n"
+         + "</body>");
+         bw.flush();
+         bw.close();
+
+         Desktop.getDesktop().open(f);
+         } catch (Exception ex) {
+         System.out.println("error 1");
+         //System.out.println(ex.toString());
+         }
+        
+         */
         mgrafico();
 
         /*ArrayList<Integer> arrd = new ArrayList<>();
@@ -244,7 +270,18 @@ public class Compi2Proyecto1 {
                 + "		break;	\n"
                 + "	}\n"
                 + "	print(x);\n"
-                + "}");
+                + "}\n"
+                + "print(\"VEC\");\n"
+                + "st = \"[\";\n"
+                + "vec = c(1,2,3,4,5,6);\n"
+                + "for( i in vec){\n"
+                + "	st = st + i; \n"
+                + "	if(i == 6){\n"
+                + "		continue;	\n"
+                + "	}\n"
+                + "	st = st + \", \";\n"
+                + "}\n"
+                + "print(st + \"]\");");
     }
 
     public Compi2Proyecto1() {

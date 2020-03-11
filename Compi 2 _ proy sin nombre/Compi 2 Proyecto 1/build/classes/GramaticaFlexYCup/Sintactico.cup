@@ -64,11 +64,12 @@ terminal String entero, numerico, igual, mas, menos, por, division, pComa, coma,
 terminal String parenI, parenD, cadena, iden, modular, potencia, True, False, not, Break, Do; 
 terminal String igualigual, noigual, menorigual, mayorigual, menorque,mayorque, or , and, preg; 
 terminal String cori , cord , If, llavei, llaved, Else, Function, Return, While, Continue; 
+terminal String For , In, Null; 
 
 /* Non terminals */
 non terminal INICIO;
 
-non terminal Nodo  PRIMITIVO, EXPRESION, ARITMETICA, ASIGNACION, ELSE_IF, FUN_IF, DECFUNC, TRANSFERENCIA;
+non terminal Nodo  PRIMITIVO, EXPRESION, ARITMETICA, ASIGNACION, ELSE_IF, FUN_IF, DECFUNC, TRANSFERENCIA, FOR;
 non terminal Nodo  INSTRUCCION, LLAMADAFUNC, SALIDA , IDEN_ACCESO, IDEN_ACCESO2, PARAMS_DEC_FUN, WHILE, DO_WHILE;
 non terminal ArrayList<Nodo> LISTAPARAMS, LISTAPARAMS2, INSTRUCCIONES, LISTACORCHETES, LISTA_PARAMS_FUN , LISTA_PARAMS_FUN2;
 
@@ -103,9 +104,14 @@ INSTRUCCION ::= LLAMADAFUNC:a        SALIDA{: RESULT = a; :}
                 | FUN_IF:a                 {: RESULT = a; :}
                 | DECFUNC:a                {: RESULT = a; :}
                 | WHILE:a                  {: RESULT = a; :}
+                | FOR:a                  {: RESULT = a; :}
                 | DO_WHILE:a         SALIDA{: RESULT = a; :}
                 | TRANSFERENCIA:a    SALIDA{: RESULT = a; :}
               ;
+
+FOR ::= For parenI iden:a In EXPRESION:n1 parenD llavei  INSTRUCCIONES:arr llaved {: Nodo n2 = new Instrucciones_cuerpo(0,0,arr); 
+                                                        RESULT = new For(aleft , aright , n1 , n2 , a);        :} 
+        ;
 
 DO_WHILE ::= Do:a llavei  INSTRUCCIONES:arr llaved While parenI EXPRESION:n1 parenD {: Nodo n = new Instrucciones_cuerpo(0,0,arr); 
                                                                         RESULT = new Do_while(aleft , aright , n , n1);:}
@@ -119,7 +125,8 @@ DECFUNC ::= iden:a igual Function parenI LISTA_PARAMS_FUN:arr  parenD llavei INS
                         {: 
                         Nodo n = new Instrucciones_cuerpo(0,0 , arr2);
                         arr.add(n);
-                        RESULT = new Asignacion_funcion(aleft , aright , arr , a); :};
+                        RESULT = new Asignacion_funcion(aleft , aright , arr , a); :}
+                ;
 
 TRANSFERENCIA ::= Return:a                         {: RESULT = new Retorno(aleft, aright , null); :}
         | Return:a parenI EXPRESION:n parenD {: RESULT = new Retorno(aleft, aright , n);    :}
@@ -230,6 +237,7 @@ PRIMITIVO ::= numerico:e  {: RESULT = new  Primitivo(eleft , eright , Tipos.nume
             | False:e  {:   RESULT = new  Primitivo(eleft , eright , Tipos.booleano,  false ); :}
             | IDEN_ACCESO:n   {:  RESULT = n; :}
             |iden:a               {: RESULT =  new Iden(aleft , aright , a); :}
+            | Null:e {: RESULT = new  Primitivo(eleft , eright , Tipos.nulo,  "" ); :}
            ;
 
 SALIDA ::= pComa | ; 
