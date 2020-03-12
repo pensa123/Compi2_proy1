@@ -104,7 +104,6 @@ public class Funciones_nativas {
             return aux.error("Array solo acepta listas, vectores y simbolos. ", fila, columna);
         }
 
-        System.out.println("llego hasta aqui.");
         return new Array(arro, arri);
     }
 

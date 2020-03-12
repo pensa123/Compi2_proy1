@@ -261,6 +261,23 @@ public class Compi2Proyecto1 {
                 + "\n"
                 + "hola(2);\n"
                 + "print(a);");
+
+        ini.nueva_pestana("print(c(true, 1 , 2.5 ,\"hola\"));\n"
+                + "for(i in c(true, 1 , 2.5 ,\"hola\")){\n"
+                + "	print(typeof(i) + \" \" + i);\n"
+                + "}\n"
+                + "print(list(true, 1 , 2.5 ,\"hola\"));\n"
+                + "for(i in list(true, 1 , 2.5 , \"hola\")){\n"
+                + "	print(typeof(i) + \" \" + i);\n"
+                + "}\n"
+                + "print(matrix(c(true, 2 , 3.4) , 4 , 3));\n"
+                + "for(i in matrix(c(true, 2 , 3.4) , 3 , 3)){\n"
+                + "	print(typeof(i) + \" \" + i); 	\n"
+                + "}\n"
+                + "print(array(c(2,3,4) , c(2,3,4)));\n"
+                + "for(i in array(c(2,3,4) , c(2,3,4))){\n"
+                + "	print(typeof(i) + \" \" + i);	\n"
+                + "}");
     }
 
     public Compi2Proyecto1() {

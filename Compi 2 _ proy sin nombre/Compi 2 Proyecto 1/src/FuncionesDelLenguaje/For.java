@@ -7,6 +7,7 @@ package FuncionesDelLenguaje;
 
 import ClasesAuxiliares.Dibujador;
 import ClasesAuxiliares.Nodo;
+import Tabla_simbolos.Array;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
 import Tabla_simbolos.Lista;
@@ -21,45 +22,45 @@ import java.util.ArrayList;
  * @author ferna
  */
 public class For extends Nodo {
-    
+
     public String st;
-    
+
     public For(int f, int c, Nodo hijoI, Nodo hijoD, String s) {
         super(f, c, hijoI, hijoD);
         st = s;
     }
-    
+
     @Override
     public void dibujar(Dibujador d, String padre) {
         d.st += this.hashCode() + "[label=\"" + this.getClass().getSimpleName() + " [" + st + "]  \" ]; \n";
         d.st += padre + " ->  " + this.hashCode() + "; \n";
         dibHijos(d);
     }
-    
+
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-        
+
         Object o1 = hijos.get(0).ejecutar(ts, aux);
         Nodo n = hijos.get(1);
-        
+
         if (o1 instanceof Simbolo_prim) {
             Simbolo_prim sp = (Simbolo_prim) o1;
-            Vector v = new Vector();
-            v.update(0, sp);
-            ejecVec(v, ts, aux, n);
+            ejecVec(new Vector(sp), ts, aux, n);
         } else if (o1 instanceof Vector) {
             ejecVec((Vector) o1, ts, aux, n);
         } else if (o1 instanceof Matriz) {
             ejecMat((Matriz) o1, ts, aux, n);
         } else if (o1 instanceof Lista) {
             ejecList((Lista) o1, ts, aux, n);
+        } else if (o1 instanceof Array) {
+            ejecArr((Array) o1, ts, aux, n);
         } else {
-            //falta comparar si son las demas estructuras sino es error alv :D
+            //error :(
         }
-        
+
         return null;
     }
-    
+
     public void ejecArrOb(ArrayList<Object> arr, Tabla_Sim ts, Auxiliar aux, Nodo n) {
         for (Object sp : arr) {
             Tabla_Sim ts2 = new Tabla_Sim(ts, "For");
@@ -71,7 +72,7 @@ public class For extends Nodo {
             }
         }
     }
-    
+
     public void ejecArrSP(ArrayList<Simbolo_prim> arr, Tabla_Sim ts, Auxiliar aux, Nodo n) {
         for (Simbolo_prim sp : arr) {
             Tabla_Sim ts2 = new Tabla_Sim(ts, "For");
@@ -83,17 +84,21 @@ public class For extends Nodo {
             }
         }
     }
-    
+
+    public void ejecArr(Array arr, Tabla_Sim ts, Auxiliar aux, Nodo n) {
+        this.ejecArrOb(arr.arr, ts, aux, n);
+    }
+
     public void ejecList(Lista lst, Tabla_Sim ts, Auxiliar aux, Nodo n) {
         this.ejecArrOb(lst.arr, ts, aux, n);
     }
-    
+
     public void ejecMat(Matriz m, Tabla_Sim ts, Auxiliar aux, Nodo n) {
         this.ejecArrSP(m.arr, ts, aux, n);
     }
-    
+
     public void ejecVec(Vector v, Tabla_Sim ts, Auxiliar aux, Nodo n) {
         this.ejecArrSP(v.arr, ts, aux, n);
     }
-    
+
 }
