@@ -21,6 +21,7 @@ import FuncionesDelLenguaje.Do_while;
 
 import FuncionesDelLenguaje.If;
 
+import objetos.Default;
 import objetos.Llamada_metodo;
 import objetos.Instrucciones_cuerpo;
 import objetos.Asignacion_funcion;
@@ -78,6 +79,7 @@ TOKEN : {
     | <MIENTRAS: "while">
     | <FOR: "for">
     | <DO: "do">
+    | <SDEFAULT: "default" >
     | <FUNCION: "function">
     | <RETORNO: "Return">
     | <BREAK: "Break">
@@ -508,10 +510,11 @@ Nodo ExpresionRelacional() :
   
   ArrayList<Nodo> params_metodo():
   {
-    ArrayList<Nodo> arr = new ArrayList<Nodo>(); Nodo n; 
+    ArrayList<Nodo> arr = new ArrayList<Nodo>(); Nodo n; Token t; 
   }
   {
-    <PARENI> ( n = Expresion() {arr.add(n);} ( <COMA> n =  Expresion() {arr.add(n);} )*  )?  <PAREND>
+    <PARENI> ( (n = Expresion() {arr.add(n);} | t =  <SDEFAULT> { n = new Default(t.beginLine , t.beginColumn); arr.add(n); }  ) ( 
+      <COMA> ( n =  Expresion() {arr.add(n);} | t =  <SDEFAULT> { n = new Default(t.beginLine , t.beginColumn); arr.add(n); } ) )*  )?  <PAREND>
     { return arr;  }
   }
 

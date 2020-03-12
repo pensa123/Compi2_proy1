@@ -34,6 +34,8 @@ import objetos.Asignacion_funcion;
 
 public class Inicio extends javax.swing.JFrame {
 
+    public Tabla_Sim tsG = null;
+
     public static void main(String args[]) {
         Inicio ini = new Inicio();
         ini.setVisible(true);
@@ -498,9 +500,13 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4KeyPressed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-
-        Reporte_ts rts = new Reporte_ts();
-        rts.abrirElPdf();
+        if (tsG != null) {
+            Reporte_ts rts = new Reporte_ts();
+            rts.generarPdf(tsG);
+            rts.abrirElPdf();
+        }else{
+            JOptionPane.showMessageDialog(null, "No se ha ejecutado ninguna vez para poder generar este reporte.");
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton5KeyPressed
@@ -634,7 +640,7 @@ public class Inicio extends javax.swing.JFrame {
         aux.st = st + "\n";
         txtConsola.setText(st + "\n");
         txtError.setText("");
-        
+
         //ejecucion1 declaracion de funciones
         for (Nodo n : arr) {
             if (n instanceof Asignacion_funcion) {
@@ -648,8 +654,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         }
 
-        Reporte_ts rts = new Reporte_ts();
-        rts.generarPdf(ts);
+        this.tsG = ts;
 
     }
 

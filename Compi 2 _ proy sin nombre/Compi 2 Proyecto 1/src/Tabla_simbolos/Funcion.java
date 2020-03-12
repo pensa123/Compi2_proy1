@@ -6,7 +6,10 @@
 package Tabla_simbolos;
 
 import ClasesAuxiliares.Nodo;
+import ClasesAuxiliares.contenedorEnum;
+import ClasesAuxiliares.contenedorEnum.Tipos;
 import java.util.ArrayList;
+import objetos.Default;
 import objetos.Iden;
 
 /**
@@ -37,8 +40,16 @@ public class Funcion {
         for (int a = 0; a < nvars; a++) {
             //todo falta esto ->  if(arro.get(a) instanceof defualt)
 
+            if (arro.get(a) instanceof Default) {
+                Nodo n = vars.get(a);
+                if (n.hijos.size() != 1) {
+                    return aux.error("Default solo se llama si el parametro tiene valor por defecto.", fila, columna);
+                }
+                arro.set(a, n.hijos.get(0).ejecutar(estoy, aux));
+            }
+
             String st = ((Iden) vars.get(a)).nombre;
-            ts.agregar_var(st, arro.get(a));
+            ts.agregar_en_el_ambito(st, arro.get(a));
 
         }
 

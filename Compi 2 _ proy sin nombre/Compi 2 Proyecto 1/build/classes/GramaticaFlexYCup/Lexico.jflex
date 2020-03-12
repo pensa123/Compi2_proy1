@@ -36,6 +36,7 @@ ComentarioMulti =   "/*" ~"*/"
     {entero}            { return symbol(sym.entero, yytext());  }
     {numerico}            { return symbol(sym.numerico, yytext());  }
     //"=>"                 { return symbol(sym.flecha, yytext()); }
+    "default"                 { return symbol(sym.Default, yytext()); }
     "null"                 { return symbol(sym.Null, yytext()); }
     "In"                 { return symbol(sym.In, yytext()); }
     "For"                 { return symbol(sym.For, yytext()); }

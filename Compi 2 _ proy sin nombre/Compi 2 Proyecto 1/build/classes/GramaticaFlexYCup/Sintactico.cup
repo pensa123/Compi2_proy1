@@ -36,6 +36,7 @@ import objetos.Acceso;
 import objetos.AccesoMatriz;
 import objetos.Var_acceso;
 
+import objetos.Default;
 import objetos.Primitivo;
 
 import objetos.OperadorBinario;
@@ -64,13 +65,13 @@ terminal String entero, numerico, igual, mas, menos, por, division, pComa, coma,
 terminal String parenI, parenD, cadena, iden, modular, potencia, True, False, not, Break, Do; 
 terminal String igualigual, noigual, menorigual, mayorigual, menorque,mayorque, or , and, preg; 
 terminal String cori , cord , If, llavei, llaved, Else, Function, Return, While, Continue; 
-terminal String For , In, Null; 
+terminal String For , In, Null, Default; 
 
 /* Non terminals */
 non terminal INICIO;
 
 non terminal Nodo  PRIMITIVO, EXPRESION, ARITMETICA, ASIGNACION, ELSE_IF, FUN_IF, DECFUNC, TRANSFERENCIA, FOR;
-non terminal Nodo  INSTRUCCION, LLAMADAFUNC, SALIDA , IDEN_ACCESO, IDEN_ACCESO2, PARAMS_DEC_FUN, WHILE, DO_WHILE;
+non terminal Nodo  INSTRUCCION, LLAMADAFUNC, SALIDA , IDEN_ACCESO, IDEN_ACCESO2, PARAMS_DEC_FUN, WHILE, DO_WHILE, PARAMETRO;
 non terminal ArrayList<Nodo> LISTAPARAMS, LISTAPARAMS2, INSTRUCCIONES, LISTACORCHETES, LISTA_PARAMS_FUN , LISTA_PARAMS_FUN2;
 
 
@@ -194,9 +195,13 @@ LISTAPARAMS ::= LISTAPARAMS2:a {: RESULT = a;  :}
                 | {: RESULT  = new ArrayList<>();  :}
                  ; 
 
-LISTAPARAMS2 ::= LISTAPARAMS2:arr coma EXPRESION:a {: arr.add(a);  RESULT  = arr; :}
-                | EXPRESION:a   {: ArrayList<Nodo> arr = new ArrayList<>();  arr.add(a); RESULT = arr;   :};
+LISTAPARAMS2 ::= LISTAPARAMS2:arr coma PARAMETRO:a {: arr.add(a);  RESULT  = arr; :}
+                | PARAMETRO:a   {: ArrayList<Nodo> arr = new ArrayList<>();  arr.add(a); RESULT = arr;   :};
 
+
+PARAMETRO ::= Default:a     {:RESULT = new Default(aleft, aright); :}
+        |    EXPRESION:a  {:RESULT  = a; :}
+        ;
 
 EXPRESION ::=  ARITMETICA:e                 {: RESULT = e; :}  
            |   PRIMITIVO:e                  {: RESULT = e; :}

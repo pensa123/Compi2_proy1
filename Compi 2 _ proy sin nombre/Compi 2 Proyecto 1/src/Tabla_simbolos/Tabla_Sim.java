@@ -79,7 +79,23 @@ public class Tabla_Sim {
         return padre == null ? false : padre.seencontroBreak();
     }
 
-    //TODO falta agregar las demas asignaciones a variable pero estas se haran cuando se tenga la funcion c o array o list o alguna de esas jejej salu3
+    public boolean agregar_en_el_ambito(String id, Object o) {
+        Estructura e = this.hvar.get(id.toLowerCase());
+        if (e != null) {
+            return false;
+        }
+
+        if (o instanceof Simbolo_prim) {
+            o = new Vector((Simbolo_prim) o);
+        }
+        if (o instanceof Estructura) {
+            hvar.put(id.toLowerCase(), (Estructura) o);
+            return true;
+        }
+
+        return false;
+    }
+
     public void agregar_var(String id, Object o) {
         if (o instanceof Estructura) {
             agregar_var(id, ((Estructura) o).copear());

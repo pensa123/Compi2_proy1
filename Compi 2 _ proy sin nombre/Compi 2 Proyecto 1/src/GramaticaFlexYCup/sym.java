@@ -14,6 +14,7 @@ public class sym {
   public static final int Null = 44;
   public static final int If = 34;
   public static final int dosPuntos = 11;
+  public static final int Default = 45;
   public static final int coma = 10;
   public static final int igual = 4;
   public static final int Else = 37;
@@ -98,7 +99,8 @@ public class sym {
   "Continue",
   "For",
   "In",
-  "Null"
+  "Null",
+  "Default"
   };
 }
 
