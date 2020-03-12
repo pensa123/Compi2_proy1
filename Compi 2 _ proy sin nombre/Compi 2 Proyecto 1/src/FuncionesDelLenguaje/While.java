@@ -30,7 +30,7 @@ public class While extends Nodo {
         }
 
         while ((boolean) o2) {
-            Tabla_Sim ts2 = new Tabla_Sim(ts);
+            Tabla_Sim ts2 = new Tabla_Sim(ts, "While");
             ts2.esciclo = true;
             n1.ejecutar(ts2, aux);
             if(ts2.haybreak){

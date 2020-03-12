@@ -8,6 +8,7 @@ import GramaticaJavaCC.Gramatica;
 import GramaticaJavaCC.ParseException;
 import GramaticaJavaCC.TokenMgrError;
 import Tabla_simbolos.Auxiliar;
+import Tabla_simbolos.Estructura;
 import Tabla_simbolos.Tabla_Sim;
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -81,6 +83,7 @@ public class Inicio extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -157,6 +160,18 @@ public class Inicio extends javax.swing.JFrame {
         jButton4.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jButton4KeyPressed(evt);
+            }
+        });
+
+        jButton5.setText("Abrir Tabla de Simbolos");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jButton5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton5KeyPressed(evt);
             }
         });
 
@@ -251,9 +266,11 @@ public class Inicio extends javax.swing.JFrame {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(107, 107, 107)
+                        .addGap(65, 65, 65)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(251, 251, 251)))
+                        .addGap(28, 28, 28)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(108, 108, 108)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -270,7 +287,8 @@ public class Inicio extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
                 .addGap(10, 10, 10)
                 .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -479,6 +497,16 @@ public class Inicio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4KeyPressed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+
+        Reporte_ts rts = new Reporte_ts();
+        rts.abrirElPdf();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton5KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5KeyPressed
+
     public void guardarArchivo() {
         try {
             if (this.jTabbedPane1.getTabCount() == 0) {
@@ -532,6 +560,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -599,26 +628,29 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     void ejecutarAST(ArrayList<Nodo> arr, String st) {
-        Tabla_Sim ts = new Tabla_Sim();
+        Tabla_Sim ts = new Tabla_Sim("Global");
         Auxiliar aux = new Auxiliar(txtConsola, txtError, ts);
 
         aux.st = st + "\n";
         txtConsola.setText(st + "\n");
         txtError.setText("");
+        
         //ejecucion1 declaracion de funciones
-
         for (Nodo n : arr) {
             if (n instanceof Asignacion_funcion) {
                 n.ejecutar(ts, aux);
             }
         }
-
         //llamada 2 ejecucion del resto jeje salu2. 
         for (Nodo n : arr) {
             if (!(n instanceof Asignacion_funcion)) {
                 n.ejecutar(ts, aux);
             }
         }
+
+        Reporte_ts rts = new Reporte_ts();
+        rts.generarPdf(ts);
+
     }
 
     public void abrirAST(String title) {

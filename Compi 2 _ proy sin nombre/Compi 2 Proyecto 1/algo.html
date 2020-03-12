@@ -1,5 +1,122 @@
-<head>
-</head>
-<body>
-	<h1>Hola</h1>
-</body>
+<style>
+
+	*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  list-style:none;
+}
+
+.container{
+  height:500px;
+  width:800px;
+  margin: 0 auto;
+  margin-top: 50px;
+  border:2px solid transparent;
+  box-shadow: 0 0 10px rgba(0,0,0,0.6);
+  overflow-y:scroll;
+  font-family: 'Roboto', sans-serif;
+}
+
+.table{
+  height:100%;
+  width:100%;
+}
+/*--table head--*/
+.table .table-head{
+  position: fixed;
+  z-index:1;
+  width: 780;
+  background-color: #C4E3EB;
+  font-weight: 700;
+}
+.table .table-head .row{
+  display:flex;
+  flex-direction: row;
+}
+/*--table body--*/
+.table .table-body .row{
+  display: flex;
+  flex-direction:row;
+  transform:translateY(calc(22px + 24px));
+  
+}
+.table .table-body .row:nth-child(even){
+  background-color: #EBF5F8;
+}
+/*-- others --*/
+.fieldname, .data{
+  padding: 12px 0 12px 15px;
+  flex:1;
+}
+@media (max-width:580px){
+  .container{
+  height:350px;
+  width:400px;
+  margin: 0 auto;
+  margin-top: 50px;
+  border:2px solid black;
+  overflow-y:scroll;
+  font-size:0.9em;
+}
+  .table .table-head .row{
+  display:flex;
+  flex-direction: row;
+}
+  .table .table-head{
+  position: fixed;
+  z-index:1;
+  width: 380px;
+  background-color: #C4E3EB;
+}
+}
+
+@media (max-width:430px){
+  .container{
+  height:350px;
+  width:100%;
+  margin-top: 50px;
+  overflow-y:scroll;
+  font-size:0.9em;
+}
+  .table .table-head .row{
+  display:flex;
+  flex-direction: row;
+}
+  .table .table-head{
+  position: fixed;
+  z-index:1;
+  width: 95%;
+  background-color: #C4E3EB;
+}
+}
+
+</style>
+
+
+<br/>
+<hr/>
+<h1 style="text-align: center " >Reporte tabla de simbolos.</h1>
+<hr/>
+
+
+<div class="container">
+  <div class="table">
+    <div class="table-head">
+      <ul class="row">
+        <li class="fieldname" >Ambito</li>
+        <li class="fieldname" >Nombre de variable</li>
+        <li class="fieldname" >Tipo</li>
+        <li class="fieldname" >Valor</li>
+      </ul>
+    </div>
+    <div class="table-body">      <ul class="row">
+        <li class="data">Global</li>
+        <li class="data">a</li>
+        <li class="data">Vector</li>
+        <li class="data">2</li>
+      </ul>
+	 
+    </div>
+  </div>
+</div>

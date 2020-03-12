@@ -8,7 +8,9 @@ package objetos;
 import ClasesAuxiliares.Dibujador;
 import ClasesAuxiliares.Nodo;
 import ClasesAuxiliares.contenedorEnum.Tipos;
+import Tabla_simbolos.Array;
 import Tabla_simbolos.Auxiliar;
+import Tabla_simbolos.Lista;
 import Tabla_simbolos.Matriz;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
@@ -54,6 +56,18 @@ public class OperadorBinario extends Nodo {
         o1 = hijos.get(0).ejecutar(ts, aux);
         o2 = hijos.get(1).ejecutar(ts, aux);
 
+        if (o1 == null || o2 == null) {
+            return aux.error("Solo se esperan operaciones de matrices y de vectores. ", fila, columna);
+        }
+
+        if (o1 instanceof Array || o1 instanceof Lista
+                || o2 instanceof Array || o2 instanceof Lista) {
+            if (operador == Operando.mas) {
+
+                return new Simbolo_prim(Tipos.cadena, o1.toString() + o2.toString());
+            }
+        }
+
         if (o1 instanceof Simbolo_prim) {
             return ejec_sp((Simbolo_prim) o1, o2);
         } else if (o1 instanceof Vector) {
@@ -63,9 +77,7 @@ public class OperadorBinario extends Nodo {
             return ejec_mt((Matriz) o1, o2);
         }
 
-        System.out.println("no se ha echo operacion entre " + o1.getClass().getSimpleName() + " y " + o2.getClass().getSimpleName());
-
-        return "";
+        return aux.error("Solo se esperan operaciones de matrices y de vectores. ", fila, columna);
     }
 
     public Object ejec_mt(Matriz m1, Object o2) {

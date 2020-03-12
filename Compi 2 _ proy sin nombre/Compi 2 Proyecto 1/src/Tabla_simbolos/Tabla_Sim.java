@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public class Tabla_Sim {
 
-    HashMap<String, Estructura> hvar = new HashMap<String, Estructura>();
+    public HashMap<String, Estructura> hvar = new HashMap<String, Estructura>();
 
     public Tabla_Sim padre;
     public ArrayList<Tabla_Sim> hijos = new ArrayList<Tabla_Sim>();
@@ -24,12 +24,15 @@ public class Tabla_Sim {
     public boolean haybreak = false, haycontinue = false, hayreturn = false;
     public Object ret;
 
-    public Tabla_Sim() {
+    public String nombre;
 
+    public Tabla_Sim(String nombre) {
+        this.nombre = nombre;
     }
 
-    public Tabla_Sim(Tabla_Sim padre) {
+    public Tabla_Sim(Tabla_Sim padre, String nombre) {
         this.padre = padre;
+        this.nombre = padre.nombre + "->" + nombre;
         padre.hijos.add(this);
     }
 

@@ -105,14 +105,6 @@ public class Compi2Proyecto1 {
     }
 
     public static void probando(Inicio ini) {
-        ini.nueva_pestana("print(\"unarios\"); \n"
-                + "x[5] = true; \n"
-                + "y = !x; \n"
-                + "print(x);\n"
-                + "print(y);\n"
-                + "print(\"ternarios\");\n"
-                + "\n"
-                + "z = x | y ? \"abc\" : \"def\"; ");
 
         ini.nueva_pestana("print(\"Esto prueba el while, do while, if, for continue\");\n"
                 + "print(\"tambien matrices y vectores\"); \n"
@@ -155,16 +147,6 @@ public class Compi2Proyecto1 {
                 + "print(mat + mat2);\n"
                 + "mat[1,] = mat2[1,];\n"
                 + "mat[,1] = mat2[,1]; \n"
-                + "print(mat);");
-
-        ini.nueva_pestana("mat = matrix(c(true), 3 , 2);\n"
-                + "print(mat);\n"
-                + "mat[1,1] = 2; \n"
-                + "mat[2] = 3;\n"
-                + "print(mat);\n"
-                + "mat[,1] = c(4,5,6);\n"
-                + "print(mat);\n"
-                + "mat[1,] = c(9,10);\n"
                 + "print(mat);");
 
         /*        ini.nueva_pestana("Vector = c(12,13,15,16,24,15,17,19,17,15)\n"
@@ -215,21 +197,10 @@ public class Compi2Proyecto1 {
                 + "print(\"Fibonacci:\"+fibonacci(10));\n"
                 + "print(\"Ackermann:\"+ackermann(3,6));");
 
-        ini.nueva_pestana("Lista2 = list(\"hola mundo\", 43, TRUE, 32.3)\n"
-                + "print(lista2);\n"
-                + "print(lista2[1]);\n"
-                + "lista2[1] = \"hola\";\n"
-                + "print(lista2[1]);");
-
         ini.nueva_pestana("Lista1 = list(\"hola mundo\");\n"
                 + "lista2 = list(42,true, 32.3);\n"
                 + "lista3 = c(lista1, lista2);\n"
                 + "print(lista3);");
-
-        ini.nueva_pestana("arr = array(c(5, list(7,8,9 , c(1,2))), c(2,3,3))\n"
-                + "print(arr);\n"
-                + "print(\"--------------------\");\n"
-                + "print(arr[1][3][1][1]);");
 
         ini.nueva_pestana("arr = array(c(5, list(7,8,9 , c(1,2))), c(2,3,3))\n"
                 + "print(arr);\n"
@@ -282,6 +253,14 @@ public class Compi2Proyecto1 {
                 + "	st = st + \", \";\n"
                 + "}\n"
                 + "print(st + \"]\");");
+
+        ini.nueva_pestana("a = 4; \n"
+                + "hola = function(a){\n"
+                + "	print(a);	\n"
+                + "}\n"
+                + "\n"
+                + "hola(2);\n"
+                + "print(a);");
     }
 
     public Compi2Proyecto1() {
@@ -440,7 +419,7 @@ public class Compi2Proyecto1 {
     }
 
     void ejecutarJavacc(ArrayList<Nodo> arr) {
-        Tabla_Sim ts = new Tabla_Sim();
+        Tabla_Sim ts = new Tabla_Sim("Global");
         Auxiliar aux = new Auxiliar(new TextArea(), new TextArea(), ts);
         for (Nodo n : arr) {
             n.ejecutar(ts, aux);

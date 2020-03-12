@@ -138,7 +138,7 @@ public class Auxiliar {
             return null;
         }
 
-        Tabla_Sim tabla_fun = new Tabla_Sim(global);
+        Tabla_Sim tabla_fun = new Tabla_Sim(global, "Funcion "  + id);
 
         return f.ejecutar(tabla_fun, this, arro, fila, columna, estoy);
 

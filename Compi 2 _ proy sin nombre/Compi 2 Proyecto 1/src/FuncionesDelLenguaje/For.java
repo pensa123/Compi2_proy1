@@ -62,7 +62,7 @@ public class For extends Nodo {
     
     public void ejecArrOb(ArrayList<Object> arr, Tabla_Sim ts, Auxiliar aux, Nodo n) {
         for (Object sp : arr) {
-            Tabla_Sim ts2 = new Tabla_Sim(ts);
+            Tabla_Sim ts2 = new Tabla_Sim(ts, "For");
             ts2.esciclo = true;
             ts2.agregar_var(st, sp);
             n.ejecutar(ts2, aux);
@@ -74,7 +74,7 @@ public class For extends Nodo {
     
     public void ejecArrSP(ArrayList<Simbolo_prim> arr, Tabla_Sim ts, Auxiliar aux, Nodo n) {
         for (Simbolo_prim sp : arr) {
-            Tabla_Sim ts2 = new Tabla_Sim(ts);
+            Tabla_Sim ts2 = new Tabla_Sim(ts, "For");
             ts2.esciclo = true;
             ts2.agregar_var(st, sp);
             n.ejecutar(ts2, aux);
