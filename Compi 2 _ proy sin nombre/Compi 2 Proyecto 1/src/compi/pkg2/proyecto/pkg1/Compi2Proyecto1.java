@@ -281,6 +281,18 @@ public class Compi2Proyecto1 {
 
         ini.nueva_pestana("pie(c(2,4,5) , c(\"hola\", \"como\",\"estas\"),\"El titulo\");\n"
                 + "barplot(c(1,2,3),\"eje x\" , \"eje y\" , \"Titulo\" , c(\"v1\" , \"v2\" , \"v3\"));");
+
+        ini.nueva_pestana("switch(\"hola\"){\n"
+                + "	case \"hola\":\n"
+                + "		print(\"hola\");\n"
+                + "	     break;\n"
+                + "	case \"h2\":\n"
+                + "		print(\"h2\");\n"
+                + "		break;\n"
+                + "	default: \n"
+                + "		print(\"def\");\n"
+                + "		break;	\n"
+                + "}");
     }
 
     public Compi2Proyecto1() {

@@ -15,12 +15,14 @@ import FuncionesDelLenguaje.Parar;
 import FuncionesDelLenguaje.Continuar;
 import FuncionesDelLenguaje.Retorno;
 
+import FuncionesDelLenguaje.Switch;
 import FuncionesDelLenguaje.For;
 import FuncionesDelLenguaje.While;
 import FuncionesDelLenguaje.Do_while;
 
 import FuncionesDelLenguaje.If;
 
+import objetos.Case;
 import objetos.Default;
 import objetos.Llamada_metodo;
 import objetos.Instrucciones_cuerpo;
@@ -77,6 +79,8 @@ TOKEN : {
     | <FALSE: "false">
     //| <IMPRIMIR: "print">
     | <MIENTRAS: "while">
+    | <CASE: "case">
+    | <SWITCH: "switch">
     | <FOR: "for">
     | <DO: "do">
     | <SDEFAULT: "default" >
@@ -175,6 +179,8 @@ Nodo  InstruccionGlobal() :
   }
   {
     (
+      n = Cases()
+      |
       <CONTINUE> { n = new Continuar( token.beginLine, token.beginColumn );} (<PCOMA>)?
       |
       <BREAK>    { n = new Parar( token.beginLine, token.beginColumn ); }  (<PCOMA>)?
@@ -196,6 +202,21 @@ Nodo  InstruccionGlobal() :
     ( t = <IDENTIFICADOR> (<IGUAL> n =  Expresion())? { arr.add(new Iden(t.beginLine , t.beginColumn , t.image , n)); n = null; }   
     (<COMA> t =  <IDENTIFICADOR> (<IGUAL> n = Expresion() )? { arr.add(new Iden(t.beginLine , t.beginColumn , t.image , n)); n = null; }  )* )?
     { return arr; }
+  }
+
+
+  Nodo Cases():
+  {
+    Nodo n ,n1 , n2; Token t; 
+  }
+  {
+    (
+    t = <CASE> n1= Expresion() <DOSPUNTOS>  {n = new Case(t.beginLine , t.beginColumn , n1); }
+    |
+    t = <SDEFAULT> <DOSPUNTOS>    {n = new Default(t.beginLine , t.beginColumn); }
+    ){
+      return n;
+    }
   }
 
   Nodo Asignacion_llamadaMetodo() : 
@@ -243,10 +264,23 @@ Nodo  InstruccionGlobal() :
      n = do_while()
      |
      n = foreach()
+     |
+     n = Switch()
     )
     {
       return n;
     }
+  }
+
+  Nodo Switch():
+  {
+    Nodo n , n1, n2; Token t; 
+  }
+  { 
+     t = <SWITCH> <PARENI> n1 =   Expresion() <PAREND> <LLAVEI> n2 =  instrucciones_cuerpos() <LLAVED> 
+     {
+        return new Switch(t.beginLine , t.beginColumn , n1 , n2); 
+     }
   }
 
 

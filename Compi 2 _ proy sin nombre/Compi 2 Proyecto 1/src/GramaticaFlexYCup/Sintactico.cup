@@ -9,6 +9,7 @@ import FuncionesDelLenguaje.Parar;
 import FuncionesDelLenguaje.Continuar;
 import FuncionesDelLenguaje.Retorno;
 
+import FuncionesDelLenguaje.Switch;
 import FuncionesDelLenguaje.For;
 import FuncionesDelLenguaje.While;
 import FuncionesDelLenguaje.Do_while;
@@ -36,6 +37,7 @@ import objetos.Acceso;
 import objetos.AccesoMatriz;
 import objetos.Var_acceso;
 
+import objetos.Case;
 import objetos.Default;
 import objetos.Primitivo;
 
@@ -65,12 +67,12 @@ terminal String entero, numerico, igual, mas, menos, por, division, pComa, coma,
 terminal String parenI, parenD, cadena, iden, modular, potencia, True, False, not, Break, Do; 
 terminal String igualigual, noigual, menorigual, mayorigual, menorque,mayorque, or , and, preg; 
 terminal String cori , cord , If, llavei, llaved, Else, Function, Return, While, Continue; 
-terminal String For , In, Null, Default; 
+terminal String For , In, Null, Default, Switch, Case; 
 
 /* Non terminals */
 non terminal INICIO;
 
-non terminal Nodo  PRIMITIVO, EXPRESION, ARITMETICA, ASIGNACION, ELSE_IF, FUN_IF, DECFUNC, TRANSFERENCIA, FOR;
+non terminal Nodo  PRIMITIVO, EXPRESION, ARITMETICA, ASIGNACION, ELSE_IF, FUN_IF, DECFUNC, TRANSFERENCIA, FOR, SWITCH, CASES;
 non terminal Nodo  INSTRUCCION, LLAMADAFUNC, SALIDA , IDEN_ACCESO, IDEN_ACCESO2, PARAMS_DEC_FUN, WHILE, DO_WHILE, PARAMETRO;
 non terminal ArrayList<Nodo> LISTAPARAMS, LISTAPARAMS2, INSTRUCCIONES, LISTACORCHETES, LISTA_PARAMS_FUN , LISTA_PARAMS_FUN2;
 
@@ -105,10 +107,19 @@ INSTRUCCION ::= LLAMADAFUNC:a        SALIDA{: RESULT = a; :}
                 | FUN_IF:a                 {: RESULT = a; :}
                 | DECFUNC:a                {: RESULT = a; :}
                 | WHILE:a                  {: RESULT = a; :}
-                | FOR:a                  {: RESULT = a; :}
+                | FOR:a                    {: RESULT = a; :}
                 | DO_WHILE:a         SALIDA{: RESULT = a; :}
                 | TRANSFERENCIA:a    SALIDA{: RESULT = a; :}
+                | SWITCH:a                 {: RESULT = a; :}
+                | CASES:a                  {: RESULT = a; :} 
               ;
+
+CASES ::= Case:a EXPRESION:n dosPuntos              {: RESULT = new Case(aleft , aright , n); :}
+        | Default:a dosPuntos                       {: RESULT = new Default(aleft , aright);  :}
+        ; 
+
+SWITCH ::= Switch:a parenI EXPRESION:n1 parenD llavei INSTRUCCIONES:arr  llaved {: Nodo n2 = new Instrucciones_cuerpo(0,0,arr);
+                                                                RESULT = new Switch(aleft , aright ,n1 , n2); :} ; 
 
 FOR ::= For parenI iden:a In EXPRESION:n1 parenD llavei  INSTRUCCIONES:arr llaved {: Nodo n2 = new Instrucciones_cuerpo(0,0,arr); 
                                                         RESULT = new For(aleft , aright , n1 , n2 , a);        :} 

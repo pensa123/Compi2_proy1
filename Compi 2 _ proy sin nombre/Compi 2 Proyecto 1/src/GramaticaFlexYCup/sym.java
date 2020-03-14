@@ -34,6 +34,7 @@ public class sym {
   public static final int Function = 38;
   public static final int cord = 33;
   public static final int error = 1;
+  public static final int Switch = 46;
   public static final int False = 19;
   public static final int entero = 2;
   public static final int or = 29;
@@ -42,6 +43,7 @@ public class sym {
   public static final int Do = 22;
   public static final int menorque = 27;
   public static final int Continue = 41;
+  public static final int Case = 47;
   public static final int potencia = 17;
   public static final int numerico = 3;
   public static final int parenI = 12;
@@ -100,7 +102,9 @@ public class sym {
   "For",
   "In",
   "Null",
-  "Default"
+  "Default",
+  "Switch",
+  "Case"
   };
 }
 
