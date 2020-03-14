@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class Vector extends Estructura {
 
     boolean tienetipo = false;
-    public Tipos tp;
     public ArrayList<Simbolo_prim> arr = new ArrayList<Simbolo_prim>();
     public int tamanio = 0;
 

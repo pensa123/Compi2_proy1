@@ -7,6 +7,10 @@ package FuncionesDelLenguaje;
 
 import ClasesAuxiliares.Nodo;
 import ClasesAuxiliares.contenedorEnum.Tipos;
+import Generador_graficas.Bar_chart;
+import Generador_graficas.Histogram_chart;
+import Generador_graficas.Line_chart;
+import Generador_graficas.Pie_chart;
 import Tabla_simbolos.Array;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
@@ -16,6 +20,7 @@ import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
 import Tabla_simbolos.Vector;
 import java.util.ArrayList;
+import javax.swing.SwingUtilities;
 import objetos.Iden;
 
 /**
@@ -61,7 +66,225 @@ public class Funciones_nativas {
                 return oparr(ts, aux, hijos, func.toLowerCase());
             case "list":
                 return lista(ts, aux, hijos);
+            case "pie":
+                return pie(ts, aux, hijos);
+            case "barplot":
+                return barplot(ts, aux, hijos);
+            case "plot":
+                return plot(ts, aux, hijos);
+            case "hist":
+                return hist(ts, aux, hijos);
         }
+        return null;
+    }
+
+    public boolean esArrayOLista(Object o) {
+        return (o instanceof Array || o instanceof Lista);
+    }
+
+    public Vector retVec(Object o) {
+        if (o instanceof Simbolo_prim) {
+            return new Vector((Simbolo_prim) o);
+        }
+        if (o instanceof Vector) {
+            return (Vector) o;
+        }
+        return null;
+    }
+
+    public Estructura getEst(Object o) {
+        if (o instanceof Vector || o instanceof Matriz) {
+            return (Estructura) o;
+        }
+        if (o instanceof Simbolo_prim) {
+            return new Vector((Simbolo_prim) o);
+        }
+        return null;
+    }
+
+    public Object hist(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+        if (hijos.size() != 3) {
+            return aux.error("En la funcion hist se esperan solo 3 argumentos.", fila, columna);
+        }
+
+        Vector v1 = this.retVec(hijos.get(0).ejecutar(ts, aux));
+        Vector v2 = this.retVec(hijos.get(1).ejecutar(ts, aux)), v3 = this.retVec(hijos.get(2).ejecutar(ts, aux));
+        if (v1 == null) {
+            return aux.error("En el primero parametro de hist se espera un vector numerico.", fila, columna);
+        }
+        if (!(v1.tp == Tipos.numerico || v1.tp == Tipos.entero)) {
+            return aux.error("En el primero parametro de hist se espera un vector numerico.", fila, columna);
+        }
+        if (v2 == null || v2.tp != Tipos.cadena) {
+            return aux.error("En el segundo parametro de hist se esperaba una cadena. ", fila, columna);
+        }
+        if (v3 == null || v3.tp != Tipos.cadena) {
+            return aux.error("En el tercer parametro de hist se esperaba una cadena. ", fila, columna);
+        }
+
+        ArrayList<Double> arrd = new ArrayList<>();
+        for (Simbolo_prim sp : v1.arr) {
+            arrd.add(Double.parseDouble(sp.valor.toString()));
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            Histogram_chart ex = new Histogram_chart(v2.arr.get(0).toString(), v3.arr.get(0).toString(), arrd);
+            ex.setVisible(true);
+            ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        });
+
+        return null;
+    }
+
+    public Object plot(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+        if (hijos.size() != 5) {
+            return aux.error("En la funcion plot se esperan solo 5 argumentos", fila, columna);
+        }
+
+        Object o1 = hijos.get(0).ejecutar(ts, aux);
+        Vector v2 = this.retVec(hijos.get(1).ejecutar(ts, aux)), v3 = this.retVec(hijos.get(2).ejecutar(ts, aux)),
+                v4 = this.retVec(hijos.get(3).ejecutar(ts, aux)), v5 = this.retVec(hijos.get(4).ejecutar(ts, aux));
+        Estructura e1 = this.getEst(o1);
+        if (e1 == null) {
+            return aux.error("el primer parametro de la funcion plot solo acepta vectore o matrices numericas. ", fila, columna);
+        }
+        if (e1 instanceof Lista || e1 instanceof Array) {
+            return aux.error("el primer parametro de la funcion plot solo acepta vectore o matrices numericas. ", fila, columna);
+        }
+        if (!(e1.tp == Tipos.numerico || e1.tp == Tipos.entero)) {
+            return aux.error("el primer parametro de la funcion plot solo acepta vectore o matrices numericas. ", fila, columna);
+        }
+        if (v2 == null || v2.tp != Tipos.cadena) {
+            return aux.error("El segundo parametro de plot debe de ser cadena ", fila, columna);
+        }
+        if (v3 == null || v3.tp != Tipos.cadena) {
+            return aux.error("El tercer parametro de plot debe de ser cadena ", fila, columna);
+        }
+        if (v4 == null || v4.tp != Tipos.cadena) {
+            return aux.error("El cuarto parametro de plot debe de ser cadena ", fila, columna);
+        }
+        if (v5 == null || v5.tp != Tipos.cadena) {
+            return aux.error("El quinto parametro de plot debe de ser un vector_cadena ", fila, columna);
+        }
+
+        ArrayList<Double> arrd = new ArrayList<>();
+
+        for (Simbolo_prim sp : e1 instanceof Matriz ? ((Matriz) e1).arr : ((Vector) e1).arr) {
+            arrd.add(Double.parseDouble(sp.valor.toString()));
+        }
+
+        String st = v2.arr.get(0).toString().toLowerCase();
+
+        int n = st.equals("p") ? 1 : st.equals("i") ? 2 : st.equals("o") ? 0 : -1;
+
+        if (n == -1) {
+            return aux.error("El segundo parametro solo puede ser p , i , o", fila, columna);
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            Line_chart ex = new Line_chart(n, arrd, v5.arr.get(0).toString(), v3.arr.get(0).toString(), v4.arr.get(0).toString());
+            ex.setVisible(true);
+            ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        });
+
+        return null;
+    }
+
+    public Object barplot(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+        if (hijos.size() != 5) {
+            return aux.error("La funcin barplot espera 5 argumentos", fila, columna);
+        }
+
+        Vector v1 = this.retVec(hijos.get(0).ejecutar(ts, aux)), v2 = this.retVec(hijos.get(1).ejecutar(ts, aux)),
+                v3 = this.retVec(hijos.get(2).ejecutar(ts, aux)), v4 = this.retVec(hijos.get(3).ejecutar(ts, aux)),
+                v5 = this.retVec(hijos.get(4).ejecutar(ts, aux));
+
+        if (v1 == null || !(v1.tp == Tipos.numerico || v1.tp == Tipos.entero)) {
+            return aux.error("El primer parametro de barplot debe de ser un vector_numerico. ", fila, columna);
+        }
+
+        if (v2 == null || v2.tp != Tipos.cadena) {
+            return aux.error("El segundo parametro de barplot debe de ser cadean ", fila, columna);
+        }
+
+        if (v3 == null || v3.tp != Tipos.cadena) {
+            return aux.error("El tercer parametro de barplot debe de ser cadena ", fila, columna);
+        }
+        //tity = 
+
+        if (v4 == null || v4.tp != Tipos.cadena) {
+            return aux.error("El cuarto parametro de barplot debe de ser cadena ", fila, columna);
+        }
+        //title = ;
+
+        if (v5 == null || v5.tp != Tipos.cadena) {
+            return aux.error("El quinto parametro de barplot debe de ser un vector_cadena ", fila, columna);
+        }
+
+        ArrayList<String> arrs = new ArrayList<>();
+        ArrayList<Double> arrd = new ArrayList<>();
+        String title = "";
+        String titx = "", tity = "";
+        for (Simbolo_prim sp : v1.arr) {
+            arrd.add(Double.parseDouble(sp.valor.toString()));
+        }
+        for (Simbolo_prim sp : v5.arr) {
+            arrs.add(sp.toString());
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            Bar_chart ex = new Bar_chart(v4.arr.get(0).toString(), v2.arr.get(0).toString(), v3.arr.get(0).toString(), arrs, arrd);
+            ex.setVisible(true);
+            ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        });
+
+        return null;
+    }
+
+    public Object pie(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+
+        if (hijos.size() != 3) {
+            return aux.error("La funcion pie requiere 3 argumentos, pie(x , labels, main); ", fila, columna);
+        }
+
+        Object o1 = hijos.get(0).ejecutar(ts, aux),
+                o2 = hijos.get(1).ejecutar(ts, aux),
+                o3 = hijos.get(2).ejecutar(ts, aux);
+
+        if (this.esArrayOLista(o1) || this.esArrayOLista(o2) || this.esArrayOLista(o3)
+                || o1 == null || o2 == null || o3 == null) {
+            return aux.error("La funcion pie espera vector_numerico , vector_cadena , cadena", fila, columna);
+        }
+        Estructura e1 = this.getEst(o1), e2 = this.getEst(o2), e3 = this.getEst(o3);
+        if (!(e1.tp == Tipos.numerico || e1.tp == Tipos.entero)) {
+            return aux.error("La funcion pie espera vector_numerico , vector_cadena , cadena", fila, columna);
+        }
+        if (!(e2.tp == Tipos.cadena && e3.tp == Tipos.cadena)) {
+            return aux.error("La funcion pie espera vector_numerico , vector_cadena , cadena", fila, columna);
+        }
+        if (e1 instanceof Matriz || e2 instanceof Matriz) {
+            return aux.error("La funcion pie espera vector_numerico , vector_cadena , cadena", fila, columna);
+        }
+        ArrayList< String> arrs = new ArrayList<>();
+        ArrayList<Double> arrd = new ArrayList<>();
+
+        for (Simbolo_prim sp : ((Vector) e1).arr) {
+            arrd.add(Double.parseDouble(sp.valor.toString()));
+        }
+        for (Simbolo_prim sp : ((Vector) e2).arr) {
+            arrs.add(sp.valor.toString());
+        }
+
+        String titulo = ((Vector) e3).arr.get(0).toString();
+
+        SwingUtilities.invokeLater(() -> {
+            Pie_chart example = new Pie_chart(titulo, arrs, arrd);
+            example.setSize(800, 400);
+            example.setLocationRelativeTo(null);
+            example.setVisible(true);
+            example.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        });
+
         return null;
     }
 

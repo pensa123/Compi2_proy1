@@ -19,8 +19,7 @@ public class Matriz extends Estructura {
     public int tamanio = 0;
 
     public int nm = 4;
-    public Tipos tp;
-
+    
     @Override
     public Estructura copear() {
         Matriz m2 = new Matriz();

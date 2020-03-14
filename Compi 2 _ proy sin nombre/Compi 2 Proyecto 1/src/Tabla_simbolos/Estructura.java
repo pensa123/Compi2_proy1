@@ -5,6 +5,7 @@
  */
 package Tabla_simbolos;
 
+import ClasesAuxiliares.contenedorEnum;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,6 +14,8 @@ import java.util.logging.Logger;
  * @author ferna
  */
 public abstract class Estructura {
+
+    public contenedorEnum.Tipos tp;
 
     public String imprimir() {
         return "";

@@ -52,6 +52,10 @@ public class Auxiliar {
         nats.add("mode");
         nats.add("list");
         nats.add("array");
+        nats.add("pie");
+        nats.add("barplot");
+        nats.add("plot");
+        nats.add("hist");
     }
 
     public void agregar(String ss) {

@@ -278,6 +278,9 @@ public class Compi2Proyecto1 {
                 + "for(i in array(c(2,3,4) , c(2,3,4))){\n"
                 + "	print(typeof(i) + \" \" + i);	\n"
                 + "}");
+
+        ini.nueva_pestana("pie(c(2,4,5) , c(\"hola\", \"como\",\"estas\"),\"El titulo\");\n"
+                + "barplot(c(1,2,3),\"eje x\" , \"eje y\" , \"Titulo\" , c(\"v1\" , \"v2\" , \"v3\"));");
     }
 
     public Compi2Proyecto1() {
