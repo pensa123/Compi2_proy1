@@ -19,7 +19,7 @@ public class Tabla_Sim {
     public Tabla_Sim padre;
     public ArrayList<Tabla_Sim> hijos = new ArrayList<Tabla_Sim>();
 
-    public boolean esciclo = false, esfuncion = false;
+    public boolean esciclo = false, esfuncion = false, esswitch = false;
 
     public boolean haybreak = false, haycontinue = false, hayreturn = false;
     public Object ret;
@@ -53,7 +53,7 @@ public class Tabla_Sim {
 
     public void setbreaks() {
         this.haybreak = true;
-        if (!esciclo) {
+        if (!(esciclo || esswitch)) {
             padre.setbreaks();
         }
     }
@@ -73,7 +73,7 @@ public class Tabla_Sim {
     }
 
     public boolean seencontroBreak() {
-        if (esciclo) {
+        if (esciclo || esswitch) {
             return true;
         }
         return padre == null ? false : padre.seencontroBreak();

@@ -90,8 +90,9 @@ precedence left mayorque, mayorigual, menorque , menorigual;
 precedence left mas, menos;
 precedence left por, division, modular;
 precedence left potencia;
-precedence right not , menos; 
 precedence left parenI, parenD;
+
+
 
 start with INICIO;
 
@@ -197,6 +198,10 @@ LISTACORCHETES ::= LISTACORCHETES:arr cori:a EXPRESION:n cord {: arr.add(new Acc
                 | iden:a  cori EXPRESION:n2 cord  {:ArrayList<Nodo> arr = new ArrayList<Nodo>(); 
                         Nodo n =  new Iden(aleft , aright , a);  
                         arr.add(n);arr.add(new Acceso(aleft , aright , n2 , false ));   RESULT  = arr;  :}
+                | iden:a  cori cori EXPRESION:n2 cord cord  {:ArrayList<Nodo> arr = new ArrayList<Nodo>(); 
+                        Nodo n =  new Iden(aleft , aright , a);  
+                        arr.add(n);arr.add(new Acceso(aleft , aright , n2 , true ));   RESULT  = arr;  :}       
+                        
                         ; 
 
 LLAMADAFUNC ::= iden:a parenI LISTAPARAMS:arr parenD  {: RESULT = new Llamada_metodo(aleft, aright , arr, a);    :}
@@ -225,7 +230,7 @@ EXPRESION ::=  ARITMETICA:e                 {: RESULT = e; :}
                 :} 
            ;
 
-ARITMETICA ::= menos:a  EXPRESION:n                    {:  RESULT = new OperadorUnario(aleft  , aright, n, Op.neg);                     :} 
+ARITMETICA ::= menos:a  EXPRESION:n                    {:  RESULT = new OperadorUnario(aleft  , aright, n, Op.neg);                     :} %prec menos 
                 | not:a  EXPRESION:n                   {:  RESULT = new OperadorUnario(aleft  , aright, n, Op.not);                     :} 
                 | EXPRESION:n mas:a EXPRESION:n2       {:  RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.mas);          :}
                 | EXPRESION:n menos:a EXPRESION:n2     {:  RESULT = new OperadorBinario(aleft , aright, n , n2, Operando.menos);        :}

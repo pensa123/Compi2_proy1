@@ -129,7 +129,7 @@ MORE :
 
 <STRING_STATE> MORE:
 {
-    <~["\""]>
+    <~["\""]> | <("\\" "\"")>
 }
 
 <STRING_STATE> TOKEN:
@@ -147,7 +147,7 @@ void Analizar() :
   Nodo n; 
 }
 {
-  ( n = InstruccionGlobal() { arr.add(n); })+ <EOF> { }
+  ( n = InstruccionGlobal() { arr.add(n); })* <EOF> { }
 }
 
 Nodo instrucciones_cuerpos():
@@ -517,7 +517,7 @@ Nodo ExpresionRelacional() :
       |
       <DECIMAL> {n = new Primitivo( token.beginLine, token.beginColumn , Tipos.numerico , Double.parseDouble(token.image)  );  }
       |
-      t = <STRING> {n = new Primitivo( token.beginLine, token.beginColumn , Tipos.cadena , t.image.substring(1,t.image.length()-1)  ); }
+      t = <STRING> {n = new Primitivo( token.beginLine, token.beginColumn , Tipos.cadena , t.image.substring(1,t.image.length()-1).replace("\\\"", "\"")  ); }
       |
       <TRUE>   { n = new Primitivo( token.beginLine, token.beginColumn , Tipos.booleano , true  ); }
       |

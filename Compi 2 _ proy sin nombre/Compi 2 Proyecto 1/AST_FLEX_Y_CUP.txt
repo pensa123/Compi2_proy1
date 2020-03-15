@@ -1,37 +1,3 @@
 digraph G { 
  AST_FLEX_Y_CUP ;
- 504586115[label="Switch" ]; 
-AST_FLEX_Y_CUP ->  504586115;
-1801109504[label="Primitivo cadena hola" ]; 
-504586115 ->  1801109504; 
-1670077139[label="Instrucciones_cuerpo" ]; 
-504586115 ->  1670077139;
-56084434[label="Case" ]; 
-1670077139 ->  56084434;
-129793916[label="Primitivo cadena hola" ]; 
-56084434 ->  129793916; 
-987493707[label="Llamada_metodo -print-" ]; 
-1670077139 ->  987493707; 
-54492417[label="Primitivo cadena hola" ]; 
-987493707 ->  54492417; 
-1047217123[label="Parar" ]; 
-1670077139 ->  1047217123;
-1514708173[label="Case" ]; 
-1670077139 ->  1514708173;
-1063013218[label="Primitivo cadena h2" ]; 
-1514708173 ->  1063013218; 
-1198780157[label="Llamada_metodo -print-" ]; 
-1670077139 ->  1198780157; 
-593746347[label="Primitivo cadena h2" ]; 
-1198780157 ->  593746347; 
-1037277182[label="Parar" ]; 
-1670077139 ->  1037277182;
-1611259005[label="Default" ]; 
-1670077139 ->  1611259005;
-945148551[label="Llamada_metodo -print-" ]; 
-1670077139 ->  945148551; 
-88537767[label="Primitivo cadena def" ]; 
-945148551 ->  88537767; 
-604758422[label="Parar" ]; 
-1670077139 ->  604758422;
-}
+ }

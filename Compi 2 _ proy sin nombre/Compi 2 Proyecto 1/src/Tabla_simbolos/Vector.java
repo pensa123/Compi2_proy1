@@ -104,7 +104,7 @@ public class Vector extends Estructura {
 
     @Override
     public String toString() {
-        if (arr.size() == 1) {
+        if (arr.size() == 1 ) {
             return arr.get(0).toString();
         }
 

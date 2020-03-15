@@ -760,7 +760,7 @@ private int jjMoveStringLiteralDfa0_1()
    switch(curChar)
    {
       case 34:
-         return jjStopAtPos(0, 54);
+         return jjStopAtPos(0, 55);
       default :
          return jjMoveNfa_1(0, 0);
    }
@@ -769,7 +769,7 @@ private int jjMoveNfa_1(int startState, int curPos)
 {
    //int[] nextStates; // not used
    int startsAt = 0;
-   jjnewStateCnt = 1;
+   jjnewStateCnt = 3;
    int i = 1;
    jjstateSet[0] = startState;
    //int j; // not used
@@ -789,6 +789,10 @@ private int jjMoveNfa_1(int startState, int curPos)
                   if ((0xfffffffbffffffffL & l) != 0L)
                      kind = 53;
                   break;
+               case 2:
+                  if (curChar == 34)
+                     kind = 54;
+                  break;
                default : break;
             }
          } while(i != startsAt);
@@ -801,7 +805,14 @@ private int jjMoveNfa_1(int startState, int curPos)
             switch(jjstateSet[--i])
             {
                case 0:
-                  kind = 53;
+                  if (kind > 53)
+                     kind = 53;
+                  if (curChar == 92)
+                     jjstateSet[jjnewStateCnt++] = 2;
+                  break;
+               case 1:
+                  if (curChar == 92)
+                     jjstateSet[jjnewStateCnt++] = 2;
                   break;
                default : break;
             }
@@ -830,7 +841,7 @@ private int jjMoveNfa_1(int startState, int curPos)
          kind = 0x7fffffff;
       }
       ++curPos;
-      if ((i = jjnewStateCnt) == (startsAt = 1 - (jjnewStateCnt = startsAt)))
+      if ((i = jjnewStateCnt) == (startsAt = 3 - (jjnewStateCnt = startsAt)))
          return curPos;
       try { curChar = input_stream.readChar(); }
       catch(java.io.IOException e) { return curPos; }
@@ -846,7 +857,7 @@ public static final String[] jjstrLiteralImages = {
 null, null, null, null, null, null, null, null, null, null, null, null, "\73", 
 "\72", "\50", "\51", "\133", "\135", "\173", "\175", "\45\45", "\136", "\53", "\77", 
 "\55", "\52", "\57", "\75", "\74", "\76", "\74\75", "\76\75", "\75\75", "\41\75", 
-"\54", "\46", "\174", "\41", null, null, null, null, };
+"\54", "\46", "\174", "\41", null, null, null, null, null, };
 
 /** Lexer state names. */
 public static final String[] lexStateNames = {
@@ -858,16 +869,16 @@ public static final String[] lexStateNames = {
 public static final int[] jjnewLexState = {
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-   -1, -1, 1, -1, 0, 
+   -1, -1, 1, -1, -1, 0, 
 };
 static final long[] jjtoToken = {
-   0x4fffffffffff81L, 
+   0x8fffffffffff81L, 
 };
 static final long[] jjtoSkip = {
    0x7eL, 
 };
 static final long[] jjtoMore = {
-   0x30000000000000L, 
+   0x70000000000000L, 
 };
 protected SimpleCharStream input_stream;
 private final int[] jjrounds = new int[19];

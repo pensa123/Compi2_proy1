@@ -13,6 +13,7 @@ public class sym {
   public static final int True = 18;
   public static final int Null = 44;
   public static final int If = 34;
+  public static final int flecha = 48;
   public static final int dosPuntos = 11;
   public static final int Default = 45;
   public static final int coma = 10;
@@ -104,7 +105,8 @@ public class sym {
   "Null",
   "Default",
   "Switch",
-  "Case"
+  "Case",
+  "flecha"
   };
 }
 

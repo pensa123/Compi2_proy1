@@ -86,9 +86,10 @@ public class Lista extends Estructura {
             if (o instanceof Simbolo_prim) {
                 st += o.toString();
             } else if (o instanceof Vector && ((Vector) o).arr.size() == 1) {
-                st += ((Vector) o).arr.get(0).toString();
+                st += o.toString();
             } else {
-                st += o.getClass().getSimpleName();
+               // st += o.getClass().getSimpleName();
+                st += o.toString();
             }
             nvez = true;
         }

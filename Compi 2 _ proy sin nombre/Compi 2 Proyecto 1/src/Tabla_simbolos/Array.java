@@ -140,13 +140,9 @@ public class Array extends Estructura {
         if (arrI.size() != arrD.size()) {
             return -1;
         }
-
         int c = 0;
-
         for (int a = arrI.size() - 1; a != -1; a--) {
-            if (a != arrD.size() - 1) {
-                c = c * (arrD.get(a));
-            }
+            c = (a != arrD.size() - 1) ? c * (arrD.get(a)) : c;
             if (0 < arrI.get(a) && arrI.get(a) <= arrD.get(a)) {
                 c += (arrI.get(a) - 1);
             } else {

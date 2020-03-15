@@ -63,8 +63,6 @@ public class Gramatica implements GramaticaConstants {
   Nodo n;
     label_1:
     while (true) {
-      n = InstruccionGlobal();
-                              arr.add(n);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case MIENTRAS:
       case CASE:
@@ -83,6 +81,8 @@ public class Gramatica implements GramaticaConstants {
         jj_la1[0] = jj_gen;
         break label_1;
       }
+      n = InstruccionGlobal();
+                              arr.add(n);
     }
     jj_consume_token(0);
 
@@ -788,7 +788,7 @@ public class Gramatica implements GramaticaConstants {
       break;
     case STRING:
       t = jj_consume_token(STRING);
-                    n = new Primitivo( token.beginLine, token.beginColumn , Tipos.cadena , t.image.substring(1,t.image.length()-1)  );
+                    n = new Primitivo( token.beginLine, token.beginColumn , Tipos.cadena , t.image.substring(1,t.image.length()-1).replace("\\\"", "\"")  );
       break;
     case TRUE:
       jj_consume_token(TRUE);
@@ -1087,7 +1087,7 @@ public class Gramatica implements GramaticaConstants {
       jj_la1_0 = new int[] {0xbbf000,0xbbf000,0x2000000,0x2000000,0x8000000,0x2000000,0xbbf000,0x0,0x0,0x0,0x0,0x22000,0x2000000,0x8040f80,0x2000000,0x2000000,0x28000000,0x81d000,0x2000000,0x1000000,0x80800000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x8000f80,0x28000000,0x28000000,0x8000f80,0x8020f80,0x0,0x8020f80,0x8020f80,0x20000000,0x48000f80,0x40000000,0x20000000,0x28000f80,0x28000f80,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x80000,0x80000,0x0,0x0,0x0,0x0,0x80000,0x100,0x8000,0x100,0x80000,0x0,0x0,0x4c0020,0x0,0x0,0x100,0x0,0x0,0x0,0x0,0x10,0x20000,0x10000,0x6000,0x6000,0x1e00,0x1e00,0x28,0x28,0xc0,0xc0,0x6,0x6,0x4c0020,0x0,0x0,0x480000,0x4c0020,0x8000,0x4c0020,0x4c0020,0x0,0x4c0020,0x8000,0x0,0x4c8020,0x4c0020,};
+      jj_la1_1 = new int[] {0x80000,0x80000,0x0,0x0,0x0,0x0,0x80000,0x100,0x8000,0x100,0x80000,0x0,0x0,0x8c0020,0x0,0x0,0x100,0x0,0x0,0x0,0x0,0x10,0x20000,0x10000,0x6000,0x6000,0x1e00,0x1e00,0x28,0x28,0xc0,0xc0,0x6,0x6,0x8c0020,0x0,0x0,0x880000,0x8c0020,0x8000,0x8c0020,0x8c0020,0x0,0x8c0020,0x8000,0x0,0x8c8020,0x8c0020,};
    }
 
   /** Constructor with InputStream. */
@@ -1204,7 +1204,7 @@ public class Gramatica implements GramaticaConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[55];
+    boolean[] la1tokens = new boolean[56];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -1221,7 +1221,7 @@ public class Gramatica implements GramaticaConstants {
         }
       }
     }
-    for (int i = 0; i < 55; i++) {
+    for (int i = 0; i < 56; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

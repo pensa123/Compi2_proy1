@@ -252,7 +252,7 @@ public class OperadorBinario extends Nodo {
                 if (esnumerico) {
                     b = Double.parseDouble(s1.valor + "") == Double.parseDouble(s2.valor + "");
                 } else if (s1.tp == s2.tp) {
-                    b = (s1.valor + "").equals(s2.valor + "");
+                    b = (s1.toString()).equals(s2.toString());
                 } else {
                     error = 5;
                 }
