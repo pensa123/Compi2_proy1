@@ -106,6 +106,16 @@ public class Compi2Proyecto1 {
 
     public static void probando(Inicio ini) {
 
+        ini.nueva_pestana("print(\"probando cosas de escape de cadenas\"); \n"
+                + "\n"
+                + "print(\"\\\"hola\\\"\");\n"
+                + "\n"
+                + "print(\"\\n salto\");\n"
+                + "\n"
+                + "print(\"\\r retorno de carro\");\n"
+                + "\n"
+                + "print(\"\\t tabulado\");");
+
         ini.nueva_pestana("print(\"Esto prueba el while, do while, if, for continue\");\n"
                 + "print(\"tambien matrices y vectores\"); \n"
                 + "x = 1; \n"

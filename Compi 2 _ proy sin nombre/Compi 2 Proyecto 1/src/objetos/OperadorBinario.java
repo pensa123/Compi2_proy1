@@ -185,6 +185,7 @@ public class OperadorBinario extends Nodo {
         boolean esnumerico = this.esnumerico(s1) && this.esnumerico(s2);
         boolean esint = s1.tp == s2.tp && s1.tp == Tipos.entero;
         boolean esbool = s1.tp == s2.tp && s1.tp == Tipos.booleano;
+        boolean soncadena = s1.tp == Tipos.cadena && s2.tp == Tipos.cadena;
         int error = 0;
         /*
          * 1 se esperaban operadores numericos, 
@@ -262,6 +263,9 @@ public class OperadorBinario extends Nodo {
             case mayorque:  //>
                 if (esnumerico) {
                     sr = new Simbolo_prim(Tipos.booleano, Double.parseDouble(s1.valor + "") > Double.parseDouble(s2.valor + ""));
+                } else if (soncadena) {
+                    int n = this.CompareString(s1.toString(), s2.toString());
+                    sr = new Simbolo_prim(Tipos.booleano, n > 0);
                 } else {
                     error = 1;
                 }
@@ -269,6 +273,9 @@ public class OperadorBinario extends Nodo {
             case mayorigual:
                 if (esnumerico) {
                     sr = new Simbolo_prim(Tipos.booleano, Double.parseDouble(s1.valor + "") >= Double.parseDouble(s2.valor + ""));
+                } else if (soncadena) {
+                    int n = this.CompareString(s1.toString(), s2.toString());
+                    sr = new Simbolo_prim(Tipos.booleano, n >= 0);
                 } else {
                     error = 1;
                 }
@@ -276,6 +283,9 @@ public class OperadorBinario extends Nodo {
             case menorque:
                 if (esnumerico) {
                     sr = new Simbolo_prim(Tipos.booleano, Double.parseDouble(s1.valor + "") < Double.parseDouble(s2.valor + ""));
+                } else if (soncadena) {
+                    int n = this.CompareString(s1.toString(), s2.toString());
+                    sr = new Simbolo_prim(Tipos.booleano, n < 0);
                 } else {
                     error = 1;
                 }
@@ -283,6 +293,9 @@ public class OperadorBinario extends Nodo {
             case menorigual:
                 if (esnumerico) {
                     sr = new Simbolo_prim(Tipos.booleano, Double.parseDouble(s1.valor + "") <= Double.parseDouble(s2.valor + ""));
+                } else if (soncadena) {
+                    int n = this.CompareString(s1.toString(), s2.toString());
+                    sr = new Simbolo_prim(Tipos.booleano, n <= 0);
                 } else {
                     error = 1;
                 }
@@ -330,6 +343,29 @@ public class OperadorBinario extends Nodo {
         }
 
         return sr;
+
+    }
+
+    // n > 0 si  st1 es mayor
+    // n < 0 si  st2 es mayor
+    // n == 0 si st1 es igual que est2
+    public int CompareString(String st1, String st2) {
+        System.out.println(st1 + " <====> " + st2);
+        int l1 = st1.length();
+        int l2 = st2.length();
+        int lmin = Math.min(l1, l2);
+        for (int a = 0; a < lmin; a++) {
+            int str1_ch = (int) st1.charAt(a);
+            int str2_ch = (int) st2.charAt(a);
+            if (str1_ch != str2_ch) {
+                return str1_ch - str2_ch;
+            }
+        }
+        if (l1 != l2) {
+            return l1 - l2;
+        } else {
+            return 0;
+        }
 
     }
 

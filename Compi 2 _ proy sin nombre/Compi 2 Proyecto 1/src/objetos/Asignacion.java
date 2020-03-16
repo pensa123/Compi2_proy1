@@ -133,9 +133,8 @@ public class Asignacion extends Nodo {
                 } else if (e instanceof Array) {
                     return setArr((Array) e, aux, vacc, sp);
                 }
-
+                //TODOS FALTA NOTIFICAR ERRORES Y VER DE QUE TIPOS SON. 
                 System.out.println("asignacion, falta verificar " + e.getClass().getSimpleName());
-                //TODO falta agregar para las demas (matriz, lista o arreglo); 
                 break;
             default:
                 System.out.println("TODO accion en la clase \"EJECUTAR\" _  en el switch  \"" + n.getClass().getSimpleName() + "\"");

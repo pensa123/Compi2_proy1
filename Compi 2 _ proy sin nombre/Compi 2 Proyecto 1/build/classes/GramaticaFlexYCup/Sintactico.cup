@@ -67,7 +67,7 @@ terminal String entero, numerico, igual, mas, menos, por, division, pComa, coma,
 terminal String parenI, parenD, cadena, iden, modular, potencia, True, False, not, Break, Do; 
 terminal String igualigual, noigual, menorigual, mayorigual, menorque,mayorque, or , and, preg; 
 terminal String cori , cord , If, llavei, llaved, Else, Function, Return, While, Continue; 
-terminal String For , In, Null, Default, Switch, Case, flecha; 
+terminal String For , In, Null, Default, Switch, Case; 
 
 /* Non terminals */
 non terminal INICIO;
@@ -139,10 +139,6 @@ DECFUNC ::= iden:a igual Function parenI LISTA_PARAMS_FUN:arr  parenD llavei INS
                         Nodo n = new Instrucciones_cuerpo(0,0 , arr2);
                         arr.add(n);
                         RESULT = new Asignacion_funcion(aleft , aright , arr , a); :}
-                |
-                iden  parenI iden igual EXPRESION coma LISTA_PARAMS_FUN2 parenD  flecha
-                |
-                iden  parenI  parenD  flecha
                 ;
 
 TRANSFERENCIA ::= Return:a                         {: RESULT = new Retorno(aleft, aright , null); :}

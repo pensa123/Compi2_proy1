@@ -1,3 +1,11 @@
 digraph G { 
  AST_FLEX_Y_CUP ;
- }
+ 754502819[label="Llamada_metodo -print-" ]; 
+AST_FLEX_Y_CUP ->  754502819; 
+213044150[label="OperadorBinario -mayorigual-" ]; 
+754502819 ->  213044150; 
+1832540829[label="Primitivo cadena v" ]; 
+213044150 ->  1832540829; 
+1530940541[label="Primitivo cadena z" ]; 
+213044150 ->  1530940541; 
+}

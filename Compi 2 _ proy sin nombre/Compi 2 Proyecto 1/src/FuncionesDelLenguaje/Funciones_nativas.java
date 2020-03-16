@@ -529,7 +529,11 @@ public class Funciones_nativas {
             sp = new Simbolo_prim(Tipos.entero, ((Vector) o).tamanio);
         } else if (o instanceof Matriz) {
             sp = new Simbolo_prim(Tipos.entero, ((Matriz) o).tamanio);
-        }//TODO falta agregar lista y arreglos :D
+        } else if (o instanceof Lista) {
+            sp = new Simbolo_prim(Tipos.entero, ((Lista) o).arr.size());
+        } else if (o instanceof Array) {
+            sp = new Simbolo_prim(Tipos.entero, ((Array) o).arr.size());
+        }
         return sp;
     }
 

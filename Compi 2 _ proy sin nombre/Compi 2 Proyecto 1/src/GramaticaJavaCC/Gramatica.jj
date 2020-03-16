@@ -129,7 +129,12 @@ MORE :
 
 <STRING_STATE> MORE:
 {
-    <~["\""]> | <("\\" "\"")>
+    <~["\""]> 
+    | <("\\" "\"")>
+    | <("\\" "n")>
+    | <("\\" "\\")>
+    | <("\\" "r")>
+    | <("\\" "t")>
 }
 
 <STRING_STATE> TOKEN:
@@ -517,7 +522,7 @@ Nodo ExpresionRelacional() :
       |
       <DECIMAL> {n = new Primitivo( token.beginLine, token.beginColumn , Tipos.numerico , Double.parseDouble(token.image)  );  }
       |
-      t = <STRING> {n = new Primitivo( token.beginLine, token.beginColumn , Tipos.cadena , t.image.substring(1,t.image.length()-1).replace("\\\"", "\"")  ); }
+      t = <STRING> {n = new Primitivo( token.beginLine, token.beginColumn , Tipos.cadena , t.image.substring(1,t.image.length()-1).replace("\\\"", "\"").replace("\\\\" , "\\").replace("\\n" , "\n").replace("\\r", "\r").replace("\\t" , "\t")  ); }
       |
       <TRUE>   { n = new Primitivo( token.beginLine, token.beginColumn , Tipos.booleano , true  ); }
       |
