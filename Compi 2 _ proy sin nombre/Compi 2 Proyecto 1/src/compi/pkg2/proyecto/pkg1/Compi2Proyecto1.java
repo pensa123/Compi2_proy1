@@ -114,9 +114,8 @@ public class Compi2Proyecto1 {
                 + "\n"
                 + "print(\"\\r retorno de carro\");\n"
                 + "\n"
-                + "print(\"\\t tabulado\");");
-
-        ini.nueva_pestana("print(\"Esto prueba el while, do while, if, for continue\");\n"
+                + "print(\"\\t tabulado\");\n"
+                + "print(\"Esto prueba el while, do while, if, for continue\");\n"
                 + "print(\"tambien matrices y vectores\"); \n"
                 + "x = 1; \n"
                 + "y = 2; \n"
@@ -157,7 +156,18 @@ public class Compi2Proyecto1 {
                 + "print(mat + mat2);\n"
                 + "mat[1,] = mat2[1,];\n"
                 + "mat[,1] = mat2[,1]; \n"
-                + "print(mat);");
+                + "print(mat);\n"
+                + "switch(\"hola\"){\n"
+                + "	case \"hola\":\n"
+                + "		print(\"hola\");\n"
+                + "	     break;\n"
+                + "	case \"h2\":\n"
+                + "		print(\"h2\");\n"
+                + "		break;\n"
+                + "	default: \n"
+                + "		print(\"def\");\n"
+                + "		break;	\n"
+                + "}");
 
         /*        ini.nueva_pestana("Vector = c(12,13,15,16,24,15,17,19,17,15)\n"
          + "print(vector);\n"
@@ -289,20 +299,6 @@ public class Compi2Proyecto1 {
                 + "	print(typeof(i) + \" \" + i);	\n"
                 + "}");
 
-        ini.nueva_pestana("pie(c(2,4,5) , c(\"hola\", \"como\",\"estas\"),\"El titulo\");\n"
-                + "barplot(c(1,2,3),\"eje x\" , \"eje y\" , \"Titulo\" , c(\"v1\" , \"v2\" , \"v3\"));");
-
-        ini.nueva_pestana("switch(\"hola\"){\n"
-                + "	case \"hola\":\n"
-                + "		print(\"hola\");\n"
-                + "	     break;\n"
-                + "	case \"h2\":\n"
-                + "		print(\"h2\");\n"
-                + "		break;\n"
-                + "	default: \n"
-                + "		print(\"def\");\n"
-                + "		break;	\n"
-                + "}");
     }
 
     public Compi2Proyecto1() {

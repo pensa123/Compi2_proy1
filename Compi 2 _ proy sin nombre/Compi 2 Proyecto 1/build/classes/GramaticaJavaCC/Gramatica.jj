@@ -22,6 +22,7 @@ import FuncionesDelLenguaje.Do_while;
 
 import FuncionesDelLenguaje.If;
 
+import objetos.e_e;
 import objetos.Case;
 import objetos.Default;
 import objetos.Llamada_metodo;
@@ -204,8 +205,10 @@ Nodo  InstruccionGlobal() :
     Nodo n = null , n1; Token t; 
   }
   {
-    ( t = <IDENTIFICADOR> (<IGUAL> n =  Expresion())? { arr.add(new Iden(t.beginLine , t.beginColumn , t.image , n)); n = null; }   
-    (<COMA> t =  <IDENTIFICADOR> (<IGUAL> n = Expresion() )? { arr.add(new Iden(t.beginLine , t.beginColumn , t.image , n)); n = null; }  )* )?
+    ( t = <IDENTIFICADOR> {n1 = new Iden(t.beginLine , t.beginColumn , t.image); } 
+    (<IGUAL> n =  Expresion(){ n1 = new e_e(0,0 , n1 , n);} )? { arr.add(n1); }   
+    (<COMA> t =  <IDENTIFICADOR> {n1 = new Iden(t.beginLine , t.beginColumn , t.image); } 
+    (<IGUAL> n = Expresion() {n1 = new e_e(0,0 , n1 , n);; } )? { arr.add(n1);  }  )* )?
     { return arr; }
   }
 

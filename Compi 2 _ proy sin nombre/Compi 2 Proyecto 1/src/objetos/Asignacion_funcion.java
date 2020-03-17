@@ -38,6 +38,24 @@ public class Asignacion_funcion extends Nodo {
         for (int a = 0; a < hijos.size() - 1; a++) {
             vars.add(hijos.get(a));
         }
+
+        for (Nodo n : vars) {
+            if (n instanceof Iden) {
+                continue;
+            }
+            if (n instanceof e_e) {
+                if (n.hijos.get(0) instanceof Iden) {
+                    continue;
+                }
+            }
+            if (n instanceof Default) {
+                return aux.error("Al declarar una funcion no se puede poner default, este es solo para llamadas de funciones. ", n.fila, n.columna);
+            } else {
+                return aux.error("No se puede poner una operacion como parametro. ", n.fila, n.columna);
+            }
+
+        }
+
         Nodo ic = hijos.get(hijos.size() - 1);
         Funcion f = new Funcion(nombre, ic, vars);
 

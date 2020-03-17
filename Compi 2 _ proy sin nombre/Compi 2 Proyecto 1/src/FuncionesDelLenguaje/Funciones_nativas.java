@@ -21,6 +21,7 @@ import Tabla_simbolos.Tabla_Sim;
 import Tabla_simbolos.Vector;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
+import objetos.Default;
 import objetos.Iden;
 
 /**
@@ -32,6 +33,12 @@ public class Funciones_nativas {
     int fila, columna;
 
     public Object selFunc(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, String func, int f, int c) {
+        for (Nodo n : hijos) {
+            if (n instanceof Default) {
+                return aux.error("Defualt solo se puede usar en funciones echas por el usuario. ", n.fila, n.columna);
+            }
+        }
+
         fila = f;
         columna = c;
         switch (func.toLowerCase()) {

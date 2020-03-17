@@ -1,11 +1,13 @@
 digraph G { 
  AST_JAVACC ;
- 834080354[label="Llamada_metodo -print-" ]; 
-AST_JAVACC ->  834080354; 
-734174361[label="OperadorBinario -mayorigual-" ]; 
-834080354 ->  734174361; 
-345232846[label="Primitivo cadena v" ]; 
-734174361 ->  345232846; 
-1307136133[label="Primitivo cadena z" ]; 
-734174361 ->  1307136133; 
+ 1166818890[label="Asignacion" ]; 
+AST_JAVACC ->  1166818890;
+600751491[label="Iden --a-- " ]; 
+1166818890 ->  600751491; 
+971504433[label="Primitivo entero 2.0" ]; 
+1166818890 ->  971504433; 
+1230348058[label="Llamada_metodo -print-" ]; 
+AST_JAVACC ->  1230348058; 
+1829738004[label="Iden --a-- " ]; 
+1230348058 ->  1829738004; 
 }

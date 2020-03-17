@@ -42,13 +42,18 @@ public class Funcion {
 
             if (arro.get(a) instanceof Default) {
                 Nodo n = vars.get(a);
-                if (n.hijos.size() != 1) {
+                if (n.hijos.size() == 0) {
                     return aux.error("Default solo se llama si el parametro tiene valor por defecto.", fila, columna);
                 }
-                arro.set(a, n.hijos.get(0).ejecutar(estoy, aux));
+                arro.set(a, n.hijos.get(1).ejecutar(estoy, aux));
             }
-
-            String st = ((Iden) vars.get(a)).nombre;
+            String st = "";
+            Nodo naux = vars.get(a);
+            if (naux instanceof Iden) {
+                st = ((Iden) vars.get(a)).nombre;
+            } else {
+                st = ((Iden) vars.get(a).hijos.get(0)).nombre;
+            }
             ts.agregar_en_el_ambito(st, arro.get(a));
 
         }

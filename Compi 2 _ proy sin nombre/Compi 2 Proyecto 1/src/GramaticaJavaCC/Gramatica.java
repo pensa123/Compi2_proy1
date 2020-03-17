@@ -17,6 +17,7 @@ import FuncionesDelLenguaje.Do_while;
 
 import FuncionesDelLenguaje.If;
 
+import objetos.e_e;
 import objetos.Case;
 import objetos.Default;
 import objetos.Llamada_metodo;
@@ -202,16 +203,18 @@ public class Gramatica implements GramaticaConstants {
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case IDENTIFICADOR:
       t = jj_consume_token(IDENTIFICADOR);
+                           n1 = new Iden(t.beginLine , t.beginColumn , t.image);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case IGUAL:
         jj_consume_token(IGUAL);
         n = Expresion();
+                               n1 = new e_e(0,0 , n1 , n);
         break;
       default:
         jj_la1[7] = jj_gen;
         ;
       }
-                                                        arr.add(new Iden(t.beginLine , t.beginColumn , t.image , n)); n = null;
+                                                                 arr.add(n1);
       label_3:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -224,16 +227,18 @@ public class Gramatica implements GramaticaConstants {
         }
         jj_consume_token(COMA);
         t = jj_consume_token(IDENTIFICADOR);
+                                  n1 = new Iden(t.beginLine , t.beginColumn , t.image);
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case IGUAL:
           jj_consume_token(IGUAL);
           n = Expresion();
+                              n1 = new e_e(0,0 , n1 , n);;
           break;
         default:
           jj_la1[9] = jj_gen;
           ;
         }
-                                                               arr.add(new Iden(t.beginLine , t.beginColumn , t.image , n)); n = null;
+                                                                  arr.add(n1);
       }
       break;
     default:

@@ -13,6 +13,7 @@ import FuncionesDelLenguaje.For;
 import FuncionesDelLenguaje.While;
 import FuncionesDelLenguaje.Do_while;
 import FuncionesDelLenguaje.If;
+import objetos.e_e;
 import objetos.Case;
 import objetos.Default;
 import objetos.Llamada_metodo;

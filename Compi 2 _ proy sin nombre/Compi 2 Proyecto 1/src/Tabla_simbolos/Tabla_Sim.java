@@ -89,7 +89,7 @@ public class Tabla_Sim {
             o = new Vector((Simbolo_prim) o);
         }
         if (o instanceof Estructura) {
-            hvar.put(id.toLowerCase(), (Estructura) o);
+            hvar.put(id.toLowerCase(), ((Estructura) o).copear());
             return true;
         }
 
@@ -116,8 +116,7 @@ public class Tabla_Sim {
     public void agregar_var(String id, Estructura e) {
         if (hvar.containsKey(id.toLowerCase())) {
             hvar.put(id.toLowerCase(), e);
-        }
-        if (padre == null || !padre.try_agregar_var(id, e)) {
+        } else if (padre == null || !padre.try_agregar_var(id, e)) {
             hvar.put(id.toLowerCase(), e);
         }
     }

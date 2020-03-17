@@ -34,6 +34,12 @@ public class Llamada_metodo extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
+        for (Nodo n : hijos) {
+            if (n instanceof e_e) {
+                return aux.error("la forma identificador = expresion solo se puede usar en declaracion de funciones. ", n.fila, n.columna);
+            }
+        }
+
         int auxn = aux.nats.indexOf(nombre.toLowerCase());
 
         if (auxn != -1) {

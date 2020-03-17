@@ -1,11 +1,13 @@
 digraph G { 
  AST_FLEX_Y_CUP ;
- 754502819[label="Llamada_metodo -print-" ]; 
-AST_FLEX_Y_CUP ->  754502819; 
-213044150[label="OperadorBinario -mayorigual-" ]; 
-754502819 ->  213044150; 
-1832540829[label="Primitivo cadena v" ]; 
-213044150 ->  1832540829; 
-1530940541[label="Primitivo cadena z" ]; 
-213044150 ->  1530940541; 
+ 1006308499[label="Asignacion" ]; 
+AST_FLEX_Y_CUP ->  1006308499;
+1027819182[label="Iden --a-- " ]; 
+1006308499 ->  1027819182; 
+1485550419[label="Primitivo entero 2" ]; 
+1006308499 ->  1485550419; 
+1235558752[label="Llamada_metodo -print-" ]; 
+AST_FLEX_Y_CUP ->  1235558752; 
+718873427[label="Iden --a-- " ]; 
+1235558752 ->  718873427; 
 }

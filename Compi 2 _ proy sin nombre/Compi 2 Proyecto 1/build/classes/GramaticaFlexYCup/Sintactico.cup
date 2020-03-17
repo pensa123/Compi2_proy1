@@ -16,6 +16,7 @@ import FuncionesDelLenguaje.Do_while;
 
 import FuncionesDelLenguaje.If;
 
+import objetos.e_e;
 import objetos.Llamada_metodo;
 import objetos.Instrucciones_cuerpo;
 import objetos.Asignacion_funcion;
@@ -67,14 +68,16 @@ terminal String entero, numerico, igual, mas, menos, por, division, pComa, coma,
 terminal String parenI, parenD, cadena, iden, modular, potencia, True, False, not, Break, Do; 
 terminal String igualigual, noigual, menorigual, mayorigual, menorque,mayorque, or , and, preg; 
 terminal String cori , cord , If, llavei, llaved, Else, Function, Return, While, Continue; 
-terminal String For , In, Null, Default, Switch, Case; 
+terminal String For , In, Null, Default, Switch, Case, flecha; 
 
 /* Non terminals */
 non terminal INICIO;
 
 non terminal Nodo  PRIMITIVO, EXPRESION, ARITMETICA, ASIGNACION, ELSE_IF, FUN_IF, DECFUNC, TRANSFERENCIA, FOR, SWITCH, CASES;
-non terminal Nodo  INSTRUCCION, LLAMADAFUNC, SALIDA , IDEN_ACCESO, IDEN_ACCESO2, PARAMS_DEC_FUN, WHILE, DO_WHILE, PARAMETRO;
-non terminal ArrayList<Nodo> LISTAPARAMS, LISTAPARAMS2, INSTRUCCIONES, LISTACORCHETES, LISTA_PARAMS_FUN , LISTA_PARAMS_FUN2;
+non terminal Nodo  INSTRUCCION, LLAMADAFUNC, SALIDA , IDEN_ACCESO, IDEN_ACCESO2, PARAMS_DEC_FUN, WHILE, DO_WHILE;
+//non terminal Nodo  INSTRUCCION, LLAMADAFUNC, SALIDA , IDEN_ACCESO, IDEN_ACCESO2, PARAMS_DEC_FUN, WHILE, DO_WHILE, PARAMETRO;
+non terminal ArrayList<Nodo>  INSTRUCCIONES, LISTACORCHETES, LISTA_PARAMS_FUN , LISTA_PARAMS_FUN2;
+//non terminal ArrayList<Nodo> LISTAPARAMS, LISTAPARAMS2, INSTRUCCIONES, LISTACORCHETES, LISTA_PARAMS_FUN , LISTA_PARAMS_FUN2;
 
 
 //non terminal Object ; 
@@ -139,6 +142,19 @@ DECFUNC ::= iden:a igual Function parenI LISTA_PARAMS_FUN:arr  parenD llavei INS
                         Nodo n = new Instrucciones_cuerpo(0,0 , arr2);
                         arr.add(n);
                         RESULT = new Asignacion_funcion(aleft , aright , arr , a); :}
+                | iden:a igual parenI LISTA_PARAMS_FUN:arr  parenD flecha  llavei INSTRUCCIONES:arr2  llaved
+                {:
+                        Nodo n = new Instrucciones_cuerpo(0,0 , arr2);
+                        arr.add(n);
+                        RESULT = new Asignacion_funcion(aleft , aright , arr , a);
+                :} 
+                | iden:a igual parenI iden:n parenD flecha llavei INSTRUCCIONES:arr2 llaved 
+                {:
+                        Nodo n1 = new Instrucciones_cuerpo(0,0,arr2);
+                        ArrayList<Nodo> arr = new ArrayList<Nodo>(); 
+                        arr.add(new Iden(nleft , nright , n)); arr.add(n1);
+                        RESULT = new Asignacion_funcion(aleft , aright , arr , a); 
+                :}   
                 ;
 
 TRANSFERENCIA ::= Return:a                         {: RESULT = new Retorno(aleft, aright , null); :}
@@ -155,8 +171,9 @@ LISTA_PARAMS_FUN2 ::=  LISTA_PARAMS_FUN2:arr coma PARAMS_DEC_FUN:n {: arr.add(n)
                         | PARAMS_DEC_FUN:n {: ArrayList<Nodo> arr = new ArrayList<Nodo>(); arr.add(n); RESULT = arr; :}
                         ; 
                 
-PARAMS_DEC_FUN    ::= iden:a                   {: RESULT =  new Iden(aleft , aright , a); :}
-                |     iden:a igual EXPRESION:n {: RESULT =  new Iden(aleft , aright , a, n); :}
+PARAMS_DEC_FUN    ::= EXPRESION:n                   {: RESULT =  n; :}
+                |     EXPRESION:n igual:a EXPRESION:n1 {: RESULT =  new e_e(aleft , aright , n, n1); :}
+                |     Default:a     {:RESULT = new Default(aleft, aright); :}
                 ;
         
 FUN_IF ::= If:a parenI EXPRESION:n parenD llavei  INSTRUCCIONES:arr  llaved ELSE_IF:n2 {:  Nodo n1 = new Instrucciones_cuerpo(0 , 0 , arr); 
@@ -204,9 +221,9 @@ LISTACORCHETES ::= LISTACORCHETES:arr cori:a EXPRESION:n cord {: arr.add(new Acc
                         
                         ; 
 
-LLAMADAFUNC ::= iden:a parenI LISTAPARAMS:arr parenD  {: RESULT = new Llamada_metodo(aleft, aright , arr, a);    :}
+LLAMADAFUNC ::= iden:a parenI LISTA_PARAMS_FUN:arr parenD  {: RESULT = new Llamada_metodo(aleft, aright , arr, a);    :}
            ;
-
+/*
 LISTAPARAMS ::= LISTAPARAMS2:a {: RESULT = a;  :}  
                 | {: RESULT  = new ArrayList<>();  :}
                  ; 
@@ -218,6 +235,7 @@ LISTAPARAMS2 ::= LISTAPARAMS2:arr coma PARAMETRO:a {: arr.add(a);  RESULT  = arr
 PARAMETRO ::= Default:a     {:RESULT = new Default(aleft, aright); :}
         |    EXPRESION:a  {:RESULT  = a; :}
         ;
+        */
 
 EXPRESION ::=  ARITMETICA:e                 {: RESULT = e; :}  
            |   PRIMITIVO:e                  {: RESULT = e; :}
