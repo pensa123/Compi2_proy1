@@ -5,6 +5,8 @@
  */
 package Tabla_simbolos;
 
+import ClasesAuxiliares.contenedorEnum;
+import ClasesAuxiliares.contenedorEnum.Tipos;
 import java.util.ArrayList;
 
 /**
@@ -16,10 +18,12 @@ public class Array extends Estructura {
     public ArrayList<Object> arr = new ArrayList<>();
     public ArrayList<Integer> arrD = new ArrayList<>();
     public int cantidad = 0;
+    public boolean tienelista = false;
 
     @Override
     public Estructura copear() {
         Array arrA = new Array();
+        arrA.tp = tp;
         arrA.cantidad = cantidad;
         arrA.arrD = this.copyArr(arrD);
         for (Object o : arr) {
@@ -57,8 +61,8 @@ public class Array extends Estructura {
         return n == -1 ? null : arr.get(n);
     }
 
-    public Array(ArrayList<Object> arro, ArrayList<Integer> arri) {
-        setPrim(arro, arri);
+    public Array(ArrayList<Object> arro, ArrayList<Integer> arri, boolean esLista) {
+        setPrim(arro, arri, esLista);
     }
 
     public boolean verif() {
@@ -93,23 +97,54 @@ public class Array extends Estructura {
         return arr;
     }
 
-    public void setPrim(ArrayList<Object> arro, ArrayList<Integer> arri) {
+    public void setPrim(ArrayList<Object> arro, ArrayList<Integer> arri, boolean esLista) {
+        tp = Tipos.nulo;
         arrD = copyArr(arri);
         if (!verif() || arro == null || arro.size() == 0) {
             System.out.println("mal mal muy mal");
             return;
         }
+
+        this.tienelista = esLista;
+
         int c = 0;
         for (int a = 0; a < cantidad; a++) {
             Object oaux = arro.get(c++);
             if (oaux instanceof Simbolo_prim) {
                 oaux = new Vector((Simbolo_prim) oaux);
             }
+
+            if (oaux instanceof Lista) {
+                this.tienelista = true;
+            } else {
+                //System.out.println(tp + " " + ((Estructura) oaux).tp + " " + tp.compareTo(((Estructura) oaux).tp));
+                if (tp.compareTo(((Estructura) oaux).tp) > 0) {
+                    tp = ((Estructura) oaux).tp;
+                }
+            }
+
+            if (esLista) {
+                if (oaux instanceof Vector) {
+                    Lista lst = new Lista();
+                    for (Simbolo_prim sp : ((Vector) oaux).arr) {
+                        lst.agregar(sp);
+                    }
+                    oaux = lst;
+                }
+            }
+
             arr.add(oaux);
             if (c == arro.size()) {
                 c = 0;
             }
         }
+
+        if (this.tienelista) {
+            System.out.println("pasar todos a lista");
+        } else {
+            System.out.println("paras todos a " + tp);
+        }
+
     }
 
     public void imp() {

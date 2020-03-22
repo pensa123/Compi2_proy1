@@ -567,7 +567,7 @@ Nodo ExpresionRelacional() :
 
 
   // E , E    |   E ,   |  , E 
-  Nodo Acceso_vec_mat(Nodo n):
+  Nodo Acceso_vec_mat(Nodo n):   //atributo heredado
   {
     Nodo  n1 , n2; Token t; 
     ArrayList<Nodo> arr = new ArrayList<Nodo>();

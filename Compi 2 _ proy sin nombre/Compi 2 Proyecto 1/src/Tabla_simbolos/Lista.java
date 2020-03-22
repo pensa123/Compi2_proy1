@@ -5,6 +5,7 @@
  */
 package Tabla_simbolos;
 
+import ClasesAuxiliares.contenedorEnum.Tipos;
 import java.util.ArrayList;
 
 /**
@@ -18,10 +19,20 @@ public class Lista extends Estructura {
 
     public boolean set(Object o, int n) {
         n -= 1;
+        if (o instanceof Simbolo_prim) {
+            o = new Vector((Simbolo_prim) o);
+        }
         if (arr.size() > n && n >= 0) {
             arr.set(n, o);
             return true;
         }
+        if (n >= arr.size()) {
+            for (int a = arr.size(); a < n; a++) {
+                arr.add(new Simbolo_prim(Tipos.nulo, ""));
+            }
+            arr.add(o);
+        }
+
         return false;
     }
 
@@ -88,7 +99,7 @@ public class Lista extends Estructura {
             } else if (o instanceof Vector && ((Vector) o).arr.size() == 1) {
                 st += o.toString();
             } else {
-               // st += o.getClass().getSimpleName();
+                // st += o.getClass().getSimpleName();
                 st += o.toString();
             }
             nvez = true;

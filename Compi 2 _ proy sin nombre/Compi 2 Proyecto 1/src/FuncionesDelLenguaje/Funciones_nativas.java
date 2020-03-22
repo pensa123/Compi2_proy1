@@ -296,6 +296,7 @@ public class Funciones_nativas {
     }
 
     public Object Arr(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
+        boolean hayLista = false;
         if (hijos.size() != 2) {
             return aux.error("La funcion array espera 2 argumentos, array(expresion , vector);", fila, columna);
         }
@@ -327,6 +328,7 @@ public class Funciones_nativas {
                 arro.add(sp.copear());
             }
         } else if (o1 instanceof Lista) {
+            hayLista = true;
             for (Object sp : ((Lista) o1).arr) {
                 arro.add(sp);
             }
@@ -334,7 +336,7 @@ public class Funciones_nativas {
             return aux.error("Array solo acepta listas, vectores y simbolos. ", fila, columna);
         }
 
-        return new Array(arro, arri);
+        return new Array(arro, arri, hayLista);
     }
 
     public Object lista(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
