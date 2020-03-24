@@ -22,6 +22,7 @@ import FuncionesDelLenguaje.Do_while;
 
 import FuncionesDelLenguaje.If;
 
+import objetos.Paren;
 import objetos.e_e;
 import objetos.Case;
 import objetos.Default;
@@ -112,6 +113,7 @@ TOKEN : {
     | <MAYORQUE: ">">
     | <MENORIGUAL: "<=">
     | <MAYORIGUAL: ">=">
+    | <FLECHA: "=>">
     | <IGUALACION: "==">
     | <DIFERENCIACION: "!=">
     | <COMA: ",">
@@ -153,7 +155,7 @@ void Analizar() :
   Nodo n; 
 }
 {
-  ( n = InstruccionGlobal() { arr.add(n); })* <EOF> { }
+  ( n = InstruccionGlobal() { if(n != null){ arr.add(n); }})* <EOF> { }
 }
 
 Nodo instrucciones_cuerpos():
@@ -161,7 +163,7 @@ Nodo instrucciones_cuerpos():
   ArrayList<Nodo> arr = new ArrayList<Nodo>(); Nodo n ; 
 }
 {
-  ( n =  InstruccionCuerpo() { arr.add(n); } )* 
+  ( n =  InstruccionCuerpo() {if( n != null){ arr.add(n); } } )* 
   {
 
     return new Instrucciones_cuerpo(0 , 0 , arr);
@@ -184,19 +186,34 @@ Nodo  InstruccionGlobal() :
     Nodo n= null; 
   }
   {
-    (
-      n = Cases()
-      |
-      <CONTINUE> { n = new Continuar( token.beginLine, token.beginColumn );} (<PCOMA>)?
-      |
-      <BREAK>    { n = new Parar( token.beginLine, token.beginColumn ); }  (<PCOMA>)?
-      |
-      n = ciclos_if()
-      |
-      <RETORNO> (<PARENI> n =  Expresion()  <PAREND>)? (<PCOMA>)? {n = new Retorno(token.beginLine, token.beginColumn , n);}
-      |
-      n = Asignacion_llamadaMetodo()
-    )  {return n;   }
+    try{
+      (
+        n = Cases()
+        |
+        <CONTINUE> { n = new Continuar( token.beginLine, token.beginColumn );} (<PCOMA>)?
+        |
+        <BREAK>    { n = new Parar( token.beginLine, token.beginColumn ); }  (<PCOMA>)?
+        |
+        n = ciclos_if()
+        |
+        <RETORNO> (<PARENI> n =  Expresion()  <PAREND>)? (<PCOMA>)? {n = new Retorno(token.beginLine, token.beginColumn , n);}
+        |
+        n = Asignacion_llamadaMetodo()
+      )  {return n;   }
+    }catch(ParseException x){
+        //System.out.println(x.toString());
+        Token terr = x.currentToken.next; 
+        System.out.println("Token \"" + terr.image + "\" no esperado en f. " + terr.beginLine + "  c." + terr.beginColumn );
+       
+        Token t; 
+        do{
+          t = getNextToken();
+        }while(!(t.kind == PCOMA || t.kind == LLAVED));
+        
+    }catch(Exception e){
+      System.out.println(e.toString());
+    }
+    {return n;}
   }
 
   ArrayList<Nodo> lista_param_dec_func() : 
@@ -205,10 +222,10 @@ Nodo  InstruccionGlobal() :
     Nodo n = null , n1; Token t; 
   }
   {
-    ( t = <IDENTIFICADOR> {n1 = new Iden(t.beginLine , t.beginColumn , t.image); } 
-    (<IGUAL> n =  Expresion(){ n1 = new e_e(0,0 , n1 , n);} )? { arr.add(n1); }   
-    (<COMA> t =  <IDENTIFICADOR> {n1 = new Iden(t.beginLine , t.beginColumn , t.image); } 
-    (<IGUAL> n = Expresion() {n1 = new e_e(0,0 , n1 , n);; } )? { arr.add(n1);  }  )* )?
+    ( n1 = Expresion()  
+                (t = <IGUAL> n =  Expresion(){ n1 = new e_e(t.beginLine , t.beginColumn , n1 , n);} )? { arr.add(n1); }   
+    (<COMA> n1 = Expresion()  
+            (t = <IGUAL> n = Expresion() {n1 = new e_e(t.beginLine , t.beginColumn , n1 , n);; } )? { arr.add(n1);  }  )* )?
     { return arr; }
   }
 
@@ -229,7 +246,7 @@ Nodo  InstruccionGlobal() :
 
   Nodo Asignacion_llamadaMetodo() : 
   {
-    Nodo n1 , n2; Token t, t2; ArrayList<Nodo> arr;  
+    Nodo n1 , n2 , n3 , n; Token t, t2; ArrayList<Nodo> arr;  
   }
   {
     (
@@ -237,7 +254,21 @@ Nodo  InstruccionGlobal() :
       (
         //Asignacion    a = 2; 
         t=<IGUAL>  (
-            n2 = Expresion()  (<PCOMA>)?  //Fin asginacion
+            n2 = Expresion()  (
+                      <PCOMA>
+                      |
+                      t = <FLECHA> <LLAVEI>
+                      n3 =   instrucciones_cuerpos()
+                      <LLAVED>   { 
+                              arr = n2.hijos; 
+                              if(!(n2 instanceof Paren)){
+                                  System.out.println("no se esparaba este componente => ");
+                                  return new Asignacion_funcion(t.beginLine , t.beginColumn , arr , t2.image , true);
+                              }
+                              arr.add(n3); 
+                              return new Asignacion_funcion(t.beginLine , t.beginColumn , arr , t2.image);
+                      }   //=>
+                    )?  //Fin asginacion
             {    return new Asignacion(t.beginLine, t.beginColumn , n1 , n2); }
             |
               <FUNCION> <PARENI> arr = lista_param_dec_func()  <PAREND> <LLAVEI>
@@ -542,7 +573,7 @@ Nodo ExpresionRelacional() :
       |
       <NULL> {n  = new Primitivo(token.beginLine , token.beginColumn , Tipos.nulo, "");}
       |
-      <PARENI> n= Expresion() <PAREND> { }
+      t = <PARENI> arr= lista_param_dec_func() <PAREND>   { n = new Paren(t.beginLine , t.beginColumn , arr);  }
     )
     {
       return n;

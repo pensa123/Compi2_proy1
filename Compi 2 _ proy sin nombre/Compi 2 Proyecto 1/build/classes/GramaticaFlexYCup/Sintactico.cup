@@ -94,7 +94,8 @@ precedence left mas, menos;
 precedence left por, division, modular;
 precedence left potencia;
 precedence left parenI, parenD;
-
+precedence right not; 
+precedence right menos; 
 
 
 start with INICIO;
@@ -102,7 +103,7 @@ start with INICIO;
 INICIO ::= INSTRUCCIONES:e {: miarr = e;  :}
          ;
 
-INSTRUCCIONES ::= INSTRUCCIONES:arr INSTRUCCION:a    {: arr.add(a); RESULT = arr; :}
+INSTRUCCIONES ::= INSTRUCCIONES:arr INSTRUCCION:a    {: if(a == null){ RESULT = arr;  } else{  arr.add(a); RESULT = arr;} :}
                 |                     {: RESULT = new ArrayList<Nodo>(); :}
                 ;
 
@@ -116,6 +117,8 @@ INSTRUCCION ::= LLAMADAFUNC:a        SALIDA{: RESULT = a; :}
                 | TRANSFERENCIA:a    SALIDA{: RESULT = a; :}
                 | SWITCH:a                 {: RESULT = a; :}
                 | CASES:a                  {: RESULT = a; :} 
+                | error:e            pComa {: RESULT = null; :}
+                | error:e            llaved{: RESULT = null; :}
               ;
 
 CASES ::= Case:a EXPRESION:n dosPuntos              {: RESULT = new Case(aleft , aright , n); :}
@@ -239,7 +242,6 @@ PARAMETRO ::= Default:a     {:RESULT = new Default(aleft, aright); :}
 
 EXPRESION ::=  ARITMETICA:e                 {: RESULT = e; :}  
            |   PRIMITIVO:e                  {: RESULT = e; :}
-           |   parenI EXPRESION:e parenD    {: RESULT = e; :}
            |   LLAMADAFUNC:e                {: RESULT = e; :}
            |   EXPRESION:n preg:a EXPRESION:n1 dosPuntos EXPRESION:n2 
                 {: ArrayList<Nodo> arr = new ArrayList<Nodo>();
@@ -277,6 +279,7 @@ PRIMITIVO ::= numerico:e  {: RESULT = new  Primitivo(eleft , eright , Tipos.nume
             | IDEN_ACCESO:n   {:  RESULT = n; :}
             |iden:a               {: RESULT =  new Iden(aleft , aright , a); :}
             | Null:e {: RESULT = new  Primitivo(eleft , eright , Tipos.nulo,  "" ); :}
+             |   parenI EXPRESION:e parenD    {: RESULT = e; :}
            ;
 
 SALIDA ::= pComa | ; 

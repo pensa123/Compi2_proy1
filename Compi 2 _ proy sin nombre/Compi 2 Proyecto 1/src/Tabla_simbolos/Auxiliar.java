@@ -17,11 +17,12 @@ import java.util.HashMap;
  */
 public class Auxiliar {
 
+    public boolean javacc;
     public TextArea tx;
     public TextArea txterr;
     public String st = "";
     public String error = "";
-    public ArrayList<Error> arrErr = new ArrayList<>();
+    public ArrayList<MiError> arrErr = new ArrayList<>();
     public Tabla_Sim global;
 
     public HashMap<String, Funcion> hfun = new HashMap<String, Funcion>();
@@ -29,7 +30,8 @@ public class Auxiliar {
     public ArrayList<String> nats = new ArrayList<>();
     public Funciones_nativas f = new Funciones_nativas();
 
-    public Auxiliar(TextArea txt1, TextArea txt2, Tabla_Sim ts) {
+    public Auxiliar(TextArea txt1, TextArea txt2, Tabla_Sim ts, boolean esjavacc) {
+        this.javacc = esjavacc;
         tx = txt1;
         txterr = txt2;
         global = ts;
@@ -65,7 +67,11 @@ public class Auxiliar {
     }
 
     public Object error(String st, int fila, int columna) {
-        arrErr.add(new Error(fila, columna, st));
+        if (!this.javacc) {
+            fila++;
+            columna++;
+        }
+        arrErr.add(new MiError(fila, columna, st));
         error += "F " + fila + " c " + columna + " " + st + "\n";
         txterr.setText(error);
         System.out.println("Error: " + st);
@@ -142,7 +148,7 @@ public class Auxiliar {
             return null;
         }
 
-        Tabla_Sim tabla_fun = new Tabla_Sim(global, "Funcion "  + id);
+        Tabla_Sim tabla_fun = new Tabla_Sim(global, "Funcion " + id);
 
         return f.ejecutar(tabla_fun, this, arro, fila, columna, estoy);
 

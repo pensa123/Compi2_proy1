@@ -1,6 +1,12 @@
 package GramaticaFlexYCup;
 import java_cup.runtime.*;
 import GramaticaFlexYCup.sym;
+
+import Tabla_simbolos.MiError; 
+import java.util.ArrayList;
+
+
+
 %%
 
 %class Lexer
@@ -12,6 +18,7 @@ import GramaticaFlexYCup.sym;
 %ignorecase
 %state STRING
 %{
+    public ArrayList<MiError> err = new ArrayList<MiError>();
     private Symbol symbol(int type) {
         return new Symbol(type, yyline, yycolumn);
     }
@@ -93,7 +100,7 @@ ComentarioMulti =   "#*" ~"*#"
     {WhiteSpace}        {}
     /* Cualquier Otro */
     .                   { 
-                          System.out.println("El caracter '"+yytext()+"' no pertenece al lenguaje.");
+                          System.out.println("El caracter '"+yytext()+"' no pertenece al lenguaje." + yyline + yycolumn);
                         }
 }
 
@@ -106,6 +113,6 @@ ComentarioMulti =   "#*" ~"*#"
     \\r                          { NuevoString.append('\r'); }
     \\t                          { NuevoString.append('\t'); }
     {FinLinea}                   { yybegin(YYINITIAL);
-                                   System.out.println("String sin finalizar."); }
+                                   System.out.println("String sin finalizar." + yyline + yycolumn); }
     .                            { NuevoString.append(yytext()); }
 }

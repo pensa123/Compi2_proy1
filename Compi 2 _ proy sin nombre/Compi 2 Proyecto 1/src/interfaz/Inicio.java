@@ -595,7 +595,7 @@ public class Inicio extends javax.swing.JFrame {
             System.out.println("-------------------------------");
             this.dibujar(arr, "AST_FLEX_Y_CUP");
 
-            this.ejecutarAST(arr, "FLEX Y CUP");
+            this.ejecutarAST(arr, "FLEX Y CUP", false);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -617,7 +617,7 @@ public class Inicio extends javax.swing.JFrame {
 
             this.dibujar(arr, "AST_JAVACC");
 
-            this.ejecutarAST(arr, "JAVACC");
+            this.ejecutarAST(arr, "JAVACC", true);
 
             return false;
         } catch (ParseException e) {
@@ -633,9 +633,9 @@ public class Inicio extends javax.swing.JFrame {
         return true;
     }
 
-    void ejecutarAST(ArrayList<Nodo> arr, String st) {
+    void ejecutarAST(ArrayList<Nodo> arr, String st, boolean javacc) {
         Tabla_Sim ts = new Tabla_Sim("Global");
-        Auxiliar aux = new Auxiliar(txtConsola, txtError, ts);
+        Auxiliar aux = new Auxiliar(txtConsola, txtError, ts, javacc);
 
         aux.st = st + "\n";
         txtConsola.setText(st + "\n");

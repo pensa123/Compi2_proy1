@@ -19,14 +19,24 @@ import java.util.ArrayList;
 public class Asignacion_funcion extends Nodo {
 
     String nombre = "";
+    boolean mal = false;
 
     public Asignacion_funcion(int f, int c, ArrayList<Nodo> hj, String st) {
         super(f, c, hj);
         nombre = st;
     }
 
+    public Asignacion_funcion(int f, int c, ArrayList<Nodo> hj, String st, boolean tamal) {
+        super(f, c, hj);
+        nombre = st;
+        mal = tamal;
+    }
+
     @Override
     public void dibujar(Dibujador d, String padre) {
+        if (mal) {
+            return;
+        }
         d.st += this.hashCode() + "[label=\"" + this.getClass().getSimpleName() + " -" + nombre + "-\" ]; \n";
         d.st += padre + " ->  " + this.hashCode() + "; \n";
         dibHijos(d);
@@ -34,6 +44,9 @@ public class Asignacion_funcion extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
+        if (mal) {
+            return null;
+        }
         ArrayList<Nodo> vars = new ArrayList<Nodo>();
         for (int a = 0; a < hijos.size() - 1; a++) {
             vars.add(hijos.get(a));

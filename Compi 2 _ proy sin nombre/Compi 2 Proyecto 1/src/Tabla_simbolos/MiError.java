@@ -9,13 +9,13 @@ package Tabla_simbolos;
  *
  * @author ferna
  */
-public class Error {
+public class MiError {
 
     public int fila;
     public int columna;
     public String descripcion;
 
-    public Error(int f, int c, String d) {
+    public MiError(int f, int c, String d) {
         fila = f;
         columna = c;
         descripcion = d;

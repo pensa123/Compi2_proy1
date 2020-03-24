@@ -88,21 +88,23 @@ public interface GramaticaConstants {
   /** RegularExpression Id. */
   int MAYORIGUAL = 44;
   /** RegularExpression Id. */
-  int IGUALACION = 45;
+  int FLECHA = 45;
   /** RegularExpression Id. */
-  int DIFERENCIACION = 46;
+  int IGUALACION = 46;
   /** RegularExpression Id. */
-  int COMA = 47;
+  int DIFERENCIACION = 47;
   /** RegularExpression Id. */
-  int AND = 48;
+  int COMA = 48;
   /** RegularExpression Id. */
-  int OR = 49;
+  int AND = 49;
   /** RegularExpression Id. */
-  int NOT = 50;
+  int OR = 50;
   /** RegularExpression Id. */
-  int IDENTIFICADOR = 51;
+  int NOT = 51;
   /** RegularExpression Id. */
-  int STRING = 59;
+  int IDENTIFICADOR = 52;
+  /** RegularExpression Id. */
+  int STRING = 60;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -156,6 +158,7 @@ public interface GramaticaConstants {
     "\">\"",
     "\"<=\"",
     "\">=\"",
+    "\"=>\"",
     "\"==\"",
     "\"!=\"",
     "\",\"",
@@ -164,12 +167,12 @@ public interface GramaticaConstants {
     "\"!\"",
     "<IDENTIFICADOR>",
     "\"\\\"\"",
-    "<token of kind 53>",
     "<token of kind 54>",
     "<token of kind 55>",
     "<token of kind 56>",
     "<token of kind 57>",
     "<token of kind 58>",
+    "<token of kind 59>",
     "\"\\\"\"",
   };
 
