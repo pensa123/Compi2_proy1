@@ -1,3 +1,9 @@
 digraph G { 
  AST_JAVACC ;
- }
+ 1382636296[label="Asignacion" ]; 
+AST_JAVACC ->  1382636296;
+361139430[label="Iden --a-- " ]; 
+1382636296 ->  361139430; 
+913458942[label="Primitivo entero 2.0" ]; 
+1382636296 ->  913458942; 
+}

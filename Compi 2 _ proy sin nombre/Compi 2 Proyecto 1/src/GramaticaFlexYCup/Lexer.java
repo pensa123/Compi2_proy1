@@ -775,6 +775,7 @@ public class Lexer implements java_cup.runtime.Scanner {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
             { System.out.println("El caracter '"+yytext()+"' no pertenece al lenguaje." + yyline + yycolumn);
+                          err.add(  new MiError(yyline, yycolumn, "El caracter '"+yytext()+"' no pertenece al lenguaje.", "lexico")  );
             }
           case 59: break;
           case 2: 

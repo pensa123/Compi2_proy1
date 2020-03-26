@@ -101,6 +101,7 @@ ComentarioMulti =   "#*" ~"*#"
     /* Cualquier Otro */
     .                   { 
                           System.out.println("El caracter '"+yytext()+"' no pertenece al lenguaje." + yyline + yycolumn);
+                          err.add(  new MiError(yyline, yycolumn, "El caracter '"+yytext()+"' no pertenece al lenguaje.", "lexico")  ); 
                         }
 }
 

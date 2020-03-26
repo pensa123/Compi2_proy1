@@ -36,6 +36,7 @@ import objetos.OperadorBinario;
 import objetos.OperadorBinario.Operando;
 import objetos.OperadorUnario;
 import objetos.OperadorUnario.Op;
+import Tabla_simbolos.MiError;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -780,13 +781,16 @@ public class Sint extends java_cup.runtime.lr_parser {
 
 
   public ArrayList miarr = new ArrayList<Nodo>();
+  public ArrayList<MiError> err = new ArrayList<MiError>();
 
     public void syntax_error(Symbol s){ 
-            System.err.println("Error Sintáctico en la Línea " + s.left +" Columna "+s.right+ ". No se esperaba este componente: " +s.value); 
+            System.out.println("Error Sintáctico en la Línea " + s.left +" Columna "+s.right+ ". No se esperaba este componente: " +s.value);
+            err.add(  new MiError(s.left, s.right, "No se esperaba  '"+ s.value +"'", "sintactico")  ); 
     } 
 
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
-            System.err.println("Error síntactico en la Línea " + s.left+ "__Columna "+s.right+ ". No se esperaba este componente: " +s.value); 
+            System.out.println("Error síntactico en la Línea " + s.left+ "__Columna "+s.right+ ". No se esperaba este componente: " +s.value); 
+            err.add(  new MiError(s.left, s.right, "No se esperaba  '"+ s.value +"'", "sintactico")  ); 
     }  
 
 

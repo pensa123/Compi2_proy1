@@ -9,6 +9,7 @@ import GramaticaJavaCC.ParseException;
 import GramaticaJavaCC.TokenMgrError;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
+import Tabla_simbolos.MiError;
 import Tabla_simbolos.Tabla_Sim;
 import java.io.BufferedReader;
 import java.io.File;
@@ -53,7 +54,7 @@ public class Inicio extends javax.swing.JFrame {
     public Inicio() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("EXTREME EDITOR");
+        this.setTitle("ARIT Software");
 
         listabtn = new LinkedList<JButton>();
         x = 40;
@@ -86,6 +87,8 @@ public class Inicio extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -165,7 +168,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("Abrir Tabla de Simbolos");
+        jButton5.setText("TS Global");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -174,6 +177,30 @@ public class Inicio extends javax.swing.JFrame {
         jButton5.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jButton5KeyPressed(evt);
+            }
+        });
+
+        jButton6.setText("TS");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jButton6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton6KeyPressed(evt);
+            }
+        });
+
+        jButton7.setText("Errores");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jButton7.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton7KeyPressed(evt);
             }
         });
 
@@ -256,23 +283,27 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(txtError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtConsola, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(65, 65, 65)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(108, 108, 108)))
+                        .addComponent(txtConsola, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -290,7 +321,9 @@ public class Inicio extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton3)
                     .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(jButton6)
+                    .addComponent(jButton5)
+                    .addComponent(jButton7))
                 .addGap(10, 10, 10)
                 .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -500,11 +533,12 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4KeyPressed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        //Tabla de simbolos global. 
         if (tsG != null) {
             Reporte_ts rts = new Reporte_ts();
-            rts.generarPdf(tsG);
+            rts.generarPdf(tsG , false);
             rts.abrirElPdf();
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No se ha ejecutado ninguna vez para poder generar este reporte.");
         }
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -512,6 +546,29 @@ public class Inicio extends javax.swing.JFrame {
     private void jButton5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton5KeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5KeyPressed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        if (tsG != null) {
+            Reporte_ts rts = new Reporte_ts();
+            rts.generarPdf(tsG , true);
+            rts.abrirElPdf();
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha ejecutado ninguna vez para poder generar este reporte.");
+        }
+
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton6KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton6KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6KeyPressed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton7KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton7KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7KeyPressed
 
     public void guardarArchivo() {
         try {
@@ -567,6 +624,8 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -595,7 +654,13 @@ public class Inicio extends javax.swing.JFrame {
             System.out.println("-------------------------------");
             this.dibujar(arr, "AST_FLEX_Y_CUP");
 
-            this.ejecutarAST(arr, "FLEX Y CUP", false);
+            ArrayList<MiError> err = lexer.err;
+            ArrayList<MiError> err2 = s.err;
+
+            for (MiError me : err2) {
+                err.add(me);
+            }
+            this.ejecutarAST(arr, "FLEX Y CUP", false, err);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -609,15 +674,22 @@ public class Inicio extends javax.swing.JFrame {
             Gramatica parser = new Gramatica(new BufferedReader(new StringReader(st)));
             parser.Analizar();
 
+            ArrayList mierr = parser.token_source.err;
+            
             System.out.println("-------------------------------");
             System.out.println("Esto es javacc");
             System.out.println("-------------------------------");
 
             ArrayList arr = parser.arr;
+            ArrayList<MiError> err = parser.miErr;
 
+            for(MiError mi : err){
+                mierr.add(mi);
+            }
+            
             this.dibujar(arr, "AST_JAVACC");
 
-            this.ejecutarAST(arr, "JAVACC", true);
+            this.ejecutarAST(arr, "JAVACC", true, mierr);
 
             return false;
         } catch (ParseException e) {
@@ -633,24 +705,37 @@ public class Inicio extends javax.swing.JFrame {
         return true;
     }
 
-    void ejecutarAST(ArrayList<Nodo> arr, String st, boolean javacc) {
+    void ejecutarAST(ArrayList<Nodo> arr, String st, boolean javacc, ArrayList<MiError> miErr) {
         Tabla_Sim ts = new Tabla_Sim("Global");
-        Auxiliar aux = new Auxiliar(txtConsola, txtError, ts, javacc);
+        Auxiliar aux = new Auxiliar(txtConsola, txtError, ts, javacc, miErr);
 
         aux.st = st + "\n";
         txtConsola.setText(st + "\n");
         txtError.setText("");
+        String error = "";
 
+        int sumar = javacc ? 0 : 1;
+        for (int a = 0; a < miErr.size(); a++) {
+            error += "(" + miErr.get(a).tipo + ") Fila " + (miErr.get(a).fila + sumar) + " Columna " + (miErr.get(a).columna + sumar)
+                    + " " + miErr.get(a).descripcion + "\n";
+        }
+        txtError.setText(error);
         //ejecucion1 declaracion de funciones
         for (Nodo n : arr) {
-            if (n instanceof Asignacion_funcion) {
-                n.ejecutar(ts, aux);
+            try {
+                if (n instanceof Asignacion_funcion) {
+                    n.ejecutar(ts, aux);
+                }
+            } catch (Exception e) {
             }
         }
         //llamada 2 ejecucion del resto jeje salu2. 
         for (Nodo n : arr) {
-            if (!(n instanceof Asignacion_funcion)) {
-                n.ejecutar(ts, aux);
+            try {
+                if (!(n instanceof Asignacion_funcion)) {
+                    n.ejecutar(ts, aux);
+                }
+            } catch (Exception e) {
             }
         }
 

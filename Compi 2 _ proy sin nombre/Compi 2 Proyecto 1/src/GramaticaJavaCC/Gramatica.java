@@ -6,6 +6,9 @@ package GramaticaJavaCC;
 import java.util.ArrayList;
 //clases mias de mi :D
 
+import Tabla_simbolos.MiError;
+
+
 import FuncionesDelLenguaje.Parar;
 import FuncionesDelLenguaje.Continuar;
 import FuncionesDelLenguaje.Retorno;
@@ -52,6 +55,9 @@ import objetos.OperadorUnario.Op;
 
 
 public class Gramatica implements GramaticaConstants {
+
+
+  public ArrayList<MiError> miErr = new ArrayList<MiError>();
 
   public ArrayList arr = new ArrayList<Nodo>();
 
@@ -200,6 +206,8 @@ public class Gramatica implements GramaticaConstants {
         //System.out.println(x.toString());
         Token terr = x.currentToken.next;
         System.out.println("Token \"" + terr.image + "\" no esperado en f. " + terr.beginLine + "  c." + terr.beginColumn );
+
+        miErr.add(  new MiError(terr.beginLine, terr.beginColumn, "No se esperaba  '"+ terr.image +"'", "sintactico")  );
 
         Token t;
         do{

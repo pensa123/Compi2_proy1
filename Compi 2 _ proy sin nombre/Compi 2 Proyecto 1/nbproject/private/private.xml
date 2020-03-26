@@ -5,16 +5,18 @@
         <group>
             <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/objetos/Asignacion.java</file>
             <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/GramaticaFlexYCup/Lexico.jflex</file>
+            <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/GramaticaJavaCC/ParseException.java</file>
             <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/Tabla_simbolos/MiError.java</file>
             <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/Tabla_simbolos/Auxiliar.java</file>
             <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/GramaticaFlexYCup/Lexer.java</file>
             <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/objetos/OperadorBinario.java</file>
             <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/objetos/Asignacion_funcion.java</file>
-            <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/FuncionesDelLenguaje/Funciones_nativas.java</file>
+            <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/interfaz/Reporte_ts.java</file>
             <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/objetos/Primitivo.java</file>
             <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/objetos/Paren.java</file>
             <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/interfaz/Inicio.java</file>
             <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/objetos/OperadorUnario.java</file>
+            <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/GramaticaJavaCC/GramaticaTokenManager.java</file>
             <file>file:/C:/Users/ferna/Desktop/compi%20repo/Compi2_proy1/Compi%202%20_%20proy%20sin%20nombre/Compi%202%20Proyecto%201/src/GramaticaJavaCC/Gramatica.java</file>
         </group>
     </open-files>

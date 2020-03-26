@@ -1,3 +1,9 @@
 digraph G { 
  AST_FLEX_Y_CUP ;
- }
+ 1593829693[label="Asignacion" ]; 
+AST_FLEX_Y_CUP ->  1593829693;
+761068537[label="Iden --a-- " ]; 
+1593829693 ->  761068537; 
+400500640[label="Primitivo entero 2" ]; 
+1593829693 ->  400500640; 
+}

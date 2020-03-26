@@ -30,7 +30,8 @@ public class Auxiliar {
     public ArrayList<String> nats = new ArrayList<>();
     public Funciones_nativas f = new Funciones_nativas();
 
-    public Auxiliar(TextArea txt1, TextArea txt2, Tabla_Sim ts, boolean esjavacc) {
+    public Auxiliar(TextArea txt1, TextArea txt2, Tabla_Sim ts, boolean esjavacc, ArrayList<MiError> err) {
+        arrErr = err;
         this.javacc = esjavacc;
         tx = txt1;
         txterr = txt2;
@@ -71,8 +72,8 @@ public class Auxiliar {
             fila++;
             columna++;
         }
-        arrErr.add(new MiError(fila, columna, st));
-        error += "F " + fila + " c " + columna + " " + st + "\n";
+        arrErr.add(new MiError(fila, columna, st, "ejecucion"));
+        error += "(ejecucion) Fila " + fila + " Columna " + columna + " " + st + "\n";
         txterr.setText(error);
         System.out.println("Error: " + st);
         return null;

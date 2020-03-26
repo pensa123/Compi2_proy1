@@ -21,7 +21,7 @@ public class Reporte_ts {
 
     File ff;
 
-    public void generarPdf(Tabla_Sim ts) {
+    public void generarPdf(Tabla_Sim ts, boolean todo) {
 
         String st = "";
 
@@ -139,7 +139,7 @@ public class Reporte_ts {
                 + "    </div>\n"
                 + "    <div class=\"table-body\">";
 
-        st += getTablaSimRep(ts);
+        st += getTablaSimRep(ts, todo);
 
         st += "	 \n"
                 + "    </div>\n"
@@ -179,7 +179,7 @@ public class Reporte_ts {
         }
     }
 
-    private String getTablaSimRep(Tabla_Sim ts) {
+    private String getTablaSimRep(Tabla_Sim ts, boolean todo) {
         String st = "";
 
         for (Map.Entry<String, Estructura> entry : ts.hvar.entrySet()) {
@@ -193,11 +193,11 @@ public class Reporte_ts {
                     + "      </ul>\n";
 
         }
-
-        for (Tabla_Sim ts2 : ts.hijos) {
-            st += getTablaSimRep(ts2);
+        if (todo) {
+            for (Tabla_Sim ts2 : ts.hijos) {
+                st += getTablaSimRep(ts2, todo);
+            }
         }
-
         return st;
     }
 

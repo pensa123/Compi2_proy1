@@ -76,8 +76,6 @@ public class Compi2Proyecto1 {
          */
         mgrafico();
 
-        
-        
         /*ArrayList<Integer> arrd = new ArrayList<>();
          arrd.add(3);
          arrd.add(3);
@@ -459,11 +457,11 @@ public class Compi2Proyecto1 {
     }
 
     void ejecutarJavacc(ArrayList<Nodo> arr) {
-        Tabla_Sim ts = new Tabla_Sim("Global");
-        Auxiliar aux = new Auxiliar(new TextArea(), new TextArea(), ts, true);
-        for (Nodo n : arr) {
-            n.ejecutar(ts, aux);
-        }
+        /*     Tabla_Sim ts = new Tabla_Sim("Global");
+         Auxiliar aux = new Auxiliar(new TextArea(), new TextArea(), ts, true);
+         for (Nodo n : arr) {
+         n.ejecutar(ts, aux);
+         }*/
     }
 
     void probarFlexYCup(String stPrueba, int n) {
