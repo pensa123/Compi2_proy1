@@ -54,6 +54,31 @@ import objetos.OperadorUnario;
 import objetos.OperadorUnario.Op;
 
 
+/*
+Para recuperarse de errores lexicos: 
+
+en GramaticaTokenManager
+
+en metodo getNextToken()
+
+comentar el ultimo try hasta throw new token mgerror 
+y agregar lo siguiente
+
+    En el ambito global ↓
+
+    public ArrayList<MiError> err = new ArrayList<MiError>();
+
+
+    despues de lo comentado ↓
+
+    err.add(new MiError(error_line, error_column, "El caracter '" + curChar + "' no pertenece al lenguaje.", "lexico"));
+    System.out.println(curChar + " " + " linea  " + error_line + " columna " + error_column);
+    SwitchTo(curLexState);
+    continue EOFLoop;
+
+
+*/
+
 public class Gramatica implements GramaticaConstants {
 
 
@@ -212,7 +237,7 @@ public class Gramatica implements GramaticaConstants {
         Token t;
         do{
           t = getNextToken();
-        }while(!(t.kind == PCOMA || t.kind == LLAVED));
+        }while(!(t.kind == PCOMA || t.kind == LLAVED || t.kind == EOF));
     } catch (Exception e) {
       System.out.println(e.toString());
     }
@@ -336,6 +361,7 @@ public class Gramatica implements GramaticaConstants {
             jj_consume_token(LLAVED);
                               arr = n2.hijos;
                               if(!(n2 instanceof Paren)){
+                                miErr.add(new MiError(t.beginLine , t.beginColumn, "no se esparaba este componente => ", "lexico"));
                                   System.out.println("no se esparaba este componente => ");
                                   {if (true) return new Asignacion_funcion(t.beginLine , t.beginColumn , arr , t2.image , true);}
                               }

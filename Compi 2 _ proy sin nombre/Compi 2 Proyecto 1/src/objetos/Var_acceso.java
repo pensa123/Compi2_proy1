@@ -60,9 +60,12 @@ public class Var_acceso extends Nodo {
             est = ts.obtener_var(i.nombre);
             nest = i.nombre;
         } else {
+            Object o = n.ejecutar(ts, aux);
+            if (o instanceof Estructura) {
+                est = (Estructura) o;
+            }
             //TODO aqui podria estar una llamada a funcion pero no se si se va a implementar jejejje salu3
         }
-
         if (this.acceso_matriz) {
             if (!(est instanceof Matriz)) {
                 return aux.error("Para este accecso es necesaria una matriz ", fila, columna);
@@ -82,9 +85,19 @@ public class Var_acceso extends Nodo {
                 if (!(aux.esEntero(s1) && aux.esEntero(s2))) {
                     return aux.error("En matriz[n,n] se esperan dos enteros", am.fila, am.columna);
                 }
-                arrint.add((int) Double.parseDouble(s1.valor + ""));
-                arrint.add((int) Double.parseDouble(s2.valor + ""));
-                return mat.obtener((int) Double.parseDouble(s1.valor + ""), (int) Double.parseDouble(s2.valor + ""));
+
+                int n1 = (int) Double.parseDouble(s1.valor + "");
+                int n2 = (int) Double.parseDouble(s2.valor + "");
+
+                arrint.add(n1);
+                arrint.add(n2);
+
+                Object ret = mat.obtener(n1, n2);
+                if (ret == null) {
+                    return aux.error("Indice [ " + n1 + " , " + n2 + "] fuera de rango ", fila, columna);
+                } else {
+                    return ret;
+                }
             }
             //2 = e,   3 = ,e 
             boolean bol = am.forma == 2;
@@ -95,7 +108,9 @@ public class Var_acceso extends Nodo {
                 return aux.error("En matriz[" + (bol ? "e," : ",e") + "] se espera entero", am.fila, am.columna);
             }
             arrint.add((int) Double.parseDouble(s1.valor + ""));
-            return mat.obtener((int) Double.parseDouble(s1.valor + ""), bol);
+            int nn = (int) Double.parseDouble(s1.valor + "");
+            Object ret = mat.obtener(nn, bol);
+            return ret == null ? aux.error("[" + (bol ? nn + "," : "," + nn) + "] fuera de rango ", am.fila, am.columna) : ret;
         } else {
             for (int a = 1; a < hijos.size(); a++) {
                 Acceso ac = (Acceso) hijos.get(a);
@@ -131,10 +146,23 @@ public class Var_acceso extends Nodo {
             return sacarDatosLista((Lista) est, 0, aux);
             //TODOS hay que agregar el if instanceof array :D
         } else if (this.n2enadelanteSon1) {
+            if (this.hayAccesoDoble) {
+                return this.hayAccesoDoble ? aux.error("No se aceptan accesos dobles en accesos a vectores o matrices", fila, columna) : null;
+            }
             if (est instanceof Vector) {
-                return ((Vector) est).obtener(arrint.get(0));
+                Object ret = ((Vector) est).obtener(arrint.get(0));
+                if (ret == null) {
+                    return this.mostrarErrores ? aux.error("Indice fuera de rango " + arrint.get(0), fila, columna) : null;
+                } else {
+                    return ret;
+                }
             } else if (est instanceof Matriz) {
-                return ((Matriz) est).obtener(arrint.get(0));
+                Object ret = ((Matriz) est).obtener(arrint.get(0));
+                if (ret == null) {
+                    return this.mostrarErrores ? aux.error("Indice fuera de rango " + arrint.get(0), fila, columna) : null;
+                } else {
+                    return ret;
+                }
             }
         } else {
             return aux.error("Valor fuera de rango. ", fila, columna);
@@ -176,7 +204,7 @@ public class Var_acceso extends Nodo {
             return o;
         }
         if (o instanceof Simbolo_prim) {
-            o = new Vector((Simbolo_prim) o);
+            o = new Vector((Simbolo_prim) o, aux);
         }
 
         if (o instanceof Vector) {
@@ -199,16 +227,17 @@ public class Var_acceso extends Nodo {
         Object o = vec.obtener(arrint.get(n));
         if (n + 1 == arrint.size()) {
             if (o == null) {
-                return mostrarErrores ? aux.error("Indice fuera de rango ", fila, columna) : null;
+                return mostrarErrores ? aux.error("Indice fuera de rango " + arrint, fila, columna) : null;
             }
             return o;
         }
         if (arrint.get(n) == 1) {
-            return o == null ? sacarDatoVec(vec, n + 1, aux) : o;
+            //return o == null ? sacarDatoVec(vec, n + 1, aux) : o;
+            return sacarDatoVec(vec, n + 1, aux);
         }
 
         if (o instanceof Simbolo_prim) {
-            Vector v = new Vector();
+            Vector v = new Vector(aux);
             v.agregar((Simbolo_prim) o);
             o = v;
         }
@@ -216,7 +245,7 @@ public class Var_acceso extends Nodo {
         if (o instanceof Vector) {
             return sacarDatoVec((Vector) o, n + 1, aux);
         }
-        return mostrarErrores ? aux.error("Indice fuera de rango ", fila, columna) : null;
+        return mostrarErrores ? aux.error("Indice fuera de rango " + arrint, fila, columna) : null;
     }
 
     public Object sacarDatosLista(Lista lst, int n, Auxiliar aux) {
@@ -243,7 +272,7 @@ public class Var_acceso extends Nodo {
         } else if (o instanceof Vector) {
             return sacarDatoVec((Vector) o, n + 1, aux);
         } else if (o instanceof Simbolo_prim) {
-            Vector v = new Vector();
+            Vector v = new Vector(aux);
             v.agregar((Simbolo_prim) o);
             return sacarDatoVec(v, n + 1, aux);
         }

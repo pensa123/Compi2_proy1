@@ -21,8 +21,13 @@ public class Array extends Estructura {
     public boolean tienelista = false;
 
     @Override
+    public int size() {
+        return arr.size();
+    }
+
+    @Override
     public Estructura copear() {
-        Array arrA = new Array();
+        Array arrA = new Array(aux);
         arrA.tp = tp;
         arrA.cantidad = cantidad;
         arrA.arrD = this.copyArr(arrD);
@@ -36,8 +41,15 @@ public class Array extends Estructura {
         return arrA;
     }
 
-    private Array() {
+    private Array(Auxiliar au) {
+        super(au);
+    }
 
+    public void update(int n, Object o) {
+
+        if (0 <= n && n < arr.size()) {
+            actualizar(n, o);
+        }
     }
 
     public void Update(ArrayList<Integer> arri, Object o) {
@@ -45,14 +57,88 @@ public class Array extends Estructura {
         if (n == -1) {
             return;
         }
+        actualizar(n, o);
+    }
 
+    public void actualizar(int n, Object o) {
         if (o instanceof Simbolo_prim) {
-            o = new Vector((Simbolo_prim) o);
+            o = new Vector((Simbolo_prim) o, aux);
         }
         if (o instanceof Estructura) {
+            if (o instanceof Array || o instanceof Matriz) {
+                System.out.println("se deberia de reportar un error.");
+                return;
+            }
             o = ((Estructura) o).copear();
 
-            arr.set(n, o);
+            if (((Estructura) o).size() != 1) {
+                System.out.println("debe de retornar un error ya que solo se pueden meter estructuras con una sola posicion");
+            }
+
+            if (this.tienelista) {
+                if (o instanceof Lista) {
+                    arr.set(n, o);
+                } else {
+                    Lista lst = new Lista(aux);
+                    lst.agregar(o);
+                    arr.set(n, lst);
+                }
+            } else {
+                if (o instanceof Lista) {
+                    pasarDatosALista();
+                    arr.set(n, o);
+                } else {
+                    arr.set(n, o);
+                    if (((Vector) o).tp != tp) {
+                        casteo(((Vector) o).tp);
+                    }
+                }
+            }
+
+        }
+    }
+
+    public void casteo(Tipos aCast) {
+        int n = (tp.compareTo(aCast) < 0) ? parse(aCast, tp) : parse(tp, aCast);
+    }
+
+    public int parse(Tipos pasarDe, Tipos pasarA) {
+        tp = pasarA;
+        System.out.println("pasar De " + pasarDe + "    a   " + pasarA);
+        for (int a = 0; a < arr.size(); a++) {
+            arr.set(a, parseando_ando(arr.get(a), pasarDe, pasarA));
+        }
+        return 1;
+    }
+
+    public Object parseando_ando(Object o, Tipos de, Tipos hacia) {
+        if (((Estructura) o).tp == hacia) {
+            return o;
+        }
+        System.out.println(de + "  ->  " + hacia);
+        Simbolo_prim s = ((Vector) o).arr.get(0);
+        s.tp = hacia;
+
+        if (hacia == Tipos.cadena) {
+            return new Vector(s, aux);
+        }
+
+        if (de == Tipos.booleano) {
+            s.valor = (boolean) s.valor ? 1 : 0;
+        }
+
+        if (de == Tipos.nulo) {
+            s.valor = s.getDef(hacia);
+        }
+        return new Vector(s, aux);
+    }
+
+    public void pasarDatosALista() {
+        int c = 0;
+        for (Object o : arr) {
+            Lista lst = new Lista(aux);
+            lst.agregar(o);
+            arr.set(c++, lst);
         }
     }
 
@@ -61,7 +147,8 @@ public class Array extends Estructura {
         return n == -1 ? null : arr.get(n);
     }
 
-    public Array(ArrayList<Object> arro, ArrayList<Integer> arri, boolean esLista) {
+    public Array(ArrayList<Object> arro, ArrayList<Integer> arri, boolean esLista, Auxiliar au) {
+        super(au);
         setPrim(arro, arri, esLista);
     }
 
@@ -111,7 +198,7 @@ public class Array extends Estructura {
         for (int a = 0; a < cantidad; a++) {
             Object oaux = arro.get(c++);
             if (oaux instanceof Simbolo_prim) {
-                oaux = new Vector((Simbolo_prim) oaux);
+                oaux = new Vector((Simbolo_prim) oaux, aux);
             }
 
             if (oaux instanceof Lista) {
@@ -125,7 +212,7 @@ public class Array extends Estructura {
 
             if (esLista) {
                 if (oaux instanceof Vector) {
-                    Lista lst = new Lista();
+                    Lista lst = new Lista(aux);
                     for (Simbolo_prim sp : ((Vector) oaux).arr) {
                         lst.agregar(sp);
                     }
@@ -205,6 +292,16 @@ public class Array extends Estructura {
         }
     }
 
+    /*
+        [4,4,4,4]
+    
+    
+        
+    
+    
+    */
+    
+    
     public String ayudamdd(ArrayList<Integer> arri, int n, String st) {
         if (n == 1) {
             if (!st.equals("")) {

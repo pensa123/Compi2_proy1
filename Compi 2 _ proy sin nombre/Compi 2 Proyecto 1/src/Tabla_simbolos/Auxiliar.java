@@ -17,6 +17,8 @@ import java.util.HashMap;
  */
 public class Auxiliar {
 
+    public int aiuda = 0;
+    public int aiuda2 = 1;
     public boolean javacc;
     public TextArea tx;
     public TextArea txterr;
@@ -64,6 +66,10 @@ public class Auxiliar {
     public void agregar(String ss) {
         st += ss + "\n";
         tx.setText(st);
+
+        if (st.length() != 0) {
+            tx.setCaretPosition(tx.getText().length() - 1);
+        }
         System.out.println(ss);
     }
 
@@ -75,6 +81,10 @@ public class Auxiliar {
         arrErr.add(new MiError(fila, columna, st, "ejecucion"));
         error += "(ejecucion) Fila " + fila + " Columna " + columna + " " + st + "\n";
         txterr.setText(error);
+        if (error.length() != 0) {
+            txterr.setCaretPosition(txterr.getText().length() - 1);
+        }
+
         System.out.println("Error: " + st);
         return null;
     }
@@ -149,7 +159,7 @@ public class Auxiliar {
             return null;
         }
 
-        Tabla_Sim tabla_fun = new Tabla_Sim(global, "Funcion " + id);
+        Tabla_Sim tabla_fun = new Tabla_Sim(global, "Funcion " + id, this);
 
         return f.ejecutar(tabla_fun, this, arro, fila, columna, estoy);
 

@@ -19,10 +19,19 @@ public class Matriz extends Estructura {
     public int tamanio = 0;
 
     public int nm = 4;
-    
+
+    public Matriz(Auxiliar au) {
+        super(au);
+    }
+
+    @Override
+    public int size() {
+        return arr.size();
+    }
+
     @Override
     public Estructura copear() {
-        Matriz m2 = new Matriz();
+        Matriz m2 = new Matriz(aux);
         m2.set(arr, filas, columnas);
         return m2;
     }
@@ -56,14 +65,14 @@ public class Matriz extends Estructura {
         Vector v = null;
         if (fila) { //e,
             if (filas > n && n >= 0) {
-                v = new Vector();
+                v = new Vector(aux);
                 for (int a = 0; a < columnas; a++) {
                     v.agregar(this.obtener(n + 1, a + 1));
                 }
             }
         } else {    //,e
             if (columnas > n && n >= 0) {
-                v = new Vector();
+                v = new Vector(aux);
                 for (int a = 0; a < filas; a++) {
                     v.agregar(this.obtener(a + 1, n + 1));
                 }
@@ -153,6 +162,14 @@ public class Matriz extends Estructura {
 
     }
 
+    public void update(int n, Estructura e) {
+        if (e instanceof Vector) {
+            if (e.size() == 1) {
+                update(n, ((Vector) e).arr.get(0));
+            }
+        }
+    }
+
     public void update(int n, Simbolo_prim sp) {
         n -= 1;
         if (arr.size() > n && n >= 0) {
@@ -169,7 +186,7 @@ public class Matriz extends Estructura {
     }
 
     public int parse(Tipos pasarDe, Tipos pasarA) {
-        tp = pasarA; 
+        tp = pasarA;
         System.out.println("pasar De " + pasarDe + "    a   " + pasarA);
         for (int a = 0; a < arr.size(); a++) {
             arr.set(a, parseando_ando(arr.get(a), pasarDe, pasarA));
@@ -189,8 +206,8 @@ public class Matriz extends Estructura {
         if (de == Tipos.booleano) {
             s.valor = (boolean) s.valor ? 1 : 0;
         }
-        
-        if( de == Tipos.nulo){
+
+        if (de == Tipos.nulo) {
             s.valor = s.getDef(hacia);
         }
 

@@ -101,7 +101,7 @@ public class Asignacion extends Nodo {
                         }
                         boolean modo = vacc.forma == 2;
                         if (sp instanceof Simbolo_prim) {
-                            Vector v = new Vector();
+                            Vector v = new Vector(aux);
                             v.agregar((Simbolo_prim) sp);
                             sp = v;
                         }
@@ -179,7 +179,7 @@ public class Asignacion extends Nodo {
             return o;
         }
         if (o instanceof Simbolo_prim) {
-            o = new Vector((Simbolo_prim) o);
+            o = new Vector((Simbolo_prim) o, aux);
         }
 
         if (o instanceof Vector) {

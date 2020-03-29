@@ -27,7 +27,7 @@ public class Do_while extends Nodo {
         o2 = aux.ayuda_bool(o1);
 
         do {
-            Tabla_Sim ts2 = new Tabla_Sim(ts, "Do_while");
+            Tabla_Sim ts2 = new Tabla_Sim(ts, "Do_while", aux);
             ts2.esciclo = true;
             n1.ejecutar(ts2, aux);
             if (ts2.haybreak) {

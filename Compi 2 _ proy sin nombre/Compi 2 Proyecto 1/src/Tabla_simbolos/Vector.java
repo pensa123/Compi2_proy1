@@ -18,15 +18,23 @@ public class Vector extends Estructura {
     public ArrayList<Simbolo_prim> arr = new ArrayList<Simbolo_prim>();
     public int tamanio = 0;
 
-    public Vector() {
+    @Override
+    public int size() {
+        return arr.size();
+    }
+
+    public Vector(Auxiliar au) {
+        super(au);
         tienetipo = false;
     }
 
-    public Vector(Simbolo_prim sp) {
+    public Vector(Simbolo_prim sp, Auxiliar au) {
+        super(au);
         this.agregar(sp);
     }
 
-    public Vector(Tipos tp) {
+    public Vector(Tipos tp, Auxiliar au) {
+        super(au);
         this.tp = tp;
         tienetipo = true;
     }
@@ -46,7 +54,7 @@ public class Vector extends Estructura {
 
     @Override
     public Estructura copear() {
-        Vector v2 = new Vector();
+        Vector v2 = new Vector(aux);
         int a = 0;
         for (Simbolo_prim s : arr) {
             Simbolo_prim s1 = new Simbolo_prim(s.tp, s.valor);
@@ -67,6 +75,14 @@ public class Vector extends Estructura {
 
     public void agregar(Simbolo_prim sp) {
         update(arr.size(), sp);
+    }
+
+    public void update(int n, Estructura e) {
+        if (e instanceof Vector) {
+            if (e.size() == 1) {
+                update(n, ((Vector) e).arr.get(0));
+            }
+        }
     }
 
     public void update(int n, Simbolo_prim sp) {
@@ -104,7 +120,7 @@ public class Vector extends Estructura {
 
     @Override
     public String toString() {
-        if (arr.size() == 1 ) {
+        if (arr.size() == 1) {
             return arr.get(0).toString();
         }
 
@@ -137,7 +153,7 @@ public class Vector extends Estructura {
         if (s.tp == hacia) {
             return s;
         }
-        System.out.println(s.toString() + "  " +  de + "  ->  " + hacia);
+        System.out.println(s.toString() + "  " + de + "  ->  " + hacia);
         s.tp = hacia;
         if (hacia == Tipos.cadena) {
             return s;
@@ -146,7 +162,7 @@ public class Vector extends Estructura {
             s.valor = (boolean) s.valor ? 1 : 0;
         }
 
-        if(de == Tipos.nulo){
+        if (de == Tipos.nulo) {
             s.valor = s.getDef(hacia);
         }
         return s;

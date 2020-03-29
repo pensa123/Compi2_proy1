@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import static java.lang.System.currentTimeMillis;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
@@ -127,9 +128,12 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         txtConsola.setBackground(new java.awt.Color(0, 0, 0));
+        txtConsola.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtConsola.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         txtConsola.setForeground(new java.awt.Color(25, 255, 0));
 
         txtError.setBackground(new java.awt.Color(0, 0, 0));
+        txtError.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         txtError.setForeground(new java.awt.Color(204, 0, 0));
 
         jButton2.setText("Ejecutar Flex y Cup");
@@ -297,13 +301,12 @@ public class Inicio extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtConsola, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)))
+                        .addComponent(txtConsola, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -337,7 +340,7 @@ public class Inicio extends javax.swing.JFrame {
         try {
             JFileChooser abridor = new JFileChooser();
 
-            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos GXML o FS", "GXML", "FS");
+            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos ARIT", "ARIT");
 
             abridor.setFileFilter(filtro);
             abridor.showOpenDialog(this);
@@ -352,7 +355,7 @@ public class Inicio extends javax.swing.JFrame {
                     texto += aux + "\n";
                 }
 
-                CampoTexto cam = (archivo.getName().replaceAll("^.*\\.(.*)$", "$1").equalsIgnoreCase("gxml")) ? new CampoTexto(true) : new CampoTexto(false);
+                CampoTexto cam = new CampoTexto(true);
                 cam.setTexto(texto);
                 cam.setPath(archivo.getAbsoluteFile().toString());
 
@@ -365,7 +368,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.out.println("Algo salió mal");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -536,7 +539,7 @@ public class Inicio extends javax.swing.JFrame {
         //Tabla de simbolos global. 
         if (tsG != null) {
             Reporte_ts rts = new Reporte_ts();
-            rts.generarPdf(tsG , false);
+            rts.generarPdf(tsG, false);
             rts.abrirElPdf();
         } else {
             JOptionPane.showMessageDialog(null, "No se ha ejecutado ninguna vez para poder generar este reporte.");
@@ -550,7 +553,7 @@ public class Inicio extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (tsG != null) {
             Reporte_ts rts = new Reporte_ts();
-            rts.generarPdf(tsG , true);
+            rts.generarPdf(tsG, true);
             rts.abrirElPdf();
         } else {
             JOptionPane.showMessageDialog(null, "No se ha ejecutado ninguna vez para poder generar este reporte.");
@@ -652,7 +655,6 @@ public class Inicio extends javax.swing.JFrame {
             System.out.println("-------------------------------");
             System.out.println("Esto es Flex y cup");
             System.out.println("-------------------------------");
-            this.dibujar(arr, "AST_FLEX_Y_CUP");
 
             ArrayList<MiError> err = lexer.err;
             ArrayList<MiError> err2 = s.err;
@@ -661,6 +663,8 @@ public class Inicio extends javax.swing.JFrame {
                 err.add(me);
             }
             this.ejecutarAST(arr, "FLEX Y CUP", false, err);
+
+            this.dibujar(arr, "AST_FLEX_Y_CUP");
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -675,7 +679,7 @@ public class Inicio extends javax.swing.JFrame {
             parser.Analizar();
 
             ArrayList mierr = parser.token_source.err;
-            
+
             System.out.println("-------------------------------");
             System.out.println("Esto es javacc");
             System.out.println("-------------------------------");
@@ -683,13 +687,12 @@ public class Inicio extends javax.swing.JFrame {
             ArrayList arr = parser.arr;
             ArrayList<MiError> err = parser.miErr;
 
-            for(MiError mi : err){
+            for (MiError mi : err) {
                 mierr.add(mi);
             }
-            
-            this.dibujar(arr, "AST_JAVACC");
 
             this.ejecutarAST(arr, "JAVACC", true, mierr);
+            this.dibujar(arr, "AST_JAVACC");
 
             return false;
         } catch (ParseException e) {
@@ -706,9 +709,10 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     void ejecutarAST(ArrayList<Nodo> arr, String st, boolean javacc, ArrayList<MiError> miErr) {
-        Tabla_Sim ts = new Tabla_Sim("Global");
+        Tabla_Sim ts = new Tabla_Sim("Global", null);
         Auxiliar aux = new Auxiliar(txtConsola, txtError, ts, javacc, miErr);
-
+        ts.aux = aux;
+        long t1 = currentTimeMillis();
         aux.st = st + "\n";
         txtConsola.setText(st + "\n");
         txtError.setText("");
@@ -720,6 +724,10 @@ public class Inicio extends javax.swing.JFrame {
                     + " " + miErr.get(a).descripcion + "\n";
         }
         txtError.setText(error);
+        if (txtError.getText().length() != 0) {
+            txtError.setCaretPosition(txtError.getText().length() - 1);
+        }
+
         //ejecucion1 declaracion de funciones
         for (Nodo n : arr) {
             try {
@@ -738,7 +746,10 @@ public class Inicio extends javax.swing.JFrame {
             } catch (Exception e) {
             }
         }
+        long t2 = currentTimeMillis();
+        aux.agregar("--------Tiempo:" + ((t2 - t1)) + " Milis------------");
 
+        System.out.println(aux.aiuda);
         this.tsG = ts;
 
     }

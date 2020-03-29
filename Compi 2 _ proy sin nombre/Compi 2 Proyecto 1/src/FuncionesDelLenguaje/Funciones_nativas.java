@@ -32,7 +32,10 @@ public class Funciones_nativas {
 
     int fila, columna;
 
+    Auxiliar au;
+
     public Object selFunc(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, String func, int f, int c) {
+        au = aux;
         for (Nodo n : hijos) {
             if (n instanceof Default) {
                 return aux.error("Defualt solo se puede usar en funciones echas por el usuario. ", n.fila, n.columna);
@@ -91,7 +94,7 @@ public class Funciones_nativas {
 
     public Vector retVec(Object o) {
         if (o instanceof Simbolo_prim) {
-            return new Vector((Simbolo_prim) o);
+            return new Vector((Simbolo_prim) o, au);
         }
         if (o instanceof Vector) {
             return (Vector) o;
@@ -104,7 +107,7 @@ public class Funciones_nativas {
             return (Estructura) o;
         }
         if (o instanceof Simbolo_prim) {
-            return new Vector((Simbolo_prim) o);
+            return new Vector((Simbolo_prim) o, au);
         }
         return null;
     }
@@ -148,6 +151,9 @@ public class Funciones_nativas {
             return aux.error("En la funcion plot se esperan solo 5 argumentos", fila, columna);
         }
 
+        double tope1 = 0, tope2 = 0;
+        boolean conlimites = false;
+
         Object o1 = hijos.get(0).ejecutar(ts, aux);
         Vector v2 = this.retVec(hijos.get(1).ejecutar(ts, aux)), v3 = this.retVec(hijos.get(2).ejecutar(ts, aux)),
                 v4 = this.retVec(hijos.get(3).ejecutar(ts, aux)), v5 = this.retVec(hijos.get(4).ejecutar(ts, aux));
@@ -170,30 +176,54 @@ public class Funciones_nativas {
         if (v4 == null || v4.tp != Tipos.cadena) {
             return aux.error("El cuarto parametro de plot debe de ser cadena ", fila, columna);
         }
-        if (v5 == null || v5.tp != Tipos.cadena) {
-            return aux.error("El quinto parametro de plot debe de ser un vector_cadena ", fila, columna);
+        if (v5 == null) {
+            return aux.error("El quinto parametro de plot debe de ser un vector_cadena o vector de dos numeros", fila, columna);
+        } else if (v5.tp == Tipos.cadena) {
+            //no se hace nada
+        } else if (v5.tp == Tipos.entero || v5.tp == Tipos.numerico) {
+            if (v5.size() != 2) {
+                return aux.error("EL quinto parametro de plot si es un vector de numeros debe de tener 2 elementos. ", fila, columna);
+            }
+            tope1 = Double.parseDouble(v5.arr.get(0).toString());
+            tope2 = Double.parseDouble(v5.arr.get(1).toString());
+            conlimites = true;
+        } else {
+            return aux.error("El quinto parametro de plot debe de ser cadena o un vector de dos numeros.", fila, columna);
         }
-
         ArrayList<Double> arrd = new ArrayList<>();
 
-        for (Simbolo_prim sp : e1 instanceof Matriz ? ((Matriz) e1).arr : ((Vector) e1).arr) {
-            arrd.add(Double.parseDouble(sp.valor.toString()));
+        if (conlimites) {
+            for (Simbolo_prim sp : e1 instanceof Matriz ? ((Matriz) e1).arr : ((Vector) e1).arr) {
+                Double d = Double.parseDouble(sp.valor.toString());
+                if (tope1 <= d && d <= tope2) {
+                    arrd.add(d);
+                }
+            }
+
+            SwingUtilities.invokeLater(() -> {
+                Line_chart ex = new Line_chart(1, arrd, v2.arr.get(0).toString(), v3.arr.get(0).toString(), v4.arr.get(0).toString());
+                ex.setVisible(true);
+                ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            });
+
+        } else {
+            for (Simbolo_prim sp : e1 instanceof Matriz ? ((Matriz) e1).arr : ((Vector) e1).arr) {
+                arrd.add(Double.parseDouble(sp.valor.toString()));
+            }
+            String st = v2.arr.get(0).toString().toLowerCase();
+
+            int n = st.equals("p") ? 1 : st.equals("i") ? 2 : st.equals("o") ? 0 : -1;
+
+            if (n == -1) {
+                return aux.error("El segundo parametro solo puede ser p , i , o", fila, columna);
+            }
+
+            SwingUtilities.invokeLater(() -> {
+                Line_chart ex = new Line_chart(n, arrd, v5.arr.get(0).toString(), v3.arr.get(0).toString(), v4.arr.get(0).toString());
+                ex.setVisible(true);
+                ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            });
         }
-
-        String st = v2.arr.get(0).toString().toLowerCase();
-
-        int n = st.equals("p") ? 1 : st.equals("i") ? 2 : st.equals("o") ? 0 : -1;
-
-        if (n == -1) {
-            return aux.error("El segundo parametro solo puede ser p , i , o", fila, columna);
-        }
-
-        SwingUtilities.invokeLater(() -> {
-            Line_chart ex = new Line_chart(n, arrd, v5.arr.get(0).toString(), v3.arr.get(0).toString(), v4.arr.get(0).toString());
-            ex.setVisible(true);
-            ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        });
-
         return null;
     }
 
@@ -303,7 +333,7 @@ public class Funciones_nativas {
         Object o1 = hijos.get(0).ejecutar(ts, aux), o2 = hijos.get(1).ejecutar(ts, aux);
 
         if (o2 instanceof Simbolo_prim) {
-            Vector v = new Vector();
+            Vector v = new Vector(au);
             v.agregar((Simbolo_prim) o2);
             o2 = v;
         }
@@ -336,7 +366,7 @@ public class Funciones_nativas {
             return aux.error("Array solo acepta listas, vectores y simbolos. ", fila, columna);
         }
 
-        return new Array(arro, arri, hayLista);
+        return new Array(arro, arri, hayLista, au);
     }
 
     public Object lista(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos) {
@@ -344,7 +374,7 @@ public class Funciones_nativas {
             return aux.error("Se esperaba al menos un paremtro en la funciono c", fila, columna);
         }
 
-        Lista lst = new Lista();
+        Lista lst = new Lista(au);
         for (Nodo n : hijos) {
             Object oaux = n.ejecutar(ts, aux);
             if (oaux == null) {
@@ -589,7 +619,7 @@ public class Funciones_nativas {
             v = (Vector) o1;
         } else if (o1 instanceof Simbolo_prim) {
             Simbolo_prim sp = (Simbolo_prim) o1;
-            v = new Vector();
+            v = new Vector(au);
             v.agregar(sp);
         } else {
             return aux.error("data en la funcion matrix debe de ser un vector ", fila, columna);
@@ -599,7 +629,7 @@ public class Funciones_nativas {
             return aux.error("row y column de funcion matrix deben de ser enteros. ", fila, columna);
         }
         if (aux.esEntero(s1) && aux.esEntero(s2)) {
-            Matriz m = new Matriz();
+            Matriz m = new Matriz(au);
             m.set(v.arr, (int) Double.parseDouble(s1.valor + ""), (int) Double.parseDouble(s2.valor + ""));
             return m;
         }
@@ -669,7 +699,7 @@ public class Funciones_nativas {
         }
 
         if (tipo != 4) {
-            Vector v = new Vector(gettp(tipo));
+            Vector v = new Vector(gettp(tipo), au);
             for (Object oo : arro) {
                 Simbolo_prim s = (Simbolo_prim) oo;
                 v.agregar(s);
@@ -677,7 +707,7 @@ public class Funciones_nativas {
             return v;
         } else {
 
-            Lista lst = new Lista();
+            Lista lst = new Lista(au);
             for (Object oo : arro) {
                 lst.agregar(oo);
             }
@@ -695,8 +725,8 @@ public class Funciones_nativas {
             if (n instanceof Iden) {
                 aux.error(" identificador " + ((Iden) n).nombre + " no encontrado", n.fila, n.columna);
             } else {
-                aux.error(n.getClass().getSimpleName() + " devolvio null", n.fila, n.columna);
-                System.out.println(n.getClass().getName());
+                //     aux.error(n.getClass().getSimpleName() + " devolvio null", n.fila, n.columna);
+                System.out.println(n.getClass().getName() + " devolvio null");
             }
             return null;
         }

@@ -34,27 +34,24 @@ public class CampoTexto extends JPanel {
         SyntaxScheme scheme = areaTexto.getSyntaxScheme();
         scheme.getStyle(Token.RESERVED_WORD).foreground = Color.BLUE;
         Color c = Color.decode("#f26868");
+        
+        Color pCasiReservadas = Color.decode("#211347");
         scheme.getStyle(Token.LITERAL_STRING_DOUBLE_QUOTE).foreground = c;
         scheme.getStyle(Token.IDENTIFIER).foreground = Color.BLACK;
-        scheme.getStyle(Token.DATA_TYPE).foreground = Color.BLACK;
+        scheme.getStyle(Token.DATA_TYPE).foreground = Color.decode("#7a60c4");
         scheme.getStyle(Token.COMMENT_EOL).foreground = Color.GRAY;
         scheme.getStyle(Token.LITERAL_CHAR).foreground = Color.ORANGE;
         scheme.getStyle(Token.COMMENT_MULTILINE).foreground = Color.GRAY;
         scheme.getStyle(Token.SEPARATOR).foreground = Color.black;
         scheme.getStyle(Token.OPERATOR).foreground = Color.black;
-        scheme.getStyle(Token.FUNCTION).foreground = Color.black;
+        scheme.getStyle(Token.FUNCTION).foreground = pCasiReservadas;
 
     }
 
     private void iniciarAjustes(boolean bo) {
         AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
 
-        if (bo) {
-            atmf.putMapping("text", "Analizador.ColoresTexto");
-        } else {
-            atmf.putMapping("text", "Analizador.ColoresFS_1");
-
-        }
+        atmf.putMapping("text", "Analizador.ColorArit");
         areaTexto = new RSyntaxTextArea(20, 60);
         areaTexto.setSyntaxEditingStyle("text");
         areaTexto.setCodeFoldingEnabled(true);

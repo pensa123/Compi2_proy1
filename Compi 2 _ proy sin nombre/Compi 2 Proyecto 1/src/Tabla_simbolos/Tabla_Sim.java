@@ -16,21 +16,30 @@ public class Tabla_Sim {
 
     public HashMap<String, Estructura> hvar = new HashMap<String, Estructura>();
 
+    public Auxiliar aux;
     public Tabla_Sim padre;
     public ArrayList<Tabla_Sim> hijos = new ArrayList<Tabla_Sim>();
 
     public boolean esciclo = false, esfuncion = false, esswitch = false;
 
     public boolean haybreak = false, haycontinue = false, hayreturn = false;
+
+    public boolean esFor = false;
+    public Estructura estFor = null;
+    public String stFor = "";
+    public int nFor = 0;
+
     public Object ret;
 
     public String nombre;
 
-    public Tabla_Sim(String nombre) {
+    public Tabla_Sim(String nombre, Auxiliar au) {
+        aux = au;
         this.nombre = nombre;
     }
 
-    public Tabla_Sim(Tabla_Sim padre, String nombre) {
+    public Tabla_Sim(Tabla_Sim padre, String nombre, Auxiliar au) {
+        au = aux;
         this.padre = padre;
         this.nombre = padre.nombre + "->" + nombre;
         padre.hijos.add(this);
@@ -86,7 +95,7 @@ public class Tabla_Sim {
         }
 
         if (o instanceof Simbolo_prim) {
-            o = new Vector((Simbolo_prim) o);
+            o = new Vector((Simbolo_prim) o, aux);
         }
         if (o instanceof Estructura) {
             hvar.put(id.toLowerCase(), ((Estructura) o).copear());
@@ -105,6 +114,9 @@ public class Tabla_Sim {
     }
 
     public boolean try_agregar_var(String id, Estructura e) {
+        if (this.esFor) {
+            insFor(id, e);
+        }
         if (hvar.containsKey(id.toLowerCase())) {
             hvar.put(id.toLowerCase(), e);
             return true;
@@ -112,8 +124,35 @@ public class Tabla_Sim {
         return padre == null ? false : padre.try_agregar_var(id, e);
     }
 
+    public void insFor(String id, Estructura e) {
+        if (id.equalsIgnoreCase(this.stFor)) {
+            System.out.println("vamos bien vamos bien");
+            System.out.println(estFor.getClass().getSimpleName());
+
+            if (this.estFor instanceof Vector) {
+                Vector v = (Vector) estFor;
+                v.update(nFor, e);
+                System.out.println(estFor.toString());
+            } else if (this.estFor instanceof Lista) {
+                Lista lst = (Lista) estFor;
+                lst.set(e, nFor + 1);
+            } else if (this.estFor instanceof Matriz) {
+                Matriz mat = (Matriz) estFor;
+                mat.update(nFor + 1, e);
+            } else if (this.estFor instanceof Array) {
+                Array arr = (Array) estFor;
+                arr.update(nFor, e);
+            }
+
+        }
+    }
+
     //TODO falta ver lo de los ambitos. 
     public void agregar_var(String id, Estructura e) {
+        if (this.esFor) {
+            insFor(id, e);
+        }
+
         if (hvar.containsKey(id.toLowerCase())) {
             hvar.put(id.toLowerCase(), e);
         } else if (padre == null || !padre.try_agregar_var(id, e)) {
@@ -122,7 +161,7 @@ public class Tabla_Sim {
     }
 
     public void agregar_var_sp(String id, Simbolo_prim sp) {
-        Vector v = new Vector();
+        Vector v = new Vector(aux);
         v.update(0, sp);
         agregar_var(id, v);
     }
@@ -139,7 +178,7 @@ public class Tabla_Sim {
 
     public void agregar_var(String id, Simbolo_prim sp, int n) {
         if (!try_agregar_var(id, sp, n)) {
-            Vector v = new Vector();
+            Vector v = new Vector(aux);
             v.update(n - 1, sp);
             hvar.put(id.toLowerCase(), v);
         }

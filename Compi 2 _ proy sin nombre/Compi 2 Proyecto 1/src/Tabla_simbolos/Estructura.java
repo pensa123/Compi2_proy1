@@ -15,6 +15,11 @@ import java.util.logging.Logger;
  */
 public abstract class Estructura {
 
+    public Auxiliar aux;
+
+    public Estructura(Auxiliar au) {
+        aux = au;
+    }
     public contenedorEnum.Tipos tp;
 
     public String imprimir() {
@@ -23,5 +28,9 @@ public abstract class Estructura {
 
     public Estructura copear() {
         return null;
+    }
+
+    public int size() {
+        return 0;
     }
 }

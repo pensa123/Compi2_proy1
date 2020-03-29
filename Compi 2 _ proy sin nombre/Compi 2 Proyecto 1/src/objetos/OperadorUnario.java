@@ -26,6 +26,7 @@ public class OperadorUnario extends Nodo {
     }
 
     public enum Op {
+
         neg, not
     };
 
@@ -53,8 +54,8 @@ public class OperadorUnario extends Nodo {
 
     public Vector ejec_vc(Vector v1, Auxiliar aux) {
 
-        Vector v2 = new Vector();
-        int a = 0; 
+        Vector v2 = new Vector(aux);
+        int a = 0;
         for (Simbolo_prim s : v1.arr) {
             v2.update(a++, ejec_sp(s, aux));
         }

@@ -30,11 +30,11 @@ public class Paren extends Nodo {
         return aux.error("no se esperaba una lista de expresiones. ", fila, columna);
     }
     
-    @Override
+   /* @Override
     public void dibujar(Dibujador d, String padre) {
         if (hijos.size() == 1) {
             hijos.get(0).dibujar(d, padre);
         }
-    }
+    }*/
     
 }

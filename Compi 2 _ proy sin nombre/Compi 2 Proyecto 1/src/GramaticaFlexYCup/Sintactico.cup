@@ -99,7 +99,7 @@ precedence left por, division, modular;
 precedence left potencia;
 precedence left parenI, parenD;
 precedence right not; 
-precedence right menos; 
+//precedence right menos; 
 
 
 start with INICIO;

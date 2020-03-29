@@ -40,7 +40,7 @@ public class If extends Nodo {
         } else {
             return null;
         }
-        Tabla_Sim ts2 = new Tabla_Sim(ts, "If");
+        Tabla_Sim ts2 = new Tabla_Sim(ts, "If", aux);
         n.ejecutar(ts2, aux);
         return null;
     }

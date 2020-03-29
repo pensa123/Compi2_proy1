@@ -46,7 +46,6 @@ import objetos.OperadorUnario.Op;
 public class GramaticaTokenManager implements GramaticaConstants {
 
     public ArrayList<MiError> err = new ArrayList<MiError>();
-
     /**
      * Debug output.
      */
@@ -1136,24 +1135,24 @@ public class GramaticaTokenManager implements GramaticaConstants {
                 int error_column = input_stream.getEndColumn();
                 String error_after = null;
                 boolean EOFSeen = false;
-                /* try { input_stream.readChar(); input_stream.backup(1); }
-                 catch (java.io.IOException e1) {
+                /*  try {
+                 input_stream.readChar();
+                 input_stream.backup(1);
+                 } catch (java.io.IOException e1) {
                  EOFSeen = true;
                  error_after = curPos <= 1 ? "" : input_stream.GetImage();
                  if (curChar == '\n' || curChar == '\r') {
                  error_line++;
                  error_column = 0;
-                 }
-                 else
+                 } else {
                  error_column++;
+                 }
                  }
                  if (!EOFSeen) {
                  input_stream.backup(1);
                  error_after = curPos <= 1 ? "" : input_stream.GetImage();
-                 }*/
-      // System.out.println(new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR));
-                //throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
-
+                 }
+                 throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);*/
                 err.add(new MiError(error_line, error_column, "El caracter '" + curChar + "' no pertenece al lenguaje.", "lexico"));
                 System.out.println(curChar + " " + " linea  " + error_line + " columna " + error_column);
                 SwitchTo(curLexState);

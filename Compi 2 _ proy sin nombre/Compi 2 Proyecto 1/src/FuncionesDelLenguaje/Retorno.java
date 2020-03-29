@@ -8,6 +8,7 @@ package FuncionesDelLenguaje;
 import ClasesAuxiliares.Nodo;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Tabla_Sim;
+import static java.lang.System.currentTimeMillis;
 
 /**
  *
@@ -22,7 +23,16 @@ public class Retorno extends Nodo {
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
         if (ts.seencontroReturn()) {
+          /*  if (aux.aiuda == 30000) {
+                System.gc();
+                aux.aiuda = 0;
+                
+                aux.aiuda2++;
+            }
+            System.out.println("hola");*/
             Object o = null;
+            aux.aiuda++;
+            //System.out.println("hola que tal como estas " + aux.aiuda++);
             if (hijos.size() == 1) {
                 if (hijos.get(0) != null) {
                     o = hijos.get(0).ejecutar(ts, aux);
@@ -32,7 +42,6 @@ public class Retorno extends Nodo {
                 }
             }
             ts.setReturn(o);
-            System.out.println("hola");
             return null;
         }
         return aux.error("No se esperaba un return ya que no se esta dentro de una funcion. ", fila, columna);

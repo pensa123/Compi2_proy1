@@ -32,7 +32,7 @@ public class Switch extends Nodo {
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
         Object o1 = hijos.get(0).ejecutar(ts, aux);
 
-        Tabla_Sim ts2 = new Tabla_Sim(ts, "switch");
+        Tabla_Sim ts2 = new Tabla_Sim(ts, "switch", aux);
         ts2.esswitch = true;
 
         Simbolo_prim sp = null;
@@ -51,9 +51,10 @@ public class Switch extends Nodo {
         boolean coincidioCase = false;
         int def = -1;
         for (int a = 0; a < arrn.size(); a++) {
-            if (ts2.haybreak) {
+            if (ts2.haybreak || ts2.hayreturn || ts2.haycontinue) {
                 break;
             }
+            
             Nodo n = arrn.get(a);
             if (n instanceof Default) {
                 if (def != -1) {
@@ -84,7 +85,7 @@ public class Switch extends Nodo {
         }
         if (!coincidioCase) {
             for (int a = def; a < arrn.size(); a++) {
-                if (ts2.haybreak) {
+                if (ts2.haybreak || ts2.hayreturn) {
                     break;
                 }
                 Nodo n = arrn.get(a);

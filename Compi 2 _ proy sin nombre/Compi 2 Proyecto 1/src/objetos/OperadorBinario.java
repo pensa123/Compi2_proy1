@@ -49,6 +49,14 @@ public class OperadorBinario extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
+        /* if (aux.aiuda == 30000) {
+         System.gc();
+         aux.aiuda = 0;
+
+         aux.aiuda2++;
+         }
+         aux.aiuda++;*/
+
         au = aux;
         Object o1, o2;
         Simbolo_prim s1, s2, sr;
@@ -60,6 +68,7 @@ public class OperadorBinario extends Nodo {
             return aux.error("Solo se esperan operaciones de matrices y de vectores. ", fila, columna);
         }
 
+        //System.out.println("(" + (aux.aiuda++) +")" + o1.getClass().getSimpleName() + " " + operador + " " + o2.getClass().getSimpleName());
         if (o1 instanceof Array || o1 instanceof Lista
                 || o2 instanceof Array || o2 instanceof Lista) {
             if (operador == Operando.mas) {
@@ -92,8 +101,8 @@ public class OperadorBinario extends Nodo {
             if (m1.filas != m2.filas || m1.columnas != m2.columnas) {
                 au.error("Solo se pueden ejecutar matrices si tienen las mismas dimensiones", fila, columna);
             }
-            Matriz m = new Matriz();
-            Vector v = new Vector();
+            Matriz m = new Matriz(au);
+            Vector v = new Vector(au);
             for (int a = 0; a < m1.arr.size(); a++) {
                 Simbolo_prim sp1 = m1.arr.get(a), sp2 = m2.arr.get(a);
                 v.agregar(this.ejec_sp_sp(sp1, sp2));
@@ -104,8 +113,8 @@ public class OperadorBinario extends Nodo {
 
         if (o2 instanceof Simbolo_prim) {
             System.out.println("matriz -  simbolo");
-            Matriz m = new Matriz();
-            Vector v = new Vector();
+            Matriz m = new Matriz(au);
+            Vector v = new Vector(au);
             for (Simbolo_prim s : m1.arr) {
                 v.agregar(ejec_sp_sp(s, (Simbolo_prim) o2));
             }
@@ -118,13 +127,13 @@ public class OperadorBinario extends Nodo {
     public Object ejec_vc(Vector v1, Object o2) {
         if (o2 instanceof Simbolo_prim) {
             int a = 0;
-            Vector v = new Vector();
+            Vector v = new Vector(au);
             for (Simbolo_prim s1 : v1.arr) {
                 v.update(a++, ejec_sp_sp(s1, (Simbolo_prim) (o2)));
             }
             return v;
         } else if (o2 instanceof Vector) {
-            Vector v = new Vector(), v2 = (Vector) o2;
+            Vector v = new Vector(au), v2 = (Vector) o2;
             if (v1.tamanio == 1) {
                 return ejec_sp(v1.arr.get(0), v2);
             } else if (v2.tamanio == 1) {
@@ -156,7 +165,7 @@ public class OperadorBinario extends Nodo {
         } else if (o2 instanceof Vector) {
             int a = 0;
             Vector v2 = (Vector) o2;
-            Vector v = new Vector();
+            Vector v = new Vector(au);
             for (Simbolo_prim s2 : v2.arr) {
                 v.update(a++, ejec_sp_sp(s1, s2));
             }
@@ -165,8 +174,8 @@ public class OperadorBinario extends Nodo {
 
             Matriz m2 = (Matriz) o2;
             System.out.println("matriz -  simbolo");
-            Matriz m = new Matriz();
-            Vector v = new Vector();
+            Matriz m = new Matriz(au);
+            Vector v = new Vector(au);
             for (Simbolo_prim s : m2.arr) {
                 v.agregar(ejec_sp_sp(s1, s));
             }

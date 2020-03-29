@@ -299,6 +299,14 @@ public class Compi2Proyecto1 {
                 + "	print(typeof(i) + \" \" + i);	\n"
                 + "}");
 
+        ini.nueva_pestana("v = c(1,1 , 1 , 1 , 1 );  \n"
+                + "c = 1; \n"
+                + "for( a in v){\n"
+                + "	a = c;\n"
+                + "	c = c +1; 	\n"
+                + "}\n"
+                + "\n"
+                + "print(v); ");
     }
 
     public Compi2Proyecto1() {
