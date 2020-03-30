@@ -53,9 +53,17 @@ public class Var_acceso extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
+        n2enadelanteSon1 = true;
+        arrint = new ArrayList<>();
+        arrEsAccesoDoble = new ArrayList<>();
+        arrNodo_paerrores = new ArrayList<>();
+        hayAccesoDoble = false;
+        ultimoAccesoDoble = -1;
 
         Nodo n = hijos.get(0);
-        if (n.getClass().getSimpleName().equals("Iden")) {
+
+        if (n.getClass()
+                .getSimpleName().equals("Iden")) {
             Iden i = (Iden) n;
             est = ts.obtener_var(i.nombre);
             nest = i.nombre;
@@ -150,6 +158,7 @@ public class Var_acceso extends Nodo {
                 return this.hayAccesoDoble ? aux.error("No se aceptan accesos dobles en accesos a vectores o matrices", fila, columna) : null;
             }
             if (est instanceof Vector) {
+                System.out.println(arrint);
                 Object ret = ((Vector) est).obtener(arrint.get(0));
                 if (ret == null) {
                     return this.mostrarErrores ? aux.error("Indice fuera de rango " + arrint.get(0), fila, columna) : null;
@@ -167,6 +176,7 @@ public class Var_acceso extends Nodo {
         } else {
             return aux.error("Valor fuera de rango. ", fila, columna);
         }
+
         return null;
     }
 

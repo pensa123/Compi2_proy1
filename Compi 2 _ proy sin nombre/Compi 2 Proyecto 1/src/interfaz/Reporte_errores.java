@@ -5,11 +5,10 @@
  */
 package interfaz;
 
-import Tabla_simbolos.Array;
+import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
-import Tabla_simbolos.Matriz;
+import Tabla_simbolos.MiError;
 import Tabla_simbolos.Tabla_Sim;
-import Tabla_simbolos.Vector;
 import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,14 +19,13 @@ import java.util.Map;
  *
  * @author ferna
  */
-public class Reporte_ts {
+public class Reporte_errores {
 
     File ff;
 
-    public void generarPdf(Tabla_Sim ts, boolean todo) {
+    public void generarPdf(Auxiliar au) {
 
-        String st = "";
-
+        String st;
         st = "<style>\n"
                 + "\n"
                 + "	*{\n"
@@ -126,7 +124,7 @@ public class Reporte_ts {
                 + "\n"
                 + "<br/>\n"
                 + "<hr/>\n"
-                + "<h1 style=\"text-align: center \" >Reporte tabla de simbolos.</h1>\n"
+                + "<h1 style=\"text-align: center \" >Reporte de errrores.</h1>\n"
                 + "<hr/>\n"
                 + "\n"
                 + "\n"
@@ -134,15 +132,15 @@ public class Reporte_ts {
                 + "  <div class=\"table\">\n"
                 + "    <div class=\"table-head\">\n"
                 + "      <ul class=\"row\">\n"
-                + "        <li class=\"fieldname\" >Ambito</li>\n"
-                + "        <li class=\"fieldname\" >Nombre de variable</li>\n"
                 + "        <li class=\"fieldname\" >Tipo</li>\n"
-                + "        <li class=\"fieldname\" >Valor</li>\n"
+                + "        <li class=\"fieldname\" >Fila</li>\n"
+                + "        <li class=\"fieldname\" >Columna</li>\n"
+                + "        <li class=\"fieldname\" >Error</li>\n"
                 + "      </ul>\n"
                 + "    </div>\n"
                 + "    <div class=\"table-body\">";
 
-        st += getTablaSimRep(ts, todo);
+        st += getTablaSimRep(au);
 
         st += "	 \n"
                 + "    </div>\n"
@@ -153,7 +151,7 @@ public class Reporte_ts {
     }
 
     private void crearPdf(String texto) {
-        String st = new File(".").getAbsolutePath() + "\\ts.html";
+        String st = new File(".").getAbsolutePath() + "\\reporte_errores.html";
 
         File f = new File(st);
         ff = f;
@@ -171,7 +169,7 @@ public class Reporte_ts {
     }
 
     public void abrirElPdf() {
-        String st = new File(".").getAbsolutePath() + "\\ts.html";
+        String st = new File(".").getAbsolutePath() + "\\reporte_errores.html";
 
         File f = new File(st);
         ff = f;
@@ -182,37 +180,18 @@ public class Reporte_ts {
         }
     }
 
-    private String getTablaSimRep(Tabla_Sim ts, boolean todo) {
+    private String getTablaSimRep(Auxiliar au) {
         String st = "";
 
-        for (Map.Entry<String, Estructura> entry : ts.hvar.entrySet()) {
-            Estructura est = entry.getValue();
-
-            String tipo = est.getClass().getSimpleName();
-
-            if (est instanceof Vector || est instanceof Matriz) {
-                tipo += "=>" + est.tp;
-            } else if (est instanceof Array) {
-                Array arr = (Array) est;
-                if (arr.tienelista) {
-                    tipo += "=>Lista";
-                } else {
-                    tipo += "=>" + est.tp;
-                }
-            }
+        for (MiError mi : au.arrErr) {
 
             st += "      <ul class=\"row\">\n"
-                    + "        <li class=\"data\">" + ts.nombre + "</li>\n" //ambito
-                    + "        <li class=\"data\">" + entry.getKey() + "</li>\n" //nombre de variable. 
-                    + "        <li class=\"data\">" + tipo + "</li>\n" //tipo de la estructura
-                    + "        <li class=\"data\">" + est.toString().replace("\n", "<br/>") + "</li>\n" //Valor de la estructura
+                    + "        <li class=\"data\">" + mi.tipo + "</li>\n"
+                    + "        <li class=\"data\">" + mi.fila + "</li>\n"
+                    + "        <li class=\"data\">" + mi.columna + "</li>\n"
+                    + "        <li class=\"data\">" + mi.descripcion + "</li>\n"
                     + "      </ul>\n";
 
-        }
-        if (todo) {
-            for (Tabla_Sim ts2 : ts.hijos) {
-                st += getTablaSimRep(ts2, todo);
-            }
         }
         return st;
     }

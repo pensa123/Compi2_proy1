@@ -96,7 +96,7 @@
 
 <br/>
 <hr/>
-<h1 style="text-align: center " >Reporte tabla de simbolos.</h1>
+<h1 style="text-align: center " >Reporte de errrores.</h1>
 <hr/>
 
 
@@ -104,17 +104,29 @@
   <div class="table">
     <div class="table-head">
       <ul class="row">
-        <li class="fieldname" >Ambito</li>
-        <li class="fieldname" >Nombre de variable</li>
         <li class="fieldname" >Tipo</li>
-        <li class="fieldname" >Valor</li>
+        <li class="fieldname" >Fila</li>
+        <li class="fieldname" >Columna</li>
+        <li class="fieldname" >Error</li>
       </ul>
     </div>
     <div class="table-body">      <ul class="row">
-        <li class="data">Global</li>
-        <li class="data">mat</li>
-        <li class="data">Matriz</li>
-        <li class="data">      [,1]  [,2]  <br/>[1,]  hola  2.0   <br/>[2,]  2.0   2.0   <br/></li>
+        <li class="data">lexico</li>
+        <li class="data">0</li>
+        <li class="data">0</li>
+        <li class="data">El caracter '@' no pertenece al lenguaje.</li>
+      </ul>
+      <ul class="row">
+        <li class="data">sintactico</li>
+        <li class="data">2</li>
+        <li class="data">6</li>
+        <li class="data">No se esperaba  ';'</li>
+      </ul>
+      <ul class="row">
+        <li class="data">ejecucion</li>
+        <li class="data">5</li>
+        <li class="data">9</li>
+        <li class="data">Solo se esperan operaciones de matrices y de vectores. </li>
       </ul>
 	 
     </div>

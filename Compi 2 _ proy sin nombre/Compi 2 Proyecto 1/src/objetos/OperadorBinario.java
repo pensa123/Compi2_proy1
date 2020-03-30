@@ -105,7 +105,12 @@ public class OperadorBinario extends Nodo {
             Vector v = new Vector(au);
             for (int a = 0; a < m1.arr.size(); a++) {
                 Simbolo_prim sp1 = m1.arr.get(a), sp2 = m2.arr.get(a);
-                v.agregar(this.ejec_sp_sp(sp1, sp2));
+                Simbolo_prim sr = this.ejec_sp_sp(sp1, sp2);
+
+                if (sr == null) {
+                    return sr;
+                }
+                v.agregar(sr);
             }
             m.set(v.arr, m1.filas, m1.columnas);
             return m;
@@ -116,7 +121,11 @@ public class OperadorBinario extends Nodo {
             Matriz m = new Matriz(au);
             Vector v = new Vector(au);
             for (Simbolo_prim s : m1.arr) {
-                v.agregar(ejec_sp_sp(s, (Simbolo_prim) o2));
+                Simbolo_prim sr = ejec_sp_sp(s, (Simbolo_prim) o2);
+                if (sr == null) {
+                    return null;
+                }
+                v.agregar(sr);
             }
             m.set(v.arr, m1.filas, m1.columnas);
             return m;
@@ -129,7 +138,11 @@ public class OperadorBinario extends Nodo {
             int a = 0;
             Vector v = new Vector(au);
             for (Simbolo_prim s1 : v1.arr) {
-                v.update(a++, ejec_sp_sp(s1, (Simbolo_prim) (o2)));
+                Simbolo_prim sr = ejec_sp_sp(s1, (Simbolo_prim) (o2));
+                if (sr == null) {
+                    return null;
+                }
+                v.update(a++, sr);
             }
             return v;
         } else if (o2 instanceof Vector) {
@@ -142,7 +155,11 @@ public class OperadorBinario extends Nodo {
                 for (int a = 0; a < v1.tamanio; a++) {
                     Simbolo_prim s1 = v1.arr.get(a);
                     Simbolo_prim s2 = v2.arr.get(a);
-                    v.update(a, ejec_sp_sp(s1, s2));
+                    Simbolo_prim sr = ejec_sp_sp(s1, s2);
+                    if (sr == null) {
+                        return null;
+                    }
+                    v.update(a, sr);
                 }
                 return v;
             } else {
@@ -167,7 +184,11 @@ public class OperadorBinario extends Nodo {
             Vector v2 = (Vector) o2;
             Vector v = new Vector(au);
             for (Simbolo_prim s2 : v2.arr) {
-                v.update(a++, ejec_sp_sp(s1, s2));
+                Simbolo_prim sr = ejec_sp_sp(s1, s2);
+                if (sr == null) {
+                    return null;
+                }
+                v.update(a++, sr);
             }
             return v;
         } else if (o2 instanceof Matriz) {  /*aun falta el instanceof de matriz */
@@ -177,7 +198,11 @@ public class OperadorBinario extends Nodo {
             Matriz m = new Matriz(au);
             Vector v = new Vector(au);
             for (Simbolo_prim s : m2.arr) {
-                v.agregar(ejec_sp_sp(s1, s));
+                Simbolo_prim sr = ejec_sp_sp(s1, s);
+                if (sr == null) {
+                    return null;
+                }
+                v.agregar(sr);
             }
             m.set(v.arr, m2.filas, m2.columnas);
             return m;
@@ -233,7 +258,7 @@ public class OperadorBinario extends Nodo {
                     if ((Double.parseDouble(s2.valor + "")) == 0) {
                         error = 4;
                     } else if (esint) {
-                        sr = new Simbolo_prim(Tipos.entero, ((int) (Double.parseDouble(s1.valor + "") / Double.parseDouble(s2.valor + ""))));
+                        sr = new Simbolo_prim(Tipos.entero, ( (Double.parseDouble(s1.valor + "") / Double.parseDouble(s2.valor + ""))));
                     } else {
                         sr = new Simbolo_prim(Tipos.numerico, Double.parseDouble(s1.valor + "") / Double.parseDouble(s2.valor + ""));
                     }
@@ -336,19 +361,24 @@ public class OperadorBinario extends Nodo {
         switch (error) {
             case 1:
                 System.out.println("los operadores deben de ser numericos");
-                break;
+                au.error("Los operadores debe de ser numericos ", fila, columna);
+                return null;
             case 2:
                 System.out.println("los operadores deben de ser booleanos");
-                break;
+                au.error("Los operadores deben de ser booleanos ", fila, columna);
+                return null;
             case 3:
                 System.out.println("Los operadores deben de ser numericos o al menos debe de haber una cadena.");
-                break;
+                au.error("Los operadores deben de ser numericos o al menos debe de haber una cadena", fila, columna);
+                return null;
             case 4:
                 System.out.println("no se puede dividir entre 0");
-                break;
+                au.error("no se puede dividir entre 0", fila, columna);
+                return null;
             case 5:
                 System.out.println("no se puede comparar diferentes tipos a menos que sean numericos");
-                break;
+                au.error("no se puede comparar diferentes tipos a menos que sean numericos", fila, columna);
+                return null;
         }
 
         return sr;

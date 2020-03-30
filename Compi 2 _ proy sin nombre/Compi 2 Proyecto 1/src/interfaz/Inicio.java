@@ -36,6 +36,7 @@ import objetos.Asignacion_funcion;
 
 public class Inicio extends javax.swing.JFrame {
 
+    public Auxiliar auG = null;
     public Tabla_Sim tsG = null;
 
     public static void main(String args[]) {
@@ -90,6 +91,7 @@ public class Inicio extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -208,6 +210,18 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        jButton8.setText("Graficas");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        jButton8.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton8KeyPressed(evt);
+            }
+        });
+
         jMenu2.setText("Archivo");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
@@ -301,7 +315,10 @@ public class Inicio extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(27, 27, 27))
                     .addComponent(txtError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -315,7 +332,7 @@ public class Inicio extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 16, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtConsola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -326,9 +343,10 @@ public class Inicio extends javax.swing.JFrame {
                     .addComponent(jButton4)
                     .addComponent(jButton6)
                     .addComponent(jButton5)
-                    .addComponent(jButton7))
-                .addGap(10, 10, 10)
-                .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7)
+                    .addComponent(jButton8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtError, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -477,7 +495,7 @@ public class Inicio extends javax.swing.JFrame {
         if (javacc) {
             ejecJavacc(texto);
         } else {
-            this.ejecFlexYCup(texto);
+            this.ejecFlexYCup(texto + "\n");
         }
         //System.out.println(texto);
 
@@ -566,12 +584,35 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6KeyPressed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+
+        if (auG != null) {
+            Reporte_errores re = new Reporte_errores();
+            re.generarPdf(auG);
+            re.abrirElPdf();
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha ejecutado ninguna vez para poder generar este reporte.");
+        }
+
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton7KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton7KeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7KeyPressed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+
+        if (this.auG == null) {
+            JOptionPane.showMessageDialog(null, "No se ha ejecutado ninguna vez para poder generar este reporte.");
+        } else {
+            this.auG.f.dibujarlas();
+        }
+
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton8KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton8KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8KeyPressed
 
     public void guardarArchivo() {
         try {
@@ -629,6 +670,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -723,6 +765,7 @@ public class Inicio extends javax.swing.JFrame {
             error += "(" + miErr.get(a).tipo + ") Fila " + (miErr.get(a).fila + sumar) + " Columna " + (miErr.get(a).columna + sumar)
                     + " " + miErr.get(a).descripcion + "\n";
         }
+        aux.error = error;
         txtError.setText(error);
         if (txtError.getText().length() != 0) {
             txtError.setCaretPosition(txtError.getText().length() - 1);
@@ -749,9 +792,8 @@ public class Inicio extends javax.swing.JFrame {
         long t2 = currentTimeMillis();
         aux.agregar("--------Tiempo:" + ((t2 - t1)) + " Milis------------");
 
-        System.out.println(aux.aiuda);
         this.tsG = ts;
-
+        this.auG = aux;
     }
 
     public void abrirAST(String title) {

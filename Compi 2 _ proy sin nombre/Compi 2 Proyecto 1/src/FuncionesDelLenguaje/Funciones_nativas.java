@@ -34,6 +34,43 @@ public class Funciones_nativas {
 
     Auxiliar au;
 
+    public ArrayList<Bar_chart> arrbc = new ArrayList<>();
+    public ArrayList<Histogram_chart> arrhc = new ArrayList<>();
+    public ArrayList<Line_chart> arrlc = new ArrayList<>();
+    public ArrayList<Pie_chart> arrpc = new ArrayList<>();
+
+    public void dibujarlas() {
+        for (Bar_chart ex : arrbc) {
+            SwingUtilities.invokeLater(() -> {
+                ex.setVisible(true);
+                ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            });
+        }
+
+        for (Histogram_chart ex : arrhc) {
+            SwingUtilities.invokeLater(() -> {
+                ex.setVisible(true);
+                ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            });
+        }
+
+        for (Line_chart ex : arrlc) {
+            SwingUtilities.invokeLater(() -> {
+                ex.setVisible(true);
+                ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            });
+        }
+
+        for (Pie_chart example : arrpc) {
+            SwingUtilities.invokeLater(() -> {
+                example.setSize(800, 400);
+                example.setLocationRelativeTo(null);
+                example.setVisible(true);
+                example.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            });
+        }
+    }
+
     public Object selFunc(Tabla_Sim ts, Auxiliar aux, ArrayList<Nodo> hijos, String func, int f, int c) {
         au = aux;
         for (Nodo n : hijos) {
@@ -137,11 +174,12 @@ public class Funciones_nativas {
             arrd.add(Double.parseDouble(sp.valor.toString()));
         }
 
-        SwingUtilities.invokeLater(() -> {
-            Histogram_chart ex = new Histogram_chart(v2.arr.get(0).toString(), v3.arr.get(0).toString(), arrd);
-            ex.setVisible(true);
-            ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        });
+        this.arrhc.add(new Histogram_chart(v2.arr.get(0).toString(), v3.arr.get(0).toString(), arrd));
+        /*SwingUtilities.invokeLater(() -> {
+         Histogram_chart ex = new Histogram_chart(v2.arr.get(0).toString(), v3.arr.get(0).toString(), arrd);
+         ex.setVisible(true);
+         ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+         });*/
 
         return null;
     }
@@ -200,11 +238,12 @@ public class Funciones_nativas {
                 }
             }
 
-            SwingUtilities.invokeLater(() -> {
-                Line_chart ex = new Line_chart(1, arrd, v2.arr.get(0).toString(), v3.arr.get(0).toString(), v4.arr.get(0).toString());
-                ex.setVisible(true);
-                ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-            });
+            this.arrlc.add(new Line_chart(1, arrd, v2.arr.get(0).toString(), v3.arr.get(0).toString(), v4.arr.get(0).toString()));
+            /*SwingUtilities.invokeLater(() -> {
+             Line_chart ex = new Line_chart(1, arrd, v2.arr.get(0).toString(), v3.arr.get(0).toString(), v4.arr.get(0).toString());
+             ex.setVisible(true);
+             ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+             });*/
 
         } else {
             for (Simbolo_prim sp : e1 instanceof Matriz ? ((Matriz) e1).arr : ((Vector) e1).arr) {
@@ -218,11 +257,12 @@ public class Funciones_nativas {
                 return aux.error("El segundo parametro solo puede ser p , i , o", fila, columna);
             }
 
-            SwingUtilities.invokeLater(() -> {
-                Line_chart ex = new Line_chart(n, arrd, v5.arr.get(0).toString(), v3.arr.get(0).toString(), v4.arr.get(0).toString());
-                ex.setVisible(true);
-                ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-            });
+            this.arrlc.add(new Line_chart(n, arrd, v5.arr.get(0).toString(), v3.arr.get(0).toString(), v4.arr.get(0).toString()));
+            /*SwingUtilities.invokeLater(() -> {
+             Line_chart ex = new Line_chart(n, arrd, v5.arr.get(0).toString(), v3.arr.get(0).toString(), v4.arr.get(0).toString());
+             ex.setVisible(true);
+             ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+             });*/
         }
         return null;
     }
@@ -269,11 +309,12 @@ public class Funciones_nativas {
             arrs.add(sp.toString());
         }
 
-        SwingUtilities.invokeLater(() -> {
-            Bar_chart ex = new Bar_chart(v4.arr.get(0).toString(), v2.arr.get(0).toString(), v3.arr.get(0).toString(), arrs, arrd);
-            ex.setVisible(true);
-            ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        });
+        this.arrbc.add(new Bar_chart(v4.arr.get(0).toString(), v2.arr.get(0).toString(), v3.arr.get(0).toString(), arrs, arrd));
+        /* SwingUtilities.invokeLater(() -> {
+         Bar_chart ex = new Bar_chart(v4.arr.get(0).toString(), v2.arr.get(0).toString(), v3.arr.get(0).toString(), arrs, arrd);
+         ex.setVisible(true);
+         ex.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+         });*/
 
         return null;
     }
@@ -314,14 +355,15 @@ public class Funciones_nativas {
 
         String titulo = ((Vector) e3).arr.get(0).toString();
 
-        SwingUtilities.invokeLater(() -> {
-            Pie_chart example = new Pie_chart(titulo, arrs, arrd);
-            example.setSize(800, 400);
-            example.setLocationRelativeTo(null);
-            example.setVisible(true);
-            example.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        });
+        this.arrpc.add(new Pie_chart(titulo, arrs, arrd));
 
+        /*SwingUtilities.invokeLater(() -> {
+         Pie_chart example = new Pie_chart(titulo, arrs, arrd);
+         example.setSize(800, 400);
+         example.setLocationRelativeTo(null);
+         example.setVisible(true);
+         example.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+         });*/
         return null;
     }
 
@@ -583,15 +625,36 @@ public class Funciones_nativas {
         Simbolo_prim sp = null;
         Object o = hijos.get(0).ejecutar(ts, aux);
         if (o instanceof Simbolo_prim) {
-            sp = new Simbolo_prim(Tipos.cadena, ((Simbolo_prim) o).tp.toString());
+            sp = new Simbolo_prim(Tipos.cadena, pasarEnum(((Simbolo_prim) o).tp));
         } else if (o instanceof Matriz) {
-            sp = new Simbolo_prim(Tipos.cadena, ((Matriz) o).tp.toString());
+            sp = new Simbolo_prim(Tipos.cadena, pasarEnum(((Matriz) o).tp));
         } else if (o instanceof Vector) {
-            sp = new Simbolo_prim(Tipos.cadena, ((Vector) o).tp.toString());
-        } else if (o instanceof Estructura) {
-            sp = new Simbolo_prim(Tipos.cadena, o.getClass().getSimpleName());
+            sp = new Simbolo_prim(Tipos.cadena, pasarEnum(((Vector) o).tp));
+        } else if (o instanceof Lista) {
+            sp = new Simbolo_prim(Tipos.cadena, "lista");
+        } else if (o instanceof Array) {
+            Array arr = (Array) o;
+            if (arr.tienelista) {
+                sp = new Simbolo_prim(Tipos.cadena, "lista");
+            } else {
+                sp = new Simbolo_prim(Tipos.cadena, pasarEnum(((Array) o).tp));
+            }
         }
         return sp;
+    }
+
+    public String pasarEnum(Tipos tp) {
+        switch (tp) {
+            case cadena:
+                return "string";
+            case booleano:
+                return "boolean";
+            case entero:
+                return "integer";
+            case numerico:
+                return "numeric";
+        }
+        return "null";
     }
 
     public Simbolo_prim esSim(Object o) {
@@ -699,7 +762,8 @@ public class Funciones_nativas {
         }
 
         if (tipo != 4) {
-            Vector v = new Vector(gettp(tipo), au);
+
+            Vector v = tipo == 0 ? new Vector(au) : new Vector(gettp(tipo), au);
             for (Object oo : arro) {
                 Simbolo_prim s = (Simbolo_prim) oo;
                 v.agregar(s);

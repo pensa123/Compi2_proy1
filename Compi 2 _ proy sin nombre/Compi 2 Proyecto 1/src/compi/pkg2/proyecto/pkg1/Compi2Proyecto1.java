@@ -18,6 +18,7 @@ import GramaticaJavaCC.TokenMgrError;
 import Tabla_simbolos.Array;
 import Tabla_simbolos.Auxiliar;
 import Tabla_simbolos.Estructura;
+import Tabla_simbolos.Matriz;
 import Tabla_simbolos.Simbolo_prim;
 import Tabla_simbolos.Tabla_Sim;
 import Tabla_simbolos.Vector;
@@ -76,7 +77,10 @@ public class Compi2Proyecto1 {
          */
         mgrafico();
 
-        /*ArrayList<Integer> arrd = new ArrayList<>();
+        /*Auxiliar au = new Auxiliar(new TextArea(), new TextArea(), null, true, new ArrayList<>());
+
+         ArrayList<Integer> arrd = new ArrayList<>();
+         arrd.add(3);
          arrd.add(3);
          arrd.add(3);
          arrd.add(3);
@@ -84,10 +88,9 @@ public class Compi2Proyecto1 {
          ArrayList<Object> arro = new ArrayList<>();
          arro.add(new Simbolo_prim(Tipos.cadena, "hola"));
          arro.add(new Simbolo_prim(Tipos.cadena, "como"));
-         arro.add(new Simbolo_prim(Tipos.cadena, "estas"));
-         Array arr = new Array(arro, arrd);
+         arro.add(new Simbolo_prim(Tipos.cadena, "estasssssssss"));
+         Array arr = new Array(arro, arrd, false, au);
          System.out.println(arr.toString());
-
          */
         //arr.imp();
         //System.out.println( 2.1 % 0.5);
@@ -307,6 +310,12 @@ public class Compi2Proyecto1 {
                 + "}\n"
                 + "\n"
                 + "print(v); ");
+
+        ini.nueva_pestana("mat = matrix(2 , 2 , 2); \n"
+                + "\n"
+                + "\n"
+                + "mat[1,1] = \"hola\"; \n"
+                + "print(mat);");
     }
 
     public Compi2Proyecto1() {

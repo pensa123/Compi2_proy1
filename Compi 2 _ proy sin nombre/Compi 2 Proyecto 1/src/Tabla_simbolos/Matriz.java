@@ -130,19 +130,28 @@ public class Matriz extends Estructura {
 
     @Override
     public String toString() {
-        String st = "", esp = "";
-        int n = nm + 2;
-        for (int a = 0; a < nm; a++) {
+        int max = (arr.size() + "").length() + 3;
+        for (Object o : arr) {
+            int n = o.toString().length();
+            if (n > max) {
+                max = n;
+            }
+        }
+        System.out.println("max " + max);
+
+        String st = "";
+
+        for (int a = 0; a < (filas + "").length() + 5; a++) {
             st += " ";
         }
         for (int a = 0; a < columnas; a++) {
-            st += "[," + (a + 1) + "] ";
+            st += impesp("[," + (a + 1) + "]", max);
         }
         st += "\n";
         for (int i = 0; i < filas; i++) {
-            st += "[" + (i + 1) + ",]  ";
+            st += impesp("[" + (i + 1) + ",]", (filas + "").length() + 3);
             for (int j = 0; j < columnas; j++) {
-                st += impesp(arr.get(this.mapeoLexicoGrafico(i, j)).toString(), n + 2);
+                st += impesp(arr.get(this.mapeoLexicoGrafico(i, j)).toString(), max);
             }
             st += "\n";
         }
@@ -150,10 +159,12 @@ public class Matriz extends Estructura {
     }
 
     public String impesp(String s, int n) {
+        n = n + 2;
 
-        for (int a = 0; a < n - s.length(); a++) {
+        while (s.length() < n) {
             s += " ";
         }
+
         return s;
     }
 

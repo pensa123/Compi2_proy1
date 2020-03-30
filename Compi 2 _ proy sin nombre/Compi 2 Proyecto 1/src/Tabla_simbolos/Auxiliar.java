@@ -7,6 +7,10 @@ package Tabla_simbolos;
 
 import ClasesAuxiliares.contenedorEnum.Tipos;
 import FuncionesDelLenguaje.Funciones_nativas;
+import Generador_graficas.Bar_chart;
+import Generador_graficas.Histogram_chart;
+import Generador_graficas.Line_chart;
+import Generador_graficas.Pie_chart;
 import java.awt.TextArea;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +30,8 @@ public class Auxiliar {
     public String error = "";
     public ArrayList<MiError> arrErr = new ArrayList<>();
     public Tabla_Sim global;
+
+
 
     public HashMap<String, Funcion> hfun = new HashMap<String, Funcion>();
 
@@ -64,13 +70,14 @@ public class Auxiliar {
     }
 
     public void agregar(String ss) {
-        st += ss + "\n";
-        tx.setText(st);
+        //st += ss + "\n";
+        //tx.setText(st);
 
-        if (st.length() != 0) {
-            tx.setCaretPosition(tx.getText().length() - 1);
-        }
-        System.out.println(ss);
+        tx.append(ss + "\n");
+        /*if (st.length() != 0) {
+         tx.setCaretPosition(tx.getText().length() - 1);
+         }*/
+        //System.out.println(ss);
     }
 
     public Object error(String st, int fila, int columna) {
@@ -79,13 +86,16 @@ public class Auxiliar {
             columna++;
         }
         arrErr.add(new MiError(fila, columna, st, "ejecucion"));
-        error += "(ejecucion) Fila " + fila + " Columna " + columna + " " + st + "\n";
-        txterr.setText(error);
-        if (error.length() != 0) {
-            txterr.setCaretPosition(txterr.getText().length() - 1);
-        }
+        st = "(ejecucion) Fila " + fila + " Columna " + columna + " " + st + "\n";
+        //error += "(ejecucion) Fila " + fila + " Columna " + columna + " " + st + "\n";
+        //txterr.setText(error);
 
-        System.out.println("Error: " + st);
+        txterr.append(st);
+        /*if (error.length() != 0) {
+         txterr.setCaretPosition(txterr.getText().length() - 1);
+         }*/
+
+        //System.out.println("Error: " + st);
         return null;
     }
 

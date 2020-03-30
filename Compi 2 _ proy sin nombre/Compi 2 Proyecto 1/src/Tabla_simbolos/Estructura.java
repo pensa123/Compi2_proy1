@@ -20,7 +20,7 @@ public abstract class Estructura {
     public Estructura(Auxiliar au) {
         aux = au;
     }
-    public contenedorEnum.Tipos tp;
+    public contenedorEnum.Tipos tp = contenedorEnum.Tipos.nulo;
 
     public String imprimir() {
         return "";

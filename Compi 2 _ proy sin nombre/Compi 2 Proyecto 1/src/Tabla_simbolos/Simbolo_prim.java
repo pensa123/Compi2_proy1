@@ -26,7 +26,7 @@ public class Simbolo_prim {
     public Object getDef(Tipos tp2) {
         switch (tp2) {
             case cadena:
-                return "";
+                return "null";
             case booleano:
                 return false;
             case entero:
@@ -44,9 +44,12 @@ public class Simbolo_prim {
 
     @Override
     public String toString() {
-        if (tp == Tipos.entero) {
-            return (int) Double.parseDouble(valor + "") + "";
-        } else if (tp == Tipos.nulo) {
+        /*if (tp == Tipos.entero) {
+         return valor.toString().replace(".0", "");
+         } else if (tp == Tipos.numerico) {
+         return Double.parseDouble(valor + "") + "";
+         } else*/
+        if (tp == Tipos.nulo) {
             return "NULL";
         }
         return valor + "";

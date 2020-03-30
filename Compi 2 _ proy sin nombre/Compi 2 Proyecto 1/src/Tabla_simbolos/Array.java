@@ -20,6 +20,8 @@ public class Array extends Estructura {
     public int cantidad = 0;
     public boolean tienelista = false;
 
+    int max = 0;
+
     @Override
     public int size() {
         return arr.size();
@@ -31,6 +33,7 @@ public class Array extends Estructura {
         arrA.tp = tp;
         arrA.cantidad = cantidad;
         arrA.arrD = this.copyArr(arrD);
+        arrA.tienelista = this.tienelista;
         for (Object o : arr) {
             if (o instanceof Estructura) {
                 arrA.arr.add(((Estructura) o).copear());
@@ -73,6 +76,8 @@ public class Array extends Estructura {
 
             if (((Estructura) o).size() != 1) {
                 System.out.println("debe de retornar un error ya que solo se pueden meter estructuras con una sola posicion");
+                aux.error("En array solo se pueden meter estructuras con una sola posicion ", 0, 0);
+                return;
             }
 
             if (this.tienelista) {
@@ -213,9 +218,10 @@ public class Array extends Estructura {
             if (esLista) {
                 if (oaux instanceof Vector) {
                     Lista lst = new Lista(aux);
-                    for (Simbolo_prim sp : ((Vector) oaux).arr) {
-                        lst.agregar(sp);
-                    }
+                    lst.agregar(oaux);
+                    /*for (Simbolo_prim sp : ((Vector) oaux).arr) {
+                     lst.agregar(sp);
+                     }*/
                     oaux = lst;
                 }
             }
@@ -293,15 +299,13 @@ public class Array extends Estructura {
     }
 
     /*
-        [4,4,4,4]
+     [4,4,4,4]
     
     
         
     
     
-    */
-    
-    
+     */
     public String ayudamdd(ArrayList<Integer> arri, int n, String st) {
         if (n == 1) {
             if (!st.equals("")) {
@@ -325,11 +329,11 @@ public class Array extends Estructura {
 
         String st = "", esp = "";
         int n = 4 + 2;
-        for (int a = 0; a < 4; a++) {
+        for (int a = 0; a < (filas + "").length() + 5; a++) {
             st += " ";
         }
         for (int a = 0; a < columnas; a++) {
-            st += "[," + (a + 1) + "] ";
+            st += impesp("[," + (a + 1) + "]", max);
         }
         st += "\n";
         for (int i = 0; i < filas; i++) {
@@ -341,15 +345,15 @@ public class Array extends Estructura {
                 int indice = this.mapeoLexico(arri2);
                 //               System.out.println(indice);
                 Object o = arr.get(indice);
-                String stt = "";
-                if (o instanceof Simbolo_prim) {
-                    stt = o.toString();
-                } else if (o instanceof Vector) {
-                    stt = ((Vector) o).arr.size() == 1 ? o.toString() : o.getClass().getSimpleName();
-                } else if (o instanceof Lista) {
-                    stt = ((Lista) o).arr.size() == 1 ? o.toString() : o.getClass().getSimpleName();
-                }
-                st += impesp(stt, n + 2);
+                String stt = o.toString();
+                /*if (o instanceof Simbolo_prim) {
+                 stt = o.toString();
+                 } else if (o instanceof Vector) {
+                 stt = ((Vector) o).arr.size() == 1 ? o.toString() : o.getClass().getSimpleName();
+                 } else if (o instanceof Lista) {
+                 stt = ((Lista) o).arr.size() == 1 ? o.toString() : o.getClass().getSimpleName();
+                 }*/
+                st += impesp(stt, max);
             }
             st += "\n";
         }
@@ -357,7 +361,8 @@ public class Array extends Estructura {
     }
 
     public String impesp(String s, int n) {
-        for (int a = 0; a < n - s.length(); a++) {
+        n = n + 2;
+        while (s.length() < n) {
             s += " ";
         }
         return s;
@@ -365,18 +370,34 @@ public class Array extends Estructura {
 
     @Override
     public String toString() {
+        max = (arr.size() + "").length() + 3;
+        for (Object o : arr) {
+            int n = o.toString().length();
+            if (n > max) {
+                max = n;
+            }
+        }
         String st = "";
+        String st2 = "";
         if (arrD.size() == 1) {
+            st2 = "";
             st = "[";
             boolean nvez = false;
+            int n = 1;
             for (Object o : arr) {
                 if (nvez) {
                     st += ", ";
+                    st2 += ", ";
                 }
+                st2 += this.impesp("[" + (n++) + "]", o.toString().length() - 2);
                 st += o.toString();
+                if (!nvez) {
+                    st2 += " ";
+                }
                 nvez = true;
             }
-            return st + "]";
+            st2 += "\n" + st + "]";
+            return st2;
         }
         return ayudamdd(new ArrayList<>(), this.arrD.size() - 1, "");
     }

@@ -37,7 +37,7 @@ public class Tabla_Sim {
         aux = au;
         this.nombre = nombre;
     }
-
+    
     public Tabla_Sim(Tabla_Sim padre, String nombre, Auxiliar au) {
         au = aux;
         this.padre = padre;
