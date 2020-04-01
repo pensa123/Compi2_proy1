@@ -82,7 +82,7 @@ public class Var_acceso extends Nodo {
             AccesoMatriz am = (AccesoMatriz) hijos.get(1);
             //1 = e,e  2 = e,   3 = ,e 
 
-            System.out.println(am.forma);
+            //System.out.println(am.forma);
             this.forma = am.forma;
             Simbolo_prim s1 = aux.dev_sp(am.hijos.get(0).ejecutar(ts, aux));
             if (am.forma == 1) {
@@ -158,7 +158,7 @@ public class Var_acceso extends Nodo {
                 return this.hayAccesoDoble ? aux.error("No se aceptan accesos dobles en accesos a vectores o matrices", fila, columna) : null;
             }
             if (est instanceof Vector) {
-                System.out.println(arrint);
+                //System.out.println(arrint);
                 Object ret = ((Vector) est).obtener(arrint.get(0));
                 if (ret == null) {
                     return this.mostrarErrores ? aux.error("Indice fuera de rango " + arrint.get(0), fila, columna) : null;

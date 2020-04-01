@@ -34,7 +34,7 @@ public class Simbolo_prim {
             case numerico:
                 return 0;
         }
-        return "NULL";
+        return "null";
     }
 
     public Simbolo_prim(Tipos tprim) {
@@ -50,7 +50,7 @@ public class Simbolo_prim {
          return Double.parseDouble(valor + "") + "";
          } else*/
         if (tp == Tipos.nulo) {
-            return "NULL";
+            return "null";
         }
         return valor + "";
     }

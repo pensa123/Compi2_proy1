@@ -326,23 +326,37 @@ Nodo  InstruccionGlobal() :
 
   Nodo ciclos_if():
   {
-    Nodo n ;
+    Nodo n = null;
   }
   {
-    (
-     n =  si()
-     |
-     n = While()
-     |
-     n = do_while()
-     |
-     n = foreach()
-     |
-     n = Switch()
-    )
-    {
-      return n;
+      try{
+      (
+        n =  si()
+        |
+        n = While()
+        |
+        n = do_while()
+        |
+        n = foreach()
+        |
+        n = Switch()
+      )
+      }catch(ParseException x){
+        //System.out.println(x.toString());
+        Token terr = x.currentToken.next; 
+        System.out.println("Token \"" + terr.image + "\" no esperado en f. " + terr.beginLine + "  c." + terr.beginColumn );
+
+        miErr.add(  new MiError(terr.beginLine, terr.beginColumn, "No se esperaba  '"+ terr.image +"'", "sintactico")  ); 
+
+        Token t; 
+        do{
+          t = getNextToken();
+        }while(!(t.kind == LLAVED || t.kind == EOF));
+    }catch(Exception e){
+      System.out.println(e.toString());
     }
+  {return n;}
+    
   }
 
   Nodo Switch():

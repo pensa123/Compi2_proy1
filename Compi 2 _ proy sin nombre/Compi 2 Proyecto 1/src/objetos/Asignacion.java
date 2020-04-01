@@ -112,10 +112,7 @@ public class Asignacion extends Nodo {
                         if ((modo ? m1.columnas : m1.filas) == v.arr.size() || v.arr.size() == 1) {
                             m1.update(vacc.arrint.get(0), v.arr, modo, aux);
 
-                            System.out.println("---------------------------");
-                            System.out.println(m1.toString());
-                            System.out.println("---------------------------");
-
+                           
                             return null;
                         }
                         return aux.error("en el modo " + (modo ? "e," : ",e") + " el tamanio del vector y las " + (modo ? "Columna" : "FIlas") + " debe coincidir.", fila, columna);

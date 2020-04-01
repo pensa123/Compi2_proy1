@@ -14,6 +14,7 @@ import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -23,12 +24,19 @@ import java.util.Map;
 public class Reporte_ts {
 
     File ff;
+    BufferedWriter bw;
 
-    public void generarPdf(Tabla_Sim ts, boolean todo) {
+    public void generarPdf(Tabla_Sim ts, boolean todo) throws IOException {
 
-        String st = "";
+        String st = new File(".").getAbsolutePath() + "\\ts.html";
+        File f = new File(st);
+        ff = f;
 
-        st = "<style>\n"
+        bw = new BufferedWriter(new FileWriter(ff));
+        //bw.write(texto);
+
+        bw.write("");
+        bw.append("<style>\n"
                 + "\n"
                 + "	*{\n"
                 + "  margin:0;\n"
@@ -140,34 +148,24 @@ public class Reporte_ts {
                 + "        <li class=\"fieldname\" >Valor</li>\n"
                 + "      </ul>\n"
                 + "    </div>\n"
-                + "    <div class=\"table-body\">";
+                + "    <div class=\"table-body\">");
 
-        st += getTablaSimRep(ts, todo);
+        getTablaSimRep(ts, todo);
 
-        st += "	 \n"
+        bw.append("	 \n"
                 + "    </div>\n"
                 + "  </div>\n"
-                + "</div>";
+                + "</div>");
 
         crearPdf(st);
     }
 
-    private void crearPdf(String texto) {
-        String st = new File(".").getAbsolutePath() + "\\ts.html";
+    private void crearPdf(String texto) throws IOException {
 
-        File f = new File(st);
-        ff = f;
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
-            bw.write(texto);
-            bw.flush();
-            bw.close();
+        bw.flush();
+        bw.close();
 
-            // Desktop.getDesktop().open(f);
-        } catch (Exception ex) {
-            //System.out.println("error 1");
-            //System.out.println(ex.toString());
-        }
+        // Desktop.getDesktop().open(f);
     }
 
     public void abrirElPdf() {
@@ -182,8 +180,7 @@ public class Reporte_ts {
         }
     }
 
-    private String getTablaSimRep(Tabla_Sim ts, boolean todo) {
-        String st = "";
+    private String getTablaSimRep(Tabla_Sim ts, boolean todo) throws IOException {
 
         for (Map.Entry<String, Estructura> entry : ts.hvar.entrySet()) {
             Estructura est = entry.getValue();
@@ -201,20 +198,20 @@ public class Reporte_ts {
                 }
             }
 
-            st += "      <ul class=\"row\">\n"
+            bw.append("      <ul class=\"row\">\n"
                     + "        <li class=\"data\">" + ts.nombre + "</li>\n" //ambito
                     + "        <li class=\"data\">" + entry.getKey() + "</li>\n" //nombre de variable. 
                     + "        <li class=\"data\">" + tipo + "</li>\n" //tipo de la estructura
                     + "        <li class=\"data\">" + est.toString().replace("\n", "<br/>") + "</li>\n" //Valor de la estructura
-                    + "      </ul>\n";
+                    + "      </ul>\n");
 
         }
         if (todo) {
             for (Tabla_Sim ts2 : ts.hijos) {
-                st += getTablaSimRep(ts2, todo);
+                getTablaSimRep(ts2, todo);
             }
         }
-        return st;
+        return "";
     }
 
 }

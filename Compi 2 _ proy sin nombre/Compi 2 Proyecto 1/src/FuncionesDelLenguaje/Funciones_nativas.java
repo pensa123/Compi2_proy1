@@ -440,7 +440,7 @@ public class Funciones_nativas {
             return aux.error("Se espera un parametro con un vector de numeros y un numero opcional para limitarlo.", fila, columna);
         }
         Tipos t = ((Vector) o).tp;
-        if (t != Tipos.entero && t == Tipos.numerico) {
+        if (t != Tipos.entero && t != Tipos.numerico) {
             return aux.error("Se espera un parametro con un vector de numeros y un numero opcional para limitarlo.", fila, columna);
         }
         ArrayList<Double> elarrd = new ArrayList<>();
@@ -558,7 +558,6 @@ public class Funciones_nativas {
             return aux.error("En la funcion remove se requieren dos parametros de tipo cadena ", fila, columna);
         }
         String s1 = sp1.valor.toString(), s2 = sp2.valor.toString();
-        System.out.println(s1.replace(s2, ""));
         return new Simbolo_prim(Tipos.cadena, s1.replace(s2, ""));
     }
 
@@ -789,7 +788,7 @@ public class Funciones_nativas {
             if (n instanceof Iden) {
                 aux.error(" identificador " + ((Iden) n).nombre + " no encontrado", n.fila, n.columna);
             } else {
-                //     aux.error(n.getClass().getSimpleName() + " devolvio null", n.fila, n.columna);
+                aux.error(n.getClass().getSimpleName() + " devolvio null", n.fila, n.columna);
                 System.out.println(n.getClass().getName() + " devolvio null");
             }
             return null;

@@ -258,7 +258,7 @@ public class OperadorBinario extends Nodo {
                     if ((Double.parseDouble(s2.valor + "")) == 0) {
                         error = 4;
                     } else if (esint) {
-                        sr = new Simbolo_prim(Tipos.entero, ( (Double.parseDouble(s1.valor + "") / Double.parseDouble(s2.valor + ""))));
+                        sr = new Simbolo_prim(Tipos.entero, ((Double.parseDouble(s1.valor + "") / Double.parseDouble(s2.valor + ""))));
                     } else {
                         sr = new Simbolo_prim(Tipos.numerico, Double.parseDouble(s1.valor + "") / Double.parseDouble(s2.valor + ""));
                     }
@@ -287,6 +287,8 @@ public class OperadorBinario extends Nodo {
                 if (esnumerico) {
                     b = Double.parseDouble(s1.valor + "") == Double.parseDouble(s2.valor + "");
                 } else if (s1.tp == s2.tp) {
+                    b = (s1.toString()).equals(s2.toString());
+                } else if (s1.tp == Tipos.nulo || s2.tp == Tipos.nulo) {
                     b = (s1.toString()).equals(s2.toString());
                 } else {
                     error = 5;

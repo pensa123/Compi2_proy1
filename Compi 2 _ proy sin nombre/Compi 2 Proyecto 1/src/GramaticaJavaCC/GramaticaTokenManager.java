@@ -46,6 +46,7 @@ import objetos.OperadorUnario.Op;
 public class GramaticaTokenManager implements GramaticaConstants {
 
     public ArrayList<MiError> err = new ArrayList<MiError>();
+
     /**
      * Debug output.
      */
@@ -1135,7 +1136,7 @@ public class GramaticaTokenManager implements GramaticaConstants {
                 int error_column = input_stream.getEndColumn();
                 String error_after = null;
                 boolean EOFSeen = false;
-                /*  try {
+                /*try {
                  input_stream.readChar();
                  input_stream.backup(1);
                  } catch (java.io.IOException e1) {

@@ -432,29 +432,44 @@ public class Gramatica implements GramaticaConstants {
   }
 
   final public Nodo ciclos_if() throws ParseException {
-    Nodo n ;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case SI:
-      n = si();
-      break;
-    case MIENTRAS:
-      n = While();
-      break;
-    case DO:
-      n = do_while();
-      break;
-    case FOR:
-      n = foreach();
-      break;
-    case SWITCH:
-      n = Switch();
-      break;
-    default:
-      jj_la1[18] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+    Nodo n = null;
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case SI:
+        n = si();
+        break;
+      case MIENTRAS:
+        n = While();
+        break;
+      case DO:
+        n = do_while();
+        break;
+      case FOR:
+        n = foreach();
+        break;
+      case SWITCH:
+        n = Switch();
+        break;
+      default:
+        jj_la1[18] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (ParseException x) {
+        //System.out.println(x.toString());
+        Token terr = x.currentToken.next;
+        System.out.println("Token \"" + terr.image + "\" no esperado en f. " + terr.beginLine + "  c." + terr.beginColumn );
+
+        miErr.add(  new MiError(terr.beginLine, terr.beginColumn, "No se esperaba  '"+ terr.image +"'", "sintactico")  );
+
+        Token t;
+        do{
+          t = getNextToken();
+        }while(!(t.kind == LLAVED || t.kind == EOF));
+    } catch (Exception e) {
+      System.out.println(e.toString());
     }
-      {if (true) return n;}
+   {if (true) return n;}
     throw new Error("Missing return statement in function");
   }
 

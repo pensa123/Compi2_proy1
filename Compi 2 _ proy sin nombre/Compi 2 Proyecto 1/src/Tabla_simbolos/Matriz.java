@@ -92,7 +92,6 @@ public class Matriz extends Estructura {
         if (arr.size() > n && n >= 0) {
             return arr.get(n);
         }
-        System.out.println((n + 1) + " indice fuera del rango.");
         return null;
     }
 
@@ -137,7 +136,7 @@ public class Matriz extends Estructura {
                 max = n;
             }
         }
-        System.out.println("max " + max);
+        //System.out.println("max " + max);
 
         String st = "";
 

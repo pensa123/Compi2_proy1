@@ -556,9 +556,13 @@ public class Inicio extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         //Tabla de simbolos global. 
         if (tsG != null) {
-            Reporte_ts rts = new Reporte_ts();
-            rts.generarPdf(tsG, false);
-            rts.abrirElPdf();
+            try {
+                Reporte_ts rts = new Reporte_ts();
+                rts.generarPdf(tsG, false);
+                rts.abrirElPdf();
+            } catch (IOException ex) {
+                //Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "No se ha ejecutado ninguna vez para poder generar este reporte.");
         }
@@ -570,9 +574,13 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (tsG != null) {
-            Reporte_ts rts = new Reporte_ts();
-            rts.generarPdf(tsG, true);
-            rts.abrirElPdf();
+            try {
+                Reporte_ts rts = new Reporte_ts();
+                rts.generarPdf(tsG, true);
+                rts.abrirElPdf();
+            } catch (IOException ex) {
+                //Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "No se ha ejecutado ninguna vez para poder generar este reporte.");
         }

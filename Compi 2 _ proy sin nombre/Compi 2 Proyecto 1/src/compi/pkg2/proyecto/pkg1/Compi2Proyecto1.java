@@ -172,7 +172,7 @@ public class Compi2Proyecto1 {
                 + "		break;	\n"
                 + "}");
 
-        /*        ini.nueva_pestana("Vector = c(12,13,15,16,24,15,17,19,17,15)\n"
+        /*   ini.nueva_pestana("Vector = c(12,13,15,16,24,15,17,19,17,15)\n"
          + "print(vector);\n"
          + "print(mean(vector));\n"
          + "print(mode(vector));\n"
@@ -220,17 +220,16 @@ public class Compi2Proyecto1 {
                 + "print(\"Fibonacci:\"+fibonacci(10));\n"
                 + "print(\"Ackermann:\"+ackermann(3,6));");
 
-        ini.nueva_pestana("Lista1 = list(\"hola mundo\");\n"
-                + "lista2 = list(42,true, 32.3);\n"
-                + "lista3 = c(lista1, lista2);\n"
-                + "print(lista3);");
+        /*        ini.nueva_pestana("Lista1 = list(\"hola mundo\");\n"
+         + "lista2 = list(42,true, 32.3);\n"
+         + "lista3 = c(lista1, lista2);\n"
+         + "print(lista3);");
 
-        ini.nueva_pestana("arr = array(c(5, list(7,8,9 , c(1,2))), c(2,3,3))\n"
-                + "print(arr);\n"
-                + "print(\"--------------------\");\n"
-                + "arr[1][1][1] = \"Hola\"; \n"
-                + "print(arr[1][1][1]);");
-
+         ini.nueva_pestana("arr = array(c(5, list(7,8,9 , c(1,2))), c(2,3,3))\n"
+         + "print(arr);\n"
+         + "print(\"--------------------\");\n"
+         + "arr[1][1][1] = \"Hola\"; \n"
+         + "print(arr[1][1][1]);");*/
         ini.nueva_pestana("print(\"lo que llevo de flex y cup\");\n"
                 + "mat = matrix(c(2,3) , 3 , 4);\n"
                 + "print(mat);\n"
@@ -277,14 +276,14 @@ public class Compi2Proyecto1 {
                 + "}\n"
                 + "print(st + \"]\");");
 
-        ini.nueva_pestana("a = 4; \n"
-                + "hola = function(a){\n"
-                + "	print(a);	\n"
-                + "}\n"
-                + "\n"
-                + "hola(2);\n"
-                + "print(a);");
-
+        /*  ini.nueva_pestana("a = 4; \n"
+         + "hola = function(a){\n"
+         + "	print(a);	\n"
+         + "}\n"
+         + "\n"
+         + "hola(2);\n"
+         + "print(a);");
+         */
         ini.nueva_pestana("print(c(true, 1 , 2.5 ,\"hola\"));\n"
                 + "for(i in c(true, 1 , 2.5 ,\"hola\")){\n"
                 + "	print(typeof(i) + \" \" + i);\n"
@@ -310,12 +309,12 @@ public class Compi2Proyecto1 {
                 + "}\n"
                 + "\n"
                 + "print(v); ");
-
-        ini.nueva_pestana("mat = matrix(2 , 2 , 2); \n"
-                + "\n"
-                + "\n"
-                + "mat[1,1] = \"hola\"; \n"
-                + "print(mat);");
+        /*
+         ini.nueva_pestana("mat = matrix(2 , 2 , 2); \n"
+         + "\n"
+         + "\n"
+         + "mat[1,1] = \"hola\"; \n"
+         + "print(mat);");*/
     }
 
     public Compi2Proyecto1() {
