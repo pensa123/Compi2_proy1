@@ -26,6 +26,7 @@ public class If extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
+        String ambito = "If";
         Nodo n = hijos.get(0);
         Object o1 = n.ejecutar(ts, aux);
         Object o2 = aux.ayuda_bool(o1);
@@ -36,11 +37,17 @@ public class If extends Nodo {
         if ((boolean) o2) {
             n = hijos.get(1);
         } else if (hijos.size() == 3) {
+
             n = hijos.get(2);
+            if (n instanceof If) {
+                n.ejecutar(ts, aux);
+                return null;
+            }
+            ambito = "else";
         } else {
             return null;
         }
-        Tabla_Sim ts2 = new Tabla_Sim(ts, "If", aux);
+        Tabla_Sim ts2 = new Tabla_Sim(ts, ambito, aux);
         n.ejecutar(ts2, aux);
         return null;
     }

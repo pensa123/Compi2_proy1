@@ -63,16 +63,7 @@ public class Vector extends Estructura {
         return v2;
     }
 
-    @Override
-    public String imprimir() {
-        String st = "";
-        for (Simbolo_prim n : arr) {
-            st += n.tp + ":" + n.valor + "\t";
-        }
-        st += "\n";
-        return st;
-    }
-
+    
     public void agregar(Simbolo_prim sp) {
         update(arr.size(), sp);
     }

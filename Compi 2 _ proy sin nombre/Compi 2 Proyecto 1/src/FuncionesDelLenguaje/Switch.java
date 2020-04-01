@@ -54,7 +54,7 @@ public class Switch extends Nodo {
             if (ts2.haybreak || ts2.hayreturn || ts2.haycontinue) {
                 break;
             }
-            
+
             Nodo n = arrn.get(a);
             if (n instanceof Default) {
                 if (def != -1) {
@@ -83,9 +83,9 @@ public class Switch extends Nodo {
                 coincidioCase = comparar(sp, sp2);
             }
         }
-        if (!coincidioCase) {
+        if (!coincidioCase && def != -1) {
             for (int a = def; a < arrn.size(); a++) {
-                if (ts2.haybreak || ts2.hayreturn) {
+                if (ts2.haybreak || ts2.hayreturn || ts2.haycontinue) {
                     break;
                 }
                 Nodo n = arrn.get(a);

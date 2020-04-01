@@ -73,7 +73,7 @@ public class For extends Nodo {
             ts2.stFor = st;
 
             n.ejecutar(ts2, aux);
-            if (ts2.haybreak) {
+            if (ts2.haybreak || ts2.hayreturn) {
                 break;
             }
         }
@@ -92,7 +92,7 @@ public class For extends Nodo {
             ts2.stFor = st;
 
             n.ejecutar(ts2, aux);
-            if (ts2.haybreak) {
+            if (ts2.haybreak || ts2.hayreturn) {
                 break;
             }
         }

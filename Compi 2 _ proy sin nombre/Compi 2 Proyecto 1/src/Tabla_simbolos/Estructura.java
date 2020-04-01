@@ -22,9 +22,6 @@ public abstract class Estructura {
     }
     public contenedorEnum.Tipos tp = contenedorEnum.Tipos.nulo;
 
-    public String imprimir() {
-        return "";
-    }
 
     public Estructura copear() {
         return null;

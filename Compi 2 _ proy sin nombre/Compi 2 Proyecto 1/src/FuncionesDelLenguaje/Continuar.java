@@ -21,8 +21,10 @@ public class Continuar extends Nodo {
 
     @Override
     public Object ejecutar(Tabla_Sim ts, Auxiliar aux) {
-        if(ts.seencontroContinue()){
+        if (ts.seencontroContinue()) {
             ts.setcontinues();
+        } else {
+            aux.error("no se esperaba un continue", fila, columna);
         }
         return null;
     }

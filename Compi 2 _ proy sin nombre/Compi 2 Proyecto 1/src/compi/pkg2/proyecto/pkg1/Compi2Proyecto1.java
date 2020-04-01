@@ -172,15 +172,15 @@ public class Compi2Proyecto1 {
                 + "		break;	\n"
                 + "}");
 
-        /*   ini.nueva_pestana("Vector = c(12,13,15,16,24,15,17,19,17,15)\n"
-         + "print(vector);\n"
-         + "print(mean(vector));\n"
-         + "print(mode(vector));\n"
-         + "print(median(vector));\n"
-         + "\n"
-         + "print(mean(vector, 14));\n"
-         + "print(mode(vector, 14));\n"
-         + "print(median(vector, 14));");*/
+        ini.nueva_pestana("Vector = c(12,13,15,16,24,15,17,19,17,15)\n"
+                + "print(vector);\n"
+                + "print(mean(vector));\n"
+                + "print(mode(vector));\n"
+                + "print(median(vector));\n"
+                + "\n"
+                + "print(mean(vector, 14));\n"
+                + "print(mode(vector, 14));\n"
+                + "print(median(vector, 14));");
         ini.nueva_pestana("factorial = function(n){ \n"
                 + "    if(n <= 0){ \n"
                 + "        return(1); \n"
@@ -309,6 +309,32 @@ public class Compi2Proyecto1 {
                 + "}\n"
                 + "\n"
                 + "print(v); ");
+
+        ini.nueva_pestana("f = () => {\n"
+                + "v = 0; \n"
+                + "c = 0; \n"
+                + "	while(c < 10){\n"
+                + "		c2 = 0; \n"
+                + "		do{\n"
+                + "			v = c(v , c2);\n"
+                + "			for(a in v){\n"
+                + "				switch(a){\n"
+                + "					case 8:\n"
+                + "						if(c2 == 8 & c == 8 & a == 8){\n"
+                + "							return (false ? \"hola\" : \":(\");	\n"
+                + "						}\n"
+                + "						break;\n"
+                + "					case 9:\n"
+                + "						break;\n"
+                + "				}	\n"
+                + "			}\n"
+                + "			c2 = c2 + 1; \n"
+                + "		}while(c2 < 10);\n"
+                + "		c = c + 1; 	\n"
+                + "	}	\n"
+                + "}\n"
+                + "\n"
+                + "print(f());");
         /*
          ini.nueva_pestana("mat = matrix(2 , 2 , 2); \n"
          + "\n"
@@ -330,7 +356,7 @@ public class Compi2Proyecto1 {
          * this.toPruebas.add("print( true || false  )");
          * 
          */
-        /*
+ /*
          * this.toPruebas.add("print( aux[1,]  )");
          * this.toPruebas.add("print( aux[,1]  )");
          * this.toPruebas.add("print( aux[1,1]  )");
